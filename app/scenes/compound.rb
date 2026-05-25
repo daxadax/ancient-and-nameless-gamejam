@@ -1,12 +1,19 @@
 require 'lib/draw'
-require 'lib/run'
+require 'lib/buttons'
+require 'lib/ui'
+require 'lib/day_cycle'
+require 'lib/event_resolver'
 
 module Scenes
   class Compound
     include Draw
+    include Buttons
+    include UI
 
-    END_DAY_BUTTON = { x: 915, y: 40, w: 240, h: 44 }.freeze
-
+    # TODO: the event should fire at the beginning of the day,
+    # not the end of the day. the first day has a set starting event
+    # maybe the picking of a perk. so it should go like this:
+    # start day -> event -> resolution -> end of day animation (sun setting?) -> end day
     def tick(args)
       @args = args
       draw_background_color(args)
@@ -19,18 +26,8 @@ module Scenes
     attr_reader :args
 
     def handle_input
-      return unless hub_mode?
-
-      Run.advance_day!(args) if clicked_end_day?
-    end
-
-    def hub_mode?
-      args.state.ui_mode.nil? || args.state.ui_mode == :hub
-    end
-
-    def clicked_end_day?
-      mouse = args.inputs.mouse
-      mouse.up && mouse.inside_rect?(END_DAY_BUTTON)
+      handle_event_input
+      handle_hub_input
     end
 
     def render
@@ -50,54 +47,39 @@ module Scenes
         color: RGB_DARK_GRAY
       )
 
-      render_hud(run)
-      render_end_day_button
+      draw_hud(run)
+
+      if event_mode?
+        render_event(args.state.current_event)
+      else
+        draw_end_day_btn
+      end
     end
 
-    def render_hud(run)
-      draw_label(
-        args,
-        { x: 40, y: 600, text: "Day #{run.day} — #{run.act}".upcase, size_px: 22 },
-        color: RGB_WHITE
-      )
+    def handle_hub_input
+      return unless hub_mode?
 
-      draw_label(
-        args,
-        { x: 40, y: 575, text: "Outside attention: #{threat_dots(run.threat)}", size_px: 18 },
-        color: RGB_GRAY
-      )
-
-      meters = run.meters
-      meter_text = "Provisions #{meters.provisions} Faith #{meters.faith} Secrecy #{meters.secrecy} Wards #{meters.security}"
-      draw_label(args, { x: 40, y: 550, text: meter_text, size_px: 18 }, color: RGB_GRAY)
+      DayCycle.end_day!(args) if clicked_end_day?
     end
 
-    def threat_dots(threat)
-      filled = '●' * threat
-      empty = '○' * (5 - threat)
+    def handle_event_input
+      return unless event_mode?
 
-      "#{filled}#{empty}"
+      event = args.state.current_event
+      return unless event
+
+      choice_key = choice_key_from_input(event)
+      return unless choice_key
+
+      EventResolver.apply_choice!(args, choice_key)
     end
 
-    def render_end_day_button
-      args.outputs.primitives << {
-        r: 60,
-        g: 40,
-        b: 80,
-        a: 200,
-        primitive_marker: :solid
-      }.merge(END_DAY_BUTTON)
+    def hub_mode?
+      args.state.ui_mode.nil? || args.state.ui_mode == :hub
+    end
 
-      draw_title(
-        args,
-        {
-          x: END_DAY_BUTTON[:x] + END_DAY_BUTTON[:w] / 2,
-          y: END_DAY_BUTTON[:y] + END_DAY_BUTTON[:h] / 2,
-          text: 'END DAY',
-          size_px: 20,
-          color: RGB_WHITE
-        }
-      )
+    def event_mode?
+      args.state.ui_mode == :event && args.state.current_event
     end
   end
 end
