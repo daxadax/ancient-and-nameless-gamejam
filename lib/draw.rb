@@ -14,10 +14,18 @@ module Draw
     args.outputs.lines << params.merge(color)
   end
 
-  def draw_label(args, params, color: RGB_GRAY, anchor_x: 0.5, anchor_y: 0.5)
+  def draw_label(args, params, color: RGB_GRAY, anchor_x: 0, anchor_y: 0)
     params[:anchor_x] = anchor_x
     params[:anchor_y] = anchor_y
 
     args.outputs.labels << params.merge(color)
+  end
+
+  def draw_title(args, params)
+    color = params.fetch(:color) { RGB_GRAY }
+    anchor_x = params.fetch(:anchor_x) { 0.5 }
+    anchor_y = params.fetch(:anchor_y) { 0.5 }
+
+    draw_label(args, params, color: color, anchor_x: anchor_x, anchor_y: anchor_y)
   end
 end
