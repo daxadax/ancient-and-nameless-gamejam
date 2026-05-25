@@ -16,14 +16,19 @@ module Main
     args.state.scene ||= :title
 
     SCENES.fetch(args.state.scene).tick(args)
+    apply_scene_transition!(args)
+    return unless args.state.scene == :compound && Run.active?(args)
 
-    if args.state.next_scene
-      prepare_scene!(args, args.state.next_scene)
-      args.state.scene = args.state.next_scene
-      args.state.next_scene = nil
-    end
+    check_run_end!(args)
+    apply_scene_transition!(args)
+  end
 
-    check_run_end!(args) if args.state.scene == :compound && Run.active?(args)
+  def apply_scene_transition!(args)
+    return unless args.state.next_scene
+
+    prepare_scene!(args, args.state.next_scene)
+    args.state.scene = args.state.next_scene
+    args.state.next_scene = nil
   end
 
   def prepare_scene!(args, scene)
