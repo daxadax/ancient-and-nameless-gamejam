@@ -1,11 +1,12 @@
 require 'lib/draw'
+require 'lib/run'
 
 module Scenes
   class Title
     include Draw
 
     TITLE = 'Ancient & Nameless'
-    SUBTITLE = 'A Hangman Roguelite Cultist Simulator'
+    SUBTITLE = 'A rural cult simulator'
 
     def tick(args)
       @args = args
@@ -20,18 +21,20 @@ module Scenes
     def render
       draw_background_color(args)
 
-      draw_label(args, { x: 640, y: 420, text: TITLE, size_px: 56 })
-      draw_label(args, { x: 640, y: 360, text: SUBTITLE, size_px: 36 }, color: RGB_DARK_GRAY)
+      draw_title(args, { x: 640, y: 420, text: TITLE, size_px: 56 })
+      draw_title(args, { x: 640, y: 360, text: SUBTITLE, size_px: 36, color: RGB_DARK_GRAY})
 
       start_text = 'Press ENTER or SPACE to begin'
-      draw_label(args, { x: 640, y: 80, text: start_text, size_px: 22 }, color: RGB_DARK_GRAY)
+      draw_title(args, { x: 640, y: 80, text: start_text, size_px: 22, color: RGB_DARK_GRAY})
     end
 
     def handle_input
       start = args.inputs.keyboard.key_down.enter || args.inputs.keyboard.key_down.space
 
       return unless start
-      args.state.next_scene = :gameplay
+
+      Run.start!(args)
+      args.state.next_scene = :compound
     end
   end
 end

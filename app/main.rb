@@ -1,25 +1,46 @@
+require 'lib/run'
 require 'app/scenes/title'
-require 'app/scenes/gameplay'
+require 'app/scenes/compound'
+require 'app/scenes/ritual_space'
 require 'app/scenes/game_over'
 
 module Main
   SCENES = {
     title: Scenes::Title.new,
-    gameplay: Scenes::Gameplay.new,
+    compound: Scenes::Compound.new,
+    ritual_space: Scenes::RitualSpace.new,
     game_over: Scenes::GameOver.new
   }.freeze
 
   def tick(args)
-    # default to title screen
     args.state.scene ||= :title
 
-    # tick the current scene
     SCENES.fetch(args.state.scene).tick(args)
 
-    # if the current scene passes the torch, update that here
     if args.state.next_scene
+      prepare_scene!(args, args.state.next_scene)
       args.state.scene = args.state.next_scene
       args.state.next_scene = nil
     end
+
+    check_run_end!(args) if args.state.scene == :compound && Run.active?(args)
   end
+
+  def prepare_scene!(args, scene)
+    return unless scene == :compound
+    return if Run.active?(args)
+
+    Run.start!(args)
+  end
+
+  def check_run_end!(args)
+    return unless Run.lose?(args)
+
+    args.state.won = false
+    args.state.next_scene = :game_over
+  end
+end
+
+def reset(args)
+  DR.reset
 end
