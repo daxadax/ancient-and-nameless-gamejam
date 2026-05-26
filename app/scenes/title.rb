@@ -18,6 +18,15 @@ module Scenes
     private
     attr_reader :args
 
+    def handle_input
+      start = args.inputs.keyboard.key_down.enter || args.inputs.keyboard.key_down.space
+
+      return unless start
+
+      Run.start!(args)
+      args.state.next_scene = :compound
+    end
+
     def render
       draw_background_color(args)
 
@@ -26,15 +35,6 @@ module Scenes
 
       start_text = 'Press ENTER or SPACE to begin'
       draw_title(args, { x: 640, y: 80, text: start_text, size_px: 22, color: RGB_DARK_GRAY})
-    end
-
-    def handle_input
-      start = args.inputs.keyboard.key_down.enter || args.inputs.keyboard.key_down.space
-
-      return unless start
-
-      Run.start!(args)
-      args.state.next_scene = :compound
     end
   end
 end
