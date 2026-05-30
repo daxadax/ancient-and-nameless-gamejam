@@ -32,7 +32,23 @@ module Cultists
   IDS = ALL.keys.freeze
 
   def self.by_name(name)
-    ALL.fetch(name.to_sym) { "Can't find cultist named #{name}" }
+    ALL[name.to_sym] || raise_not_found_error!(name)
+  end
+
+  # TODO: this should be elsewhere / different
+  def self.label(id)
+    case id
+    when :aldous then 'Aldous'
+    when :jules then 'Jules'
+    when :dmitros then 'Dmitros'
+    when :mara then 'Mara'
+    else
+      raise_not_found_error!(id)
+    end
+  end
+
+  def raise_not_found_error!(name)
+    raise ArgumentError, "Can't find cultist named #{name}"
   end
 
   def self.mod(cultist, attribute)

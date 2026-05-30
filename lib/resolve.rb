@@ -46,9 +46,9 @@ module Resolve
 
     {
       station: station_id,
-      station_label: station_label(station_id),
+      station_label: Stations.label(station_id),
       cultist: cultist_id,
-      cultist_label: cultist_id.to_s.capitalize,
+      cultist_label: Cultists.label(cultist_id),
       primary: primary,
       secondary: secondary
     }
@@ -83,14 +83,5 @@ module Resolve
 
   def self.roll_die(sides)
     1 + rand(sides)
-  end
-
-  def self.station_label(station_id)
-    {
-      tour_guide: 'Tour Guide',
-      kitchen: 'Kitchen',
-      housekeeping: 'Housekeeping',
-      ritual: 'Ritual / Performance'
-    }.fetch(station_id)
   end
 end
