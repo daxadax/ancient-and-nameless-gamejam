@@ -9,6 +9,7 @@ module Draw
   RGB_PANEL_MUTED = { r: 205, g: 185, b: 165 }.freeze
   RGB_GOLD        = { r: 176, g: 142, b: 58  }.freeze
   RGB_RED         = { r: 158, g: 68,  b: 58  }.freeze
+  RGB_CRYSTAL     = { r: 155, g: 105, b: 195 }.freeze
 
   RGB_WHITE     = RGB_CREAM
   RGB_GRAY      = RGB_BODY
@@ -63,5 +64,17 @@ module Draw
     anchor_y = params.fetch(:anchor_y) { 0.5 }
 
     draw_label(args, params, color: color, anchor_x: anchor_x, anchor_y: anchor_y)
+  end
+
+  def draw_glowing_title(args, params, glow_alpha: 210)
+    x = params[:x]
+    y = params[:y]
+    glow = RGB_CRYSTAL.merge(a: glow_alpha)
+
+    [[2, 0], [-2, 0], [0, 2], [0, -2]].each do |ox, oy|
+      draw_title(args, params.merge(x: x + ox, y: y + oy, color: glow))
+    end
+
+    draw_title(args, params)
   end
 end
