@@ -36,18 +36,17 @@ module Scenes
     def render
       run = args.state.run
 
-      args.outputs.sprites << {
-        x: 780,
-        y: 0,
-        w: 500,
-        h: 720,
-        path: 'sprites/compound.jpg'
-      }
+      # args.outputs.sprites << {
+      #   x: 500,
+      #   y: 0,
+      #   w: 1280,
+      #   h: 720,
+      #   path: 'sprites/compound.jpg'
+      # }
 
-      # TODO: replace later with logo image
       draw_label(
         args,
-        { x: 25, y: 625, text: 'EtherStay'.upcase, size_px: 86, a: 150 },
+        { x: 25, y: 625, text: 'Culty Towers'.upcase, size_px: 86, a: 150 },
         color: RGB_INK
       )
 
