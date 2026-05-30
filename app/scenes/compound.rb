@@ -2,8 +2,9 @@ require 'lib/draw'
 require 'lib/buttons'
 require 'lib/ui'
 require 'lib/assign_ui'
-require 'lib/day_cycle'
-require 'lib/event_resolver'
+require 'lib/resolve_ui'
+require 'lib/hub_ui'
+require 'lib/run'
 
 module Scenes
   class Compound
@@ -11,8 +12,9 @@ module Scenes
     include Buttons
     include UI
     include AssignUI
+    include ResolveUI
+    include HubUI
 
-    # TODO: add resolutions to each event choice
     def tick(args)
       @args = args
       draw_background_color(args)
@@ -25,8 +27,9 @@ module Scenes
     attr_reader :args
 
     def handle_input
-      handle_assign_input(args.state.run)
-      handle_event_input
+      run = args.state.run
+      handle_assign_input(run)
+      handle_resolve_input(run)
       handle_hub_input
     end
 
@@ -41,9 +44,10 @@ module Scenes
         path: 'sprites/compound.jpg'
       }
 
+      # TODO: replace later with logo image
       draw_label(
         args,
-        { x: 25, y: 625, text: 'EtherBnB'.upcase, size_px: 86, a: 150 },
+        { x: 25, y: 625, text: 'EtherStay'.upcase, size_px: 86, a: 150 },
         color: RGB_DARK_GRAY
       )
 
@@ -51,37 +55,21 @@ module Scenes
 
       if assign_mode?
         render_assign_ui(run)
-      elsif event_mode?
-        render_event(args.state.current_event)
+      elsif resolve_mode?
+        render_resolve_ui(run)
       elsif hub_mode?
-        draw_end_day_btn
+        render_hub_ui(run)
       end
     end
 
     def handle_hub_input
       return unless hub_mode?
 
-      DayCycle.end_day!(args) if clicked_end_day?
-    end
-
-    def handle_event_input
-      return unless event_mode?
-
-      event = args.state.current_event
-      return unless event
-
-      choice_key = choice_key_from_input(event)
-      return unless choice_key
-
-      EventResolver.apply_choice!(args, choice_key)
+      Run.end_day!(args) if clicked_end_day?
     end
 
     def hub_mode?
       args.state.run.phase == :hub
-    end
-
-    def event_mode?
-      args.state.ui_mode == :event && args.state.current_event
     end
   end
 end

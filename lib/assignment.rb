@@ -20,6 +20,7 @@ module Assignment
   def self.confirm!(run)
     return false unless Resolve.valid_assignments?(run.assignments)
 
+    Resolve.run!(run)
     run.phase = :resolve
     true
   end
