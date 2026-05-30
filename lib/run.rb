@@ -24,7 +24,7 @@ module Run
     return unless run
 
     if last_day?(run)
-      args.state.next_scene = :game_over
+      args.state.next_scene = :review
       return
     end
 

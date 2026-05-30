@@ -2,17 +2,19 @@ require 'lib/run'
 require 'app/scenes/title'
 require 'app/scenes/compound'
 require 'app/scenes/ritual_space'
-require 'app/scenes/game_over'
+require 'app/scenes/review'
 
 # TODO: color palette should be more bubbly / bright like airbnb
 # TODO: more / different images
+# TODO: can't pick the same occultist twice for the same position?
+# TODO: in assign mode, the image should shift to portraits with character strengths
 
 module Main
   SCENES = {
     title: Scenes::Title.new,
     compound: Scenes::Compound.new,
     ritual_space: Scenes::RitualSpace.new,
-    game_over: Scenes::GameOver.new
+    review: Scenes::Review.new
   }.freeze
 
   def tick(args)
