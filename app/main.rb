@@ -4,6 +4,9 @@ require 'app/scenes/compound'
 require 'app/scenes/ritual_space'
 require 'app/scenes/game_over'
 
+# TODO: color palette should be more bubbly / bright like airbnb
+# TODO: more / different images
+
 module Main
   SCENES = {
     title: Scenes::Title.new,
