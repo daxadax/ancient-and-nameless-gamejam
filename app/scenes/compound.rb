@@ -1,6 +1,7 @@
 require 'lib/draw'
 require 'lib/buttons'
 require 'lib/ui'
+require 'lib/assign_ui'
 require 'lib/day_cycle'
 require 'lib/event_resolver'
 
@@ -9,6 +10,7 @@ module Scenes
     include Draw
     include Buttons
     include UI
+    include AssignUI
 
     # TODO: add resolutions to each event choice
     def tick(args)
@@ -23,6 +25,7 @@ module Scenes
     attr_reader :args
 
     def handle_input
+      handle_assign_input(args.state.run)
       handle_event_input
       handle_hub_input
     end
@@ -40,13 +43,15 @@ module Scenes
 
       draw_label(
         args,
-        { x: 25, y: 625, text: 'the compound'.upcase, size_px: 86, a: 150 },
+        { x: 25, y: 625, text: 'EtherBnB'.upcase, size_px: 86, a: 150 },
         color: RGB_DARK_GRAY
       )
 
       draw_hud(run)
 
-      if event_mode?
+      if assign_mode?
+        render_assign_ui(run)
+      elsif event_mode?
         render_event(args.state.current_event)
       elsif hub_mode?
         draw_end_day_btn
