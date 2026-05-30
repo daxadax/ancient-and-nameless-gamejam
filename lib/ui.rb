@@ -1,4 +1,5 @@
 require 'lib/draw'
+require 'lib/run'
 
 module UI
   include Draw
@@ -11,24 +12,16 @@ module UI
   def draw_hud(run)
     draw_label(
       args,
-      { x: 40, y: 600, text: "Day #{run.day} — #{run.act}".upcase, size_px: 22 },
+      { x: 40, y: 600, text: "Day #{run.day} of #{run.max_days} — #{run.phase}".upcase, size_px: 22 },
       color: RGB_WHITE
     )
 
     meters = run.meters
-    meter_text = "Provisions #{meters.provisions} "
-    meter_text += "Faith #{meters.faith} "
-    meter_text += "Secrecy #{meters.secrecy} "
-    meter_text += "Wards #{meters.security}"
+    meter_text = "Vibes #{meters.vibes} "
+    meter_text += "Food #{meters.food} "
+    meter_text += "Hygiene #{meters.cleanliness} "
+    meter_text += "Authenticity #{meters.authenticity}"
     draw_label(args, { x: 40, y: 575, text: meter_text, size_px: 18 }, color: RGB_GRAY)
-
-    if run.threat > 0
-      draw_label(
-        args,
-        { x: 40, y: 550, text: "Threat level: #{threat_dots(run.threat)}", size_px: 18 },
-        color: RGB_GRAY
-      )
-    end
   end
 
   def choice_key_from_input(_event)
@@ -41,12 +34,6 @@ module UI
     end
 
     nil
-  end
-
-  def threat_dots(threat)
-    filled = '●' * threat
-    empty = '○' * (5 - threat)
-    "#{filled}#{empty}"
   end
 
   def render_event(event)

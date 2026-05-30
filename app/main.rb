@@ -17,10 +17,6 @@ module Main
 
     SCENES.fetch(args.state.scene).tick(args)
     apply_scene_transition!(args)
-    return unless args.state.scene == :compound && Run.active?(args)
-
-    check_run_end!(args)
-    apply_scene_transition!(args)
   end
 
   def apply_scene_transition!(args)
@@ -36,13 +32,6 @@ module Main
     return if Run.active?(args)
 
     Run.start!(args)
-  end
-
-  def check_run_end!(args)
-    return unless Run.lose?(args)
-
-    args.state.won = false
-    args.state.next_scene = :game_over
   end
 end
 

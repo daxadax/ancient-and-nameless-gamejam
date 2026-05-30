@@ -10,10 +10,7 @@ module Scenes
     include Buttons
     include UI
 
-    # TODO: the event should fire at the beginning of the day,
-    # not the end of the day. the first day has a set starting event
-    # maybe the picking of a perk. so it should go like this:
-    # start day -> event -> resolution -> end of day animation (sun setting?) -> end day
+    # TODO: add resolutions to each event choice
     def tick(args)
       @args = args
       draw_background_color(args)
@@ -51,7 +48,7 @@ module Scenes
 
       if event_mode?
         render_event(args.state.current_event)
-      else
+      elsif hub_mode?
         draw_end_day_btn
       end
     end
@@ -75,7 +72,7 @@ module Scenes
     end
 
     def hub_mode?
-      args.state.ui_mode.nil? || args.state.ui_mode == :hub
+      args.state.run.phase == :hub
     end
 
     def event_mode?

@@ -12,7 +12,7 @@ module Resolve
   end
 
   def self.valid_assignments?(assignments)
-    return false unless assignments.is_a?(Hash)
+    return false unless assignments
     return false unless assignments.keys.sort == Stations::IDS.sort
 
     cultist_ids = assignments.values
@@ -23,18 +23,16 @@ module Resolve
   end
 
   def self.run!(run)
-    assignments = run[:assignments]
-    return nil unless valid_assignments?(assignments)
+    return nil unless valid_assignments?(run.assignments)
 
-    run[:meters] ||= default_meters
     results = []
 
     Stations::IDS.each do |station_id|
-      result = resolve_station!(run, station_id, assignments[station_id])
+      result = resolve_station!(run, station_id, run.assignments[station_id])
       results << result
     end
 
-    run[:last_resolve] = results
+    run.last_resolve = results
     results
   end
 
@@ -43,17 +41,30 @@ module Resolve
     primary = roll_line(cultist_id, station[:primary_meter], station[:primary_die])
     secondary = roll_line(cultist_id, station[:secondary_meter], station[:secondary_die])
 
-    run[:meters][primary[:meter]] += primary[:total]
-    run[:meters][secondary[:meter]] += secondary[:total]
+    add_meter!(run, primary[:meter], primary[:total])
+    add_meter!(run, secondary[:meter], secondary[:total])
 
     {
       station: station_id,
-      station_label: station_id.to_s.split('_').map(&:capitalize).join(' '),
+      station_label: station_label(station_id),
       cultist: cultist_id,
       cultist_label: cultist_id.to_s.capitalize,
       primary: primary,
       secondary: secondary
     }
+  end
+
+  def self.add_meter!(run, meter, delta)
+    case meter
+    when :vibes
+      run.meters.vibes += delta
+    when :food
+      run.meters.food += delta
+    when :cleanliness
+      run.meters.cleanliness += delta
+    when :authenticity
+      run.meters.authenticity += delta
+    end
   end
 
   def self.roll_line(cultist_id, meter, sides)
@@ -72,5 +83,14 @@ module Resolve
 
   def self.roll_die(sides)
     1 + rand(sides)
+  end
+
+  def self.station_label(station_id)
+    {
+      tour_guide: 'Tour Guide',
+      kitchen: 'Kitchen',
+      housekeeping: 'Housekeeping',
+      ritual: 'Ritual / Performance'
+    }.fetch(station_id)
   end
 end
