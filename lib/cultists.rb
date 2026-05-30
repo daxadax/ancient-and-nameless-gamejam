@@ -47,7 +47,7 @@ module Cultists
     end
   end
 
-  def raise_not_found_error!(name)
+  def self.raise_not_found_error!(name)
     raise ArgumentError, "Can't find cultist named #{name}"
   end
 

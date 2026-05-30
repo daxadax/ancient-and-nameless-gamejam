@@ -45,7 +45,7 @@ module Stations
     end
   end
 
-  def raise_not_found_error!(name)
+  def self.raise_not_found_error!(name)
     raise ArgumentError, "Can't find station named #{name}"
   end
 end
