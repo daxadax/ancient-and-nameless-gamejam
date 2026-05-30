@@ -39,7 +39,7 @@ module Stations
     when :tour_guide then "Tour Guide"
     when :kitchen then "Kitchen"
     when :housekeeping then "Housekeeping"
-    when :ritual then "Ritual / Performance"
+    when :ritual then "Ritual"
     else
       raise_not_found_error!(id)
     end
