@@ -4,8 +4,6 @@ module Run
   MAX_DAYS = 3
 
   def self.start!(args)
-    reset_state!(args)
-
     args.state.run = {
       day: 1,
       max_days: MAX_DAYS,
@@ -14,10 +12,23 @@ module Run
       assignments: {},
       last_resolve: nil
     }
+    args.state.next_scene = nil
   end
 
   def self.active?(args)
     !args.state.run.nil?
+  end
+
+  def self.end_day!(args)
+    run = args.state.run
+    return unless run
+
+    if last_day?(run)
+      args.state.next_scene = :game_over
+      return
+    end
+
+    advance_day!(args)
   end
 
   def self.advance_day!(args)
@@ -37,17 +48,5 @@ module Run
 
   def self.last_day?(run)
     run.day >= run.max_days
-  end
-
-  def self.lose?(_args)
-    false
-  end
-
-  def self.reset_state!(args)
-    args.state.ui_mode = nil
-    args.state.current_event = nil
-    args.state.next_scene = nil
-    args.state.won = nil
-    args.state.game_over = nil
   end
 end
