@@ -1,5 +1,6 @@
 require 'lib/draw'
 require 'lib/run'
+require 'lib/crystal_glow'
 
 module Scenes
   class Title
@@ -66,6 +67,8 @@ module Scenes
         a: 50,
         primitive_marker: :solid
       }
+
+      CrystalGlow.render(args)
     end
   end
 end
