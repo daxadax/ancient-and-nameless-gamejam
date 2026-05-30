@@ -8,7 +8,7 @@ module UI
     draw_label(
       args,
       { x: 40, y: 600, text: "Day #{run.day} of #{run.max_days}", size_px: 22 },
-      color: RGB_WHITE
+      color: RGB_INK
     )
 
     meters = run.meters
@@ -16,6 +16,6 @@ module UI
     meter_text += "Food #{meters.food} "
     meter_text += "Cleanliness #{meters.cleanliness} "
     meter_text += "Authenticity #{meters.authenticity}"
-    draw_label(args, { x: 40, y: 575, text: meter_text, size_px: 18 }, color: RGB_GRAY)
+    draw_label(args, { x: 40, y: 575, text: meter_text, size_px: 18 }, color: RGB_BODY)
   end
 end

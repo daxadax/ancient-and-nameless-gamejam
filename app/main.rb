@@ -4,7 +4,6 @@ require 'app/scenes/compound'
 require 'app/scenes/ritual_space'
 require 'app/scenes/review'
 
-# TODO: color palette should be more bubbly / bright like airbnb
 # TODO: more / different images
 # TODO: can't pick the same occultist twice for the same position?
 # TODO: in assign mode, the image should shift to portraits with character strengths

@@ -11,13 +11,7 @@ module Buttons
   end
 
   def draw_end_day_btn(label = 'END DAY')
-    args.outputs.primitives << {
-      r: 60,
-      g: 40,
-      b: 80,
-      a: 200,
-      primitive_marker: :solid
-    }.merge(END_DAY_BUTTON)
+    draw_solid_button(args, END_DAY_BUTTON, BTN_ACTION, alpha: 200)
 
     draw_title(
       args,
@@ -26,7 +20,7 @@ module Buttons
         y: END_DAY_BUTTON[:y] + END_DAY_BUTTON[:h] / 2,
         text: label,
         size_px: 20,
-        color: RGB_WHITE
+        color: RGB_CREAM
       }
     )
   end

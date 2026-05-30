@@ -8,7 +8,7 @@ module HubUI
   LABEL_X = 40
 
   def render_hub_ui(run)
-    draw_panel
+    draw_wood_panel(args, PANEL)
 
     if Run.last_day?(run)
       headline = 'Last night of the stay.'
@@ -23,31 +23,15 @@ module HubUI
     draw_label(
       args,
       { x: LABEL_X, y: PANEL[:y] + PANEL[:h] - 45, text: headline.upcase, size_px: 26 },
-      color: RGB_WHITE
+      color: RGB_CREAM
     )
 
     draw_label(
       args,
       { x: LABEL_X, y: PANEL[:y] + PANEL[:h] - 78, text: body, size_px: 16 },
-      color: RGB_GRAY
+      color: RGB_PANEL_MUTED
     )
 
     draw_end_day_btn(button_label)
-  end
-
-  private
-
-  def draw_panel
-    args.outputs.primitives << {
-      x: PANEL[:x],
-      y: PANEL[:y],
-      w: PANEL[:w],
-      h: PANEL[:h],
-      r: 12,
-      g: 12,
-      b: 18,
-      a: 230,
-      primitive_marker: :solid
-    }
   end
 end

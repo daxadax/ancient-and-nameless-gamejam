@@ -28,26 +28,26 @@ module Scenes
       return if args.state.run.nil?
       review = ::Review.build(args.state.run)
 
-      draw_title(args, { x: 640, y: 560, text: 'Guest Review', size_px: 48 })
+      draw_title(args, { x: 640, y: 560, text: 'Guest Review', size_px: 48, color: RGB_INK })
       draw_title(
         args,
-        { x: 640, y: 490, text: review[:star_line], size_px: 40, color: RGB_GREEN }
+        { x: 640, y: 490, text: review[:star_line], size_px: 40, color: RGB_GOLD }
       )
       draw_title(
         args,
-        { x: 640, y: 420, text: "\"#{review[:headline]}\"", size_px: 24, color: RGB_WHITE }
+        { x: 640, y: 420, text: "\"#{review[:headline]}\"", size_px: 24, color: RGB_INK }
       )
       draw_title(
         args,
-        { x: 640, y: 350, text: review[:body], size_px: 20, color: RGB_GRAY }
+        { x: 640, y: 350, text: review[:body], size_px: 20, color: RGB_BODY }
       )
       draw_title(
         args,
-        { x: 640, y: 280, text: review[:meter_text], size_px: 18, color: RGB_DARK_GRAY }
+        { x: 640, y: 280, text: review[:meter_text], size_px: 18, color: RGB_MUTED }
       )
 
       prompt = 'Press ENTER or SPACE to return to title'
-      draw_title(args, { x: 640, y: 80, text: prompt, size_px: 22, color: RGB_DARK_GRAY })
+      draw_title(args, { x: 640, y: 80, text: prompt, size_px: 22, color: RGB_MUTED })
     end
   end
 end

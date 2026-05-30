@@ -48,7 +48,7 @@ module Scenes
       draw_label(
         args,
         { x: 25, y: 625, text: 'EtherStay'.upcase, size_px: 86, a: 150 },
-        color: RGB_DARK_GRAY
+        color: RGB_INK
       )
 
       draw_hud(run)

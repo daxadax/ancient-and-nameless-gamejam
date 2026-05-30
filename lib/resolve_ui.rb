@@ -27,7 +27,7 @@ module ResolveUI
     draw_label(
       args,
       { x: LABEL_X, y: PANEL[:y] + PANEL[:h] - 45, text: 'HOW DID IT GO?', size_px: 26 },
-      color: RGB_WHITE
+      color: RGB_CREAM
     )
 
     run.last_resolve.each_with_index do |result, index|
@@ -44,17 +44,7 @@ module ResolveUI
   private
 
   def draw_panel
-    args.outputs.primitives << {
-      x: PANEL[:x],
-      y: PANEL[:y],
-      w: PANEL[:w],
-      h: PANEL[:h],
-      r: 12,
-      g: 12,
-      b: 18,
-      a: 230,
-      primitive_marker: :solid
-    }
+    draw_wood_panel(args, PANEL)
   end
 
   def render_result_line(result, index)
@@ -68,19 +58,19 @@ module ResolveUI
         text: "#{result[:station_label]} — #{result[:cultist_label]}",
         size_px: 18
       },
-      color: RGB_WHITE
+      color: RGB_CREAM
     )
 
     draw_label(
       args,
       { x: LABEL_X, y: base_y - 24, text: format_roll(result[:primary]), size_px: 16 },
-      color: RGB_GRAY
+      color: RGB_PANEL_MUTED
     )
 
     draw_label(
       args,
       { x: LABEL_X, y: base_y - 46, text: format_roll(result[:secondary]), size_px: 16 },
-      color: RGB_GRAY
+      color: RGB_PANEL_MUTED
     )
   end
 
@@ -91,13 +81,7 @@ module ResolveUI
   end
 
   def draw_continue_btn
-    args.outputs.primitives << {
-      r: 60,
-      g: 40,
-      b: 80,
-      a: 220,
-      primitive_marker: :solid
-    }.merge(CONTINUE_BTN)
+    draw_solid_button(args, CONTINUE_BTN, BTN_ACTION, alpha: 220)
 
     draw_title(
       args,
@@ -106,7 +90,7 @@ module ResolveUI
         y: CONTINUE_BTN[:y] + CONTINUE_BTN[:h] / 2,
         text: 'CONTINUE',
         size_px: 18,
-        color: RGB_WHITE
+        color: RGB_CREAM
       }
     )
   end

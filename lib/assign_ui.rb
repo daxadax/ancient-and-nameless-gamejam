@@ -25,12 +25,12 @@ module AssignUI
   end
 
   def render_assign_ui(run)
-    draw_panel
+    draw_wood_panel(args, PANEL)
 
     draw_label(
       args,
       { x: STATION_LABEL_X, y: PANEL[:y] + PANEL[:h] - 45, text: 'ASSIGN CREW', size_px: 26 },
-      color: RGB_WHITE
+      color: RGB_CREAM
     )
 
     draw_label(
@@ -41,7 +41,7 @@ module AssignUI
         text: 'Pick one cultist per station. Click confirm when ready.',
         size_px: 16
       },
-      color: RGB_GRAY
+      color: RGB_PANEL_MUTED
     )
 
     Stations::IDS.each_with_index do |station_id, row|
@@ -57,20 +57,6 @@ module AssignUI
 
   private
 
-  def draw_panel
-    args.outputs.primitives << {
-      x: PANEL[:x],
-      y: PANEL[:y],
-      w: PANEL[:w],
-      h: PANEL[:h],
-      r: 12,
-      g: 12,
-      b: 18,
-      a: 230,
-      primitive_marker: :solid
-    }
-  end
-
   def render_station_row(run, station_id, row)
     row_y = row_center_y(row)
 
@@ -78,7 +64,7 @@ module AssignUI
       args,
       { x: STATION_LABEL_X, y: row_y, text: Stations.label(station_id), size_px: 18 },
       anchor_y: 0.5,
-      color: RGB_WHITE
+      color: RGB_CREAM
     )
 
     Cultists::IDS.each_with_index do |cultist_id, col|
@@ -103,10 +89,10 @@ module AssignUI
 
   def draw_cultist_btn(row, col, cultist_id, selected:, dim:)
     rect = cultist_btn_rect(row, col)
-    base = selected ? { r: 90, g: 55, b: 120 } : { r: 45, g: 35, b: 60 }
+    base = selected ? BTN_SELECTED : BTN_IDLE
     alpha = dim && !selected ? 150 : 220
 
-    args.outputs.primitives << base.merge(a: alpha, primitive_marker: :solid).merge(rect)
+    draw_solid_button(args, rect, base, alpha: alpha)
 
     draw_title(
       args,
@@ -115,7 +101,7 @@ module AssignUI
         y: rect[:y] + rect[:h] / 2,
         text: Cultists.label(cultist_id),
         size_px: 16,
-        color: RGB_WHITE
+        color: RGB_CREAM
       }
     )
   end
@@ -128,10 +114,10 @@ module AssignUI
 
   def draw_confirm_btn(run)
     ready = Resolve.valid_assignments?(run.assignments)
-    base = ready ? { r: 60, g: 40, b: 80 } : { r: 40, g: 40, b: 48 }
+    base = ready ? BTN_ACTION : BTN_DISABLED
     alpha = ready ? 220 : 140
 
-    args.outputs.primitives << base.merge(a: alpha, primitive_marker: :solid).merge(CONFIRM_BTN)
+    draw_solid_button(args, CONFIRM_BTN, base, alpha: alpha)
 
     draw_title(
       args,
@@ -140,7 +126,7 @@ module AssignUI
         y: CONFIRM_BTN[:y] + CONFIRM_BTN[:h] / 2,
         text: 'CONFIRM ASSIGNMENTS',
         size_px: 18,
-        color: RGB_WHITE
+        color: RGB_CREAM
       }
     )
   end
