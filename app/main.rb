@@ -17,6 +17,8 @@ module Main
   }.freeze
 
   def tick(args)
+    # set_bg_music(args) if Kernel.tick_count == 1
+
     args.state.scene ||= :title
 
     SCENES.fetch(args.state.scene).tick(args)
@@ -36,6 +38,10 @@ module Main
     return if Run.active?(args)
 
     Run.start!(args)
+  end
+
+  def set_bg_music(args)
+    args.audio[:music] = { input: "sounds/headscratcher.ogg", looping: true }
   end
 end
 
