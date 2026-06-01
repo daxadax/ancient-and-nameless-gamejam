@@ -1,20 +1,21 @@
 module Draw
-  # Fawlty Towers palette: worn hotel beige, wood browns, faded burgundy.
   DEFAULT_BG = [212, 198, 175].freeze
 
-  RGB_INK         = { r: 62,  g: 45,  b: 32  }.freeze
-  RGB_BODY        = { r: 100, g: 78,  b: 62  }.freeze
-  RGB_MUTED       = { r: 130, g: 108, b: 88  }.freeze
+  RGB_DARK_BROWN  = { r: 62,  g: 45,  b: 32  }.freeze
+  RGB_LIGHT_BROWN = { r: 130, g: 108, b: 88  }.freeze
+  RGB_BROWN       = { r: 100, g: 78,  b: 62  }.freeze
   RGB_CREAM       = { r: 248, g: 240, b: 228 }.freeze
-  RGB_PANEL_MUTED = { r: 205, g: 185, b: 165 }.freeze
+  RGB_BEIGE       = { r: 205, g: 185, b: 165 }.freeze
   RGB_GOLD        = { r: 176, g: 142, b: 58  }.freeze
+  RGB_YELLOW      = { r: 176, g: 172, b: 58  }.freeze
   RGB_RED         = { r: 158, g: 68,  b: 58  }.freeze
   RGB_CRYSTAL     = { r: 155, g: 105, b: 195 }.freeze
+  RGB_PINK        = { r: 176, g: 102, b: 158  }.freeze
 
-  RGB_WHITE     = RGB_CREAM
-  RGB_GRAY      = RGB_BODY
-  RGB_DARK_GRAY = RGB_MUTED
-  RGB_GREEN     = RGB_GOLD
+  RGB_BODY          = RGB_BROWN
+  RGB_MUTED         = RGB_LIGHT_BROWN
+  RGB_INK           = RGB_DARK_BROWN
+  RGB_PANEL_MUTED   = RGB_BEIGE
 
   PANEL_FILL   = { r: 92,  g: 68,  b: 52  }.freeze
   BTN_DEFAULT  = { r: 118, g: 88,  b: 68  }.freeze
@@ -24,6 +25,8 @@ module Draw
   BTN_DISABLED = { r: 100, g: 92,  b: 82  }.freeze
 
   PANEL_ALPHA = 235
+  ALPHA_READY = 220
+  ALPHA_DISABLED = 150
 
   def draw_background_color(args, color = DEFAULT_BG)
     args.outputs.background_color = color

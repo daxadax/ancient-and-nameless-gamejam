@@ -2,9 +2,11 @@ require 'lib/draw'
 require 'lib/stations'
 require 'lib/cultists'
 require 'lib/assignment'
+require 'lib/ui/staff_notes'
 
 module AssignUI
   include Draw
+  include UI::StaffNotes
 
   PANEL = { x: 25, y: 50, w: 720, h: 500 }.freeze
   ROW_HEIGHT = 90
@@ -20,7 +22,6 @@ module AssignUI
 
     station_id, cultist_id = clicked_cultist_pick
     Assignment.pick!(run, station_id, cultist_id) if station_id
-
     Assignment.confirm!(run) if clicked_confirm?
   end
 
@@ -49,6 +50,7 @@ module AssignUI
     end
 
     draw_confirm_btn(run)
+    render_staff_notes(run)
   end
 
   def assign_mode?
@@ -90,7 +92,7 @@ module AssignUI
   def draw_cultist_btn(row, col, cultist_id, selected:, dim:)
     rect = cultist_btn_rect(row, col)
     base = selected ? BTN_SELECTED : BTN_IDLE
-    alpha = dim && !selected ? 150 : 220
+    alpha = dim && !selected ? ALPHA_DISABLED : ALPHA_READY
 
     draw_solid_button(args, rect, base, alpha: alpha)
 
@@ -115,7 +117,7 @@ module AssignUI
   def draw_confirm_btn(run)
     ready = Resolve.valid_assignments?(run.assignments)
     base = ready ? BTN_ACTION : BTN_DISABLED
-    alpha = ready ? 220 : 140
+    alpha = ready ? ALPHA_READY : ALPHA_DISABLED
 
     draw_solid_button(args, CONFIRM_BTN, base, alpha: alpha)
 
