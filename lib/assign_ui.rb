@@ -15,14 +15,14 @@ module AssignUI
   CULTIST_BTN_W = 120
   CULTIST_BTN_H = 34
   CULTIST_BTN_GAP = 12
-  CONFIRM_BTN = { x: 245, y: 80, w: 280, h: 44 }.freeze
+  CONFIRM_BUTTON = { x: 245, y: 80 }
 
   def handle_assign_input(run)
     return unless assign_mode?
 
-    station_id, cultist_id = clicked_cultist_pick
+    station_id, cultist_id = fetch_selection
     Assignment.pick!(run, station_id, cultist_id) if station_id
-    Assignment.confirm!(run) if clicked_confirm?
+    Assignment.confirm!(run) if clicked_button?(args, CONFIRM_BUTTON)
   end
 
   def render_assign_ui(run)
@@ -60,11 +60,9 @@ module AssignUI
   private
 
   def render_station_row(run, station_id, row)
-    row_y = row_center_y(row)
-
     draw_label(
       args,
-      { x: STATION_LABEL_X, y: row_y, text: Stations.label(station_id), size_px: 18 },
+      { x: STATION_LABEL_X, y: row_center_y(row), text: Stations.label(station_id), size_px: 18 },
       anchor_y: 0.5,
       color: RGB_CREAM
     )
@@ -89,25 +87,6 @@ module AssignUI
     }
   end
 
-  def draw_cultist_btn(row, col, cultist_id, selected:, dim:)
-    rect = cultist_btn_rect(row, col)
-    base = selected ? BTN_SELECTED : BTN_IDLE
-    alpha = dim && !selected ? ALPHA_DISABLED : ALPHA_READY
-
-    draw_solid_button(args, rect, base, alpha: alpha)
-
-    draw_title(
-      args,
-      {
-        x: rect[:x] + rect[:w] / 2,
-        y: rect[:y] + rect[:h] / 2,
-        text: Cultists.label(cultist_id),
-        size_px: 16,
-        color: RGB_CREAM
-      }
-    )
-  end
-
   def assigned_elsewhere?(run, station_id, cultist_id)
     Stations::IDS.any? do |sid|
       sid != station_id && Assignment.read(run, sid) == cultist_id
@@ -116,24 +95,23 @@ module AssignUI
 
   def draw_confirm_btn(run)
     ready = Resolve.valid_assignments?(run.assignments)
-    base = ready ? BTN_ACTION : BTN_DISABLED
+    fill = ready ? BTN_ACTION : BTN_DISABLED
     alpha = ready ? ALPHA_READY : ALPHA_DISABLED
+    options = { fill: fill, alpha: alpha }
 
-    draw_solid_button(args, CONFIRM_BTN, base, alpha: alpha)
-
-    draw_title(
-      args,
-      {
-        x: CONFIRM_BTN[:x] + CONFIRM_BTN[:w] / 2,
-        y: CONFIRM_BTN[:y] + CONFIRM_BTN[:h] / 2,
-        text: 'CONFIRM ASSIGNMENTS',
-        size_px: 18,
-        color: RGB_CREAM
-      }
-    )
+    draw_button(args, label: 'CONFIRM ASSIGNMENTS', area: CONFIRM_BUTTON, options: options)
   end
 
-  def clicked_cultist_pick
+  def draw_cultist_btn(row, col, cultist_id, selected:, dim:)
+    rect = cultist_btn_rect(row, col)
+    fill = selected ? BTN_SELECTED : BTN_IDLE
+    alpha = dim && !selected ? ALPHA_DISABLED : ALPHA_READY
+    options = { fill: fill, alpha: alpha }
+
+    draw_button(args, label: Cultists.label(cultist_id), area: rect, options: options)
+  end
+
+  def fetch_selection
     return unless args.inputs.mouse.up
 
     Stations::IDS.each_with_index do |station_id, row|
@@ -143,9 +121,5 @@ module AssignUI
     end
 
     nil
-  end
-
-  def clicked_confirm?
-    args.inputs.mouse.up && args.inputs.mouse.inside_rect?(CONFIRM_BTN)
   end
 end

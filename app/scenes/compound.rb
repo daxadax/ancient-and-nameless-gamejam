@@ -1,5 +1,4 @@
 require 'lib/draw'
-require 'lib/buttons'
 require 'lib/ui'
 require 'lib/assign_ui'
 require 'lib/resolve_ui'
@@ -9,7 +8,6 @@ require 'lib/run'
 module Scenes
   class Compound
     include Draw
-    include Buttons
     include UI
     include AssignUI
     include ResolveUI
@@ -36,14 +34,6 @@ module Scenes
     def render
       run = args.state.run
 
-      # args.outputs.sprites << {
-      #   x: 500,
-      #   y: 0,
-      #   w: 1280,
-      #   h: 720,
-      #   path: 'sprites/compound.jpg'
-      # }
-
       draw_label(
         args,
         { x: 25, y: 625, text: 'Culty Towers'.upcase, size_px: 86, a: 150 },
@@ -59,16 +49,6 @@ module Scenes
       elsif hub_mode?
         render_hub_ui(run)
       end
-    end
-
-    def handle_hub_input
-      return unless hub_mode?
-
-      Run.end_day!(args) if clicked_end_day?
-    end
-
-    def hub_mode?
-      args.state.run.phase == :hub
     end
   end
 end

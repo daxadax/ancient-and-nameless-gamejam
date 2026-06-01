@@ -43,13 +43,6 @@ module Draw
     }.merge(PANEL_FILL)
   end
 
-  def draw_solid_button(args, rect, fill, alpha: 220)
-    args.outputs.primitives << {
-      a: alpha,
-      primitive_marker: :solid
-    }.merge(fill).merge(rect)
-  end
-
   def draw_line(args, params, color: RGB_BODY)
     args.outputs.lines << params.merge(color)
   end

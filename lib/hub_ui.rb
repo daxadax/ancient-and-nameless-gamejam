@@ -1,11 +1,24 @@
+require 'lib/buttons'
 require 'lib/draw'
 require 'lib/run'
 
 module HubUI
   include Draw
+  include Buttons
 
+  END_DAY_BUTTON = { x: 915, y: 40 }
   PANEL = { x: 25, y: 50, w: 720, h: 500 }.freeze
   LABEL_X = 40
+
+  def handle_hub_input
+    return unless hub_mode?
+
+    Run.end_day!(args) if clicked_button?(args, END_DAY_BUTTON)
+  end
+
+  def hub_mode?
+    args.state.run.phase == :hub
+  end
 
   def render_hub_ui(run)
     draw_wood_panel(args, PANEL)
@@ -32,6 +45,6 @@ module HubUI
       color: RGB_PANEL_MUTED
     )
 
-    draw_end_day_btn(button_label)
+    draw_button(args, label: button_label, area: END_DAY_BUTTON)
   end
 end
