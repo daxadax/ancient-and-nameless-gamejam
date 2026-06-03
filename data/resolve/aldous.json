@@ -1,0 +1,70 @@
+{
+  "tour_guide": [
+    {
+      "result": "<=3",
+      "text": "Aldous opened the basement door at the same time Mara was making an offering to the nameless one. One guest has not stopped muttering; their friend is threatening to call the police.",
+      "effects": { "guest_disturbed": true }
+    },
+    {
+      "result": "4-7",
+      "text": "The tour was charming until Aldous answered a question about the 'blood room' with complete honesty. Two guests laughed; one went very quiet.",
+      "effects": {}
+    },
+    {
+      "result": ">=8",
+      "text": "Aldous forgot three stops but improvised so well a guest asked if the wrong turn was 'part of the liminal architecture.' Vibes are weirdly up.",
+      "effects": { "guest_delighted": true }
+    }
+  ],
+  "kitchen": [
+    {
+      "result": "<=3",
+      "text": "Aldous substituted corn starch for corn syrup and the ones who refused to eat are in a much better position than those who didn't.",
+      "effects": { "kitchen_incident": true }
+    },
+    {
+      "result": "4-7",
+      "text": "Breakfast arrived late because Aldous explained the recipe to the toast. It tastes fine if you do not ask what is in it.",
+      "effects": {}
+    },
+    {
+      "result": ">=8",
+      "text": "Against all odds...this brunch slaps? Aldous insists the measuring cup 'guided him.'",
+      "effects": { "food_praised": true }
+    }
+  ],
+  "housekeeping": [
+    {
+      "result": "<=3",
+      "text": "Aldous knocked over a crystal lamp which caused a minor explosion. Nothing was *fully* consumed by flame, but the guests don't seem to be taking that well.",
+      "effects": { "property_damage": true }
+    },
+    {
+      "result": "4-7",
+      "text": "Rooms are clean-ish. Aldous left a handwritten note on each pillow apologizing for thought crimes.",
+      "effects": {}
+    },
+    {
+      "result": ">=8",
+      "text": "Everything sparkles. Aldous also sorted the minibar by emotional resonance. Guests find it upsettingly uplifting without really knowing why.",
+      "effects": {}
+    }
+  ],
+  "ritual": [
+    {
+      "result": "<=3",
+      "text": "The ritual became a Q and A about Aldous's dreams. A guest filmed it thinking it was performance art. It is now on someone's story.",
+      "effects": { "viral_ritual": true }
+    },
+    {
+      "result": "4-7",
+      "text": "Aldous confused the closing chant with a lullaby. Oddly soothing. Authenticity is debatable; vibes are stable.",
+      "effects": {}
+    },
+    {
+      "result": ">=8",
+      "text": "Aldous accidentally delivered a moving sermon about impermanence. Guests cried. No one is sure what tradition this was.",
+      "effects": { "authenticity_boost": true }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "tour_guide": [
+    {
+      "result": "<=3",
+      "text": "Mara told the truth about the property with no jokes and no padding. A guest asked to leave before the second barn. She replied 'May peace favor your sword.'",
+      "effects": { "guest_disturbed": true }
+    },
+    {
+      "result": "4-7",
+      "text": "Intense, precise, slightly scary. Guests learned a lot and laughed nervously. Vibes are charged; no one is bored.",
+      "effects": {}
+    },
+    {
+      "result": ">=8",
+      "text": "Mara made the compound feel ancient and expensive. One guest whispered she might be the real thing. Mara did not deny it.",
+      "effects": { "guest_delighted": true }
+    }
+  ],
+  "kitchen": [
+    {
+      "result": "<=3",
+      "text": "Mara served something that was correct occult cuisine and incorrect brunch. The presentation was flawless; the eggs were a a nightmare.",
+      "effects": { "kitchen_incident": true }
+    },
+    {
+      "result": "4-7",
+      "text": "Competent, austere, efficient. Food is good; atmosphere feels like a tribunal. Guests eat quickly.",
+      "effects": {}
+    },
+    {
+      "result": ">=8",
+      "text": "Restaurant-quality plates with subtle ritual garnish. Mara called salt 'memory dust.' Guests pretended they understood.",
+      "effects": { "food_praised": true }
+    }
+  ],
+  "housekeeping": [
+    {
+      "result": "<=3",
+      "text": "Mara entered without knocking to 'correct a spiritual imbalance in the linens.' Clean, but a guest is drafting a complaint.",
+      "effects": { "guest_disturbed": true }
+    },
+    {
+      "result": "4-7",
+      "text": "Rooms are spotless. Mara also reorganized altars she found in suitcases. Guests feel watched in a managerial way.",
+      "effects": {}
+    },
+    {
+      "result": ">=8",
+      "text": "Hotel-grade cleanliness with unsettling perfection. Fresh sheets smell like storm air. No one asks how she did it.",
+      "effects": {}
+    }
+  ],
+  "ritual": [
+    {
+      "result": "<=3",
+      "text": "The ritual was real enough that the lights dimmed on their own. Two guests loved it; one is packing at 3pm.",
+      "effects": { "authenticity_too_real": true }
+    },
+    {
+      "result": "4-7",
+      "text": "Mara ran a tight ceremony: credible symbols, no filler. Authenticity is high; vibes are tense but impressed.",
+      "effects": { "authenticity_boost": true }
+    },
+    {
+      "result": ">=8",
+      "text": "Guests stopped taking notes and started taking oaths. Everyone acts normal at breakfast. They are not.",
+      "effects": { "authenticity_boost": true, "guest_awed": true }
+    }
+  ]
+}

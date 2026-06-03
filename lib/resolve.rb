@@ -1,5 +1,6 @@
 require 'lib/cultists'
 require 'lib/stations'
+require 'lib/resolve_outcomes'
 
 module Resolve
   def self.default_meters
@@ -39,13 +40,18 @@ module Resolve
     add_meter!(run, primary[:meter], primary[:total])
     add_meter!(run, secondary[:meter], secondary[:total])
 
+    outcome = ResolveOutcomes.pick(cultist_id, station_id, primary[:total])
+    ResolveOutcomes.apply_effects!(run, outcome['effects'])
+
     {
       station: station_id,
       station_label: Stations.label(station_id),
       cultist: cultist_id,
       cultist_label: Cultists.label(cultist_id),
       primary: primary,
-      secondary: secondary
+      secondary: secondary,
+      narrative: outcome['text'],
+      effects: outcome['effects'] || {}
     }
   end
 
