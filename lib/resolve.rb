@@ -3,10 +3,6 @@ require 'lib/stations'
 require 'lib/resolve_outcomes'
 
 module Resolve
-  def self.default_meters
-    Cultists::METER_KEYS.map { |x| [x, 0] }.to_h
-  end
-
   def self.valid_assignments?(assignments)
     return false unless assignments
     return false unless assignments.keys.sort == Stations::IDS.sort
