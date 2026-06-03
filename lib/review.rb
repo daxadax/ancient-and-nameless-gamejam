@@ -69,7 +69,7 @@ module Review
     if stars <= 2
       METER_LOW.fetch(worst)
     elsif stars >= 4
-      METER_HIGH.fetch(best).capitalize
+      METER_HIGH.fetch(best).split('. ').map(&:capitalize).join('. ')
     else
       "#{METER_LOW.fetch(worst)} - on the upside #{METER_HIGH.fetch(best)} "
     end

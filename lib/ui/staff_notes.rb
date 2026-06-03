@@ -96,7 +96,7 @@ module UI
         mod = stats[meter]
         sign = mod.negative? ? '-' : '+'
 
-        { text: "#{meter} #{sign}#{mod.abs}", bad: mod.positive? }
+        { text: "#{meter} #{sign}#{mod.abs}", bad: mod.negative? }
       end
     end
   end
