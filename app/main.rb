@@ -6,7 +6,7 @@ require 'app/scenes/review'
 
 # TODO: more / different images
 # TODO: can't pick the same occultist twice for the same position?
-# TODO: in assign mode, the image should shift to portraits with character strengths
+# TODO: resolve / consider secondary station attributes
 
 module Main
   SCENES = {
