@@ -57,11 +57,11 @@ module Run
     Cultists::METER_KEYS.to_h { |meter| [meter, run.meters.send(meter).to_i] }
   end
 
-  def self.default_meters
-    @default_meters ||= Cultists::METER_KEYS.map { |x| [x, 0] }.to_h
-  end
-
   def self.last_day?(run)
     run.day >= run.max_days
+  end
+
+  def self.default_meters
+    @default_meters ||= Cultists::METER_KEYS.map { |x| [x, 0] }.to_h
   end
 end

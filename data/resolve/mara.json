@@ -19,7 +19,7 @@
   "kitchen": [
     {
       "result": "<=3",
-      "text": "Mara served something that was correct occult cuisine and incorrect brunch. The presentation was flawless; the eggs were a a nightmare.",
+      "text": "Mara served something that was correct occult cuisine and incorrect brunch. The presentation was flawless; the eggs were a nightmare.",
       "effects": { "kitchen_incident": true }
     },
     {
