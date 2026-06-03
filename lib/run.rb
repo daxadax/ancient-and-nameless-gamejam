@@ -14,7 +14,6 @@ module Run
       flags: {}
     }
     capture_day_meter_baseline!(args.state.run)
-    args.state.next_scene = nil
   end
 
   def self.active?(args)

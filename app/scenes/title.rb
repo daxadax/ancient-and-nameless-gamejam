@@ -1,5 +1,4 @@
 require 'lib/draw'
-require 'lib/run'
 require 'lib/crystal_glow'
 
 module Scenes
@@ -24,8 +23,7 @@ module Scenes
 
       return unless start
 
-      Run.start!(args)
-      args.state.next_scene = :compound
+      args.state.next_scene = :intro
     end
 
     def render

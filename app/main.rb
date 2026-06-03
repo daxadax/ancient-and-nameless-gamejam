@@ -1,5 +1,7 @@
 require 'lib/run'
+require 'lib/intro'
 require 'app/scenes/title'
+require 'app/scenes/intro'
 require 'app/scenes/compound'
 require 'app/scenes/ritual_space'
 require 'app/scenes/review'
@@ -11,6 +13,7 @@ require 'app/scenes/review'
 module Main
   SCENES = {
     title: Scenes::Title.new,
+    intro: Scenes::Intro.new,
     compound: Scenes::Compound.new,
     ritual_space: Scenes::RitualSpace.new,
     review: Scenes::Review.new
@@ -26,18 +29,21 @@ module Main
   end
 
   def apply_scene_transition!(args)
-    return unless args.state.next_scene
+    target = args.state.next_scene
+    return unless target
 
-    prepare_scene!(args, args.state.next_scene)
-    args.state.scene = args.state.next_scene
+    prepare_scene!(args, target)
+    args.state.scene = target
     args.state.next_scene = nil
   end
 
   def prepare_scene!(args, scene)
-    return unless scene == :compound
-    return if Run.active?(args)
-
-    Run.start!(args)
+    case scene
+    when :intro
+      Intro.reset!(args)
+    when :compound
+      Run.start!(args) unless Run.active?(args)
+    end
   end
 
   def set_bg_music(args)
