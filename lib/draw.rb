@@ -73,4 +73,24 @@ module Draw
 
     draw_title(args, params)
   end
+
+  def wrap_text(text, max_chars)
+    words = text.to_s.split
+    lines = []
+    line = ''
+
+    words.each do |word|
+      if line.empty?
+        line = word
+      elsif line.length + 1 + word.length <= max_chars
+        line = "#{line} #{word}"
+      else
+        lines << line
+        line = word
+      end
+    end
+
+    lines << line unless line.empty?
+    lines
+  end
 end

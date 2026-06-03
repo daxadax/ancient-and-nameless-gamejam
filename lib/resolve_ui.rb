@@ -81,24 +81,4 @@ module ResolveUI
     mod_str = line[:mod].negative? ? line[:mod].to_s : "+#{line[:mod]}"
     "#{line[:meter].capitalize} d#{line[:die]}: #{line[:roll]}#{mod_str} = #{line[:total]}"
   end
-
-  def wrap_text(text, max_chars)
-    words = text.to_s.split
-    lines = []
-    line = ''
-
-    words.each do |word|
-      if line.empty?
-        line = word
-      elsif line.length + 1 + word.length <= max_chars
-        line = "#{line} #{word}"
-      else
-        lines << line
-        line = word
-      end
-    end
-
-    lines << line unless line.empty?
-    lines
-  end
 end
