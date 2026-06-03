@@ -26,8 +26,8 @@ module Scenes
 
     def handle_input
       run = args.state.run
-      handle_assign_input(run)
-      handle_resolve_input(run)
+      just_confirmed = handle_assign_input(run)
+      handle_resolve_input(run, skip_continue: just_confirmed)
       handle_hub_input
     end
 

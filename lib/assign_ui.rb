@@ -18,11 +18,13 @@ module AssignUI
   CONFIRM_BUTTON = { x: 245, y: 80 }
 
   def handle_assign_input(run)
-    return unless assign_mode?
+    return false unless assign_mode?
 
     station_id, cultist_id = fetch_selection
     Assignment.pick!(run, station_id, cultist_id) if station_id
-    Assignment.confirm!(run) if clicked_button?(args, CONFIRM_BUTTON)
+    return true if clicked_button?(args, CONFIRM_BUTTON) && Assignment.confirm!(run)
+
+    false
   end
 
   def render_assign_ui(run)

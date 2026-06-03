@@ -10,16 +10,9 @@ module ResolveUI
   LABEL_X = 40
   CONTINUE_BUTTON = { x: 245, y: 80 }
 
-  # TODO: just write the full thing
-  METER_LABELS = {
-    vibes: 'Vibes',
-    food: 'Food',
-    cleanliness: 'Clean',
-    authenticity: 'Auth'
-  }.freeze
-
-  def handle_resolve_input(run)
+  def handle_resolve_input(run, skip_continue: false)
     return unless resolve_mode?
+    return if skip_continue
 
     run.phase = :hub if clicked_button?(args, CONTINUE_BUTTON)
   end
@@ -75,7 +68,6 @@ module ResolveUI
 
   def format_roll(line)
     mod_str = line[:mod].negative? ? line[:mod].to_s : "+#{line[:mod]}"
-    label = METER_LABELS.fetch(line[:meter])
-    "#{label} d#{line[:die]}: #{line[:roll]}#{mod_str} = #{line[:total]}"
+    "#{line[:meter].capitalize} d#{line[:die]}: #{line[:roll]}#{mod_str} = #{line[:total]}"
   end
 end
