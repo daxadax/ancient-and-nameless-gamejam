@@ -1,3 +1,5 @@
+require 'lib/campaign'
+
 module Intro
   DATA_FILE = 'data/intro/beats.json'.freeze
 
@@ -7,6 +9,11 @@ module Intro
 
   def self.reset!(args)
     args.state.intro = { step: 0 }
+  end
+
+  def self.complete!(args)
+    Campaign.mark_intro_seen!(args)
+    args.state.next_scene = :compound
   end
 
   def self.active?(args)

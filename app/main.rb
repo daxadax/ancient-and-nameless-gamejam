@@ -1,3 +1,4 @@
+require 'lib/campaign'
 require 'lib/run'
 require 'lib/intro'
 require 'app/scenes/title'
@@ -22,6 +23,7 @@ module Main
   def tick(args)
     # set_bg_music(args) if Kernel.tick_count == 1
 
+    Campaign.resume!(args)
     args.state.scene ||= :title
 
     SCENES.fetch(args.state.scene).tick(args)

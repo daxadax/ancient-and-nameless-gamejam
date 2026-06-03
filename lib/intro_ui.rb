@@ -1,6 +1,7 @@
 require 'lib/draw'
 require 'lib/buttons'
 require 'lib/intro'
+require 'lib/campaign'
 
 module IntroUI
   include Draw
@@ -15,9 +16,7 @@ module IntroUI
     return unless continue_pressed?(args)
     return unless Intro.active?(args)
 
-    if Intro.advance!(args) == :done
-      args.state.next_scene = :compound
-    end
+    Intro.complete!(args) if Intro.advance!(args) == :done
   end
 
   def render_intro_ui(args)

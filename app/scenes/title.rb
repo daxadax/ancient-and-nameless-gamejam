@@ -1,3 +1,4 @@
+require 'lib/campaign'
 require 'lib/draw'
 require 'lib/crystal_glow'
 
@@ -23,7 +24,7 @@ module Scenes
 
       return unless start
 
-      args.state.next_scene = :intro
+      args.state.next_scene = Campaign.entry_scene(args)
     end
 
     def render
