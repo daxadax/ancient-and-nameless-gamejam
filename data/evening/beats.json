@@ -1,0 +1,77 @@
+[
+  {
+    "id": "guest_disturbed",
+    "requires": { "flags_all": ["guest_disturbed"] },
+    "text": "Dinner starts late because a guest is still composing a formal complaint in the library. Everyone else pretends not to hear them practicing it."
+  },
+  {
+    "id": "kitchen_incident",
+    "requires": { "flags_all": ["kitchen_incident"] },
+    "text": "Smoke from the kitchen sets off the antique bell system. Weirdly, the guests love this."
+  },
+  {
+    "id": "filmed_ritual",
+    "requires": { "flags_all": ["filmed_ritual"] },
+    "text": "Someone posted a clip labeled 'authentic occult retreat.' Mara is on the verge of kicking them out. Jules says it is free marketing."
+  },
+  {
+    "id": "authenticity_too_real",
+    "requires": { "flags_all": ["authenticity_too_real"] },
+    "text": "The ritual today was a little *too* real. Guests are spooked and deeply questioning everything."
+  },
+  {
+    "id": "property_damage",
+    "requires": { "flags_all": ["property_damage"] },
+    "text": "There were some mishaps today and while there weren't any serious injuries, certain objects didn't survive. One guest is still being talked down from filing a police report."
+  },
+  {
+    "id": "guest_delighted",
+    "requires": { "flags_all": ["guest_delighted"] },
+    "text": "Word spreads through the guest wing that today was deeply weird - everyone is thrilled."
+  },
+  {
+    "id": "strong_vibes",
+    "requires": { "meter_delta": { "vibes": ">=8" } },
+    "text": "The common room is loud in a good way. Guests are making friends and plans with each other."
+  },
+  {
+    "id": "weak_vibes",
+    "requires": { "meter_delta": { "vibes": "<=2" } },
+    "text": "The evening is polite and brittle. Guests say goodnight like they are leaving a museum where they touched something they should not have."
+  },
+  {
+    "id": "strong_food",
+    "requires": { "meter_delta": { "food": ">=8" } },
+    "text": "People are still talking about brunch at supper. Dmitros accepts the praise and beams."
+  },
+  {
+    "id": "weak_food",
+    "requires": { "meter_delta": { "food": "<=2" } },
+    "text": "Room service notes mention 'traumatic eggs.' The guests eat crackers in their rooms and call it fasting."
+  },
+  {
+    "id": "strong_clean",
+    "requires": { "meter_delta": { "cleanliness": ">=8" } },
+    "text": "The halls smell like soap with a tinge of ozone. A guest asks who your housekeeper is. You simply spread your hands in front of you and smile."
+  },
+  {
+    "id": "weak_clean",
+    "requires": { "meter_delta": { "cleanliness": "<=2" } },
+    "text": "A guest finds glitter in the bath. Another finds glitter in the bread basket. It is the same glitter."
+  },
+  {
+    "id": "strong_auth",
+    "requires": { "meter_delta": { "authenticity": ">=8" } },
+    "text": "Someone whispers that this place might actually be real. You take the opportunity to charge extra for candles."
+  },
+  {
+    "id": "weak_auth",
+    "requires": { "meter_delta": { "authenticity": "<=2" } },
+    "text": "The guests compare notes and decide the occult branding is 'more Etsy than abyss.' Jules looks personally wounded."
+  },
+  {
+    "id": "balanced_day",
+    "requires": { "default": true },
+    "text": "No disasters, no miracles. Things settle into that specific quiet where everyone wonders if they are relaxed or afraid."
+  }
+]

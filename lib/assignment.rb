@@ -1,4 +1,5 @@
 require 'lib/resolve'
+require 'lib/run'
 require 'lib/stations'
 
 module Assignment
@@ -20,6 +21,7 @@ module Assignment
   def self.confirm!(run)
     return false unless Resolve.valid_assignments?(run.assignments)
 
+    Run.capture_day_meter_baseline!(run)
     Resolve.run!(run)
     run.phase = :resolve
     true

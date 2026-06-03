@@ -1,5 +1,4 @@
 require 'lib/cultists'
-require 'lib/resolve'
 
 module Run
   MAX_DAYS = 3
@@ -9,10 +8,12 @@ module Run
       day: 1,
       max_days: MAX_DAYS,
       phase: :assign,
-      meters: Resolve.default_meters,
+      meters: default_meters,
       assignments: {},
-      last_resolve: nil
+      last_resolve: nil,
+      flags: {}
     }
+    capture_day_meter_baseline!(args.state.run)
     args.state.next_scene = nil
   end
 
@@ -42,16 +43,26 @@ module Run
   end
 
   def self.reset_daily!(run)
+    capture_day_meter_baseline!(run)
     run.assignments = {}
     run.last_resolve = nil
+    run.flags = {}
     run.phase = :assign
   end
 
-  def self.last_day?(run)
-    run.day >= run.max_days
+  def self.capture_day_meter_baseline!(run)
+    run.meters_at_day_start = meter_snapshot(run)
+  end
+
+  def self.meter_snapshot(run)
+    Cultists::METER_KEYS.to_h { |meter| [meter, run.meters.send(meter).to_i] }
   end
 
   def self.default_meters
     @default_meters ||= Cultists::METER_KEYS.map { |x| [x, 0] }.to_h
+  end
+
+  def self.last_day?(run)
+    run.day >= run.max_days
   end
 end
