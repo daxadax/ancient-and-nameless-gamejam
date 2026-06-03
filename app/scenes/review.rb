@@ -35,11 +35,11 @@ module Scenes
       )
       draw_title(
         args,
-        { x: 640, y: 420, text: "\"#{review[:headline]}\"", size_px: 24, color: RGB_INK }
+        { x: 640, y: 420, text: review[:headline], size_px: 24, color: RGB_INK }
       )
       draw_title(
         args,
-        { x: 640, y: 350, text: review[:body], size_px: 20, color: RGB_BODY }
+        { x: 640, y: 380, text: review[:body], size_px: 24, color: RGB_INK }
       )
       draw_title(
         args,

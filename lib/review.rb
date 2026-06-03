@@ -1,12 +1,7 @@
-module Review
-  METER_KEYS = [:vibes, :food, :cleanliness, :authenticity].freeze
+require 'lib/cultists'
 
-  METER_LABELS = {
-    vibes: 'Vibes',
-    food: 'Food',
-    cleanliness: 'Cleanliness',
-    authenticity: 'Authenticity'
-  }.freeze
+module Review
+  METER_KEYS = Cultists::METER_KEYS
 
   HEADLINES = {
     1 => 'Would not recommend to my ex. Or anyone.',
@@ -77,7 +72,7 @@ module Review
 
   def self.meter_summary(meters)
     METER_KEYS.map do |key|
-      "#{METER_LABELS.fetch(key)} #{meter_value(meters, key)}"
+      "#{key.to_s.capitalize} #{meter_value(meters, key)}"
     end.join('  ')
   end
 
@@ -86,11 +81,8 @@ module Review
   end
 
   def self.meter_value(meters, key)
-    case key
-    when :vibes then meters.vibes
-    when :food then meters.food
-    when :cleanliness then meters.cleanliness
-    when :authenticity then meters.authenticity
-    end
+    raise ArgumentError, "Can't find #{key} in #{METER_KEYS}" unless METER_KEYS.include?(key)
+
+    meters.send(key)
   end
 end

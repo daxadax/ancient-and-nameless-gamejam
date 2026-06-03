@@ -3,12 +3,7 @@ require 'lib/stations'
 
 module Resolve
   def self.default_meters
-    {
-      vibes: 0,
-      food: 0,
-      cleanliness: 0,
-      authenticity: 0
-    }
+    Cultists::METER_KEYS.map { |x| [x, 0] }.to_h
   end
 
   def self.valid_assignments?(assignments)
