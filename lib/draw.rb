@@ -75,7 +75,13 @@ module Draw
   end
 
   def wrap_text(text, max_chars)
-    words = text.to_s.split
+    text.to_s.split("\n", -1).flat_map do |paragraph|
+      paragraph.strip.empty? ? [''] : wrap_paragraph(paragraph, max_chars)
+    end
+  end
+
+  def wrap_paragraph(text, max_chars)
+    words = text.split
     lines = []
     line = ''
 
