@@ -3,6 +3,12 @@ module Cultists
   METER_KEYS = [:vibes, :food, :cleanliness, :authenticity].freeze
 
   ALL = {
+    mara: {
+      vibes: -2,
+      food: 1,
+      cleanliness: 2,
+      authenticity: 3
+    },
     aldous: {
       vibes: 2,
       food: -3,
@@ -20,12 +26,6 @@ module Cultists
       food: 2,
       cleanliness: -2,
       authenticity: 0
-    },
-    mara: {
-      vibes: -2,
-      food: 1,
-      cleanliness: 2,
-      authenticity: 3
     }
   }.freeze
 
