@@ -5,6 +5,10 @@ module Campaign
 
   def self.resume!(args)
     args.state.campaign ||= default_state
+
+    default_state.each do |key, value|
+      args.state.campaign[key] = value unless args.state.campaign.key?(key)
+    end
   end
 
   def self.default_state
@@ -22,6 +26,6 @@ module Campaign
   end
 
   def self.entry_scene(args)
-    intro_seen?(args) ? :compound : :intro
+    intro_seen?(args) ? :crew_select : :intro
   end
 end

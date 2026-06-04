@@ -3,6 +3,7 @@ require 'lib/run'
 require 'lib/intro'
 require 'app/scenes/title'
 require 'app/scenes/intro'
+require 'app/scenes/crew_select'
 require 'app/scenes/compound'
 require 'app/scenes/ritual_space'
 require 'app/scenes/review'
@@ -10,11 +11,13 @@ require 'app/scenes/review'
 # TODO: more / different images
 # TODO: can't pick the same occultist twice for the same position?
 # TODO: resolve / consider secondary station attributes
+# TODO: UI as a journal / notebook?
 
 module Main
   SCENES = {
     title: Scenes::Title.new,
     intro: Scenes::Intro.new,
+    crew_select: Scenes::CrewSelect.new,
     compound: Scenes::Compound.new,
     ritual_space: Scenes::RitualSpace.new,
     review: Scenes::Review.new
@@ -43,6 +46,8 @@ module Main
     case scene
     when :intro
       Intro.reset!(args)
+    when :crew_select
+      CrewSelect.reset!(args)
     when :compound
       Run.start!(args) unless Run.active?(args)
     end

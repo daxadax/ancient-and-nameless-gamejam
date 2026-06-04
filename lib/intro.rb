@@ -13,7 +13,7 @@ module Intro
 
   def self.complete!(args)
     Campaign.mark_intro_seen!(args)
-    args.state.next_scene = :compound
+    args.state.next_scene = :crew_select
   end
 
   def self.active?(args)
