@@ -1,4 +1,5 @@
 require 'lib/cultists'
+require 'lib/crew_rolls'
 
 module Review
   METER_KEYS = Cultists::METER_KEYS
@@ -25,6 +26,20 @@ module Review
     authenticity: 'Not sure this counts as occult, it felt more like community theater.'
   }.freeze
 
+  CREW_HIGH = {
+    aldous: 'Aldous was on fire all weekend, we\'re all still quoting him.',
+    jules: 'Jules reminds me of the weird girl from The Breakfast Club',
+    dmitros: 'Dmitros is amazing and soooo mysterious.',
+    mara: 'Mara is legit AF. She knew things about me I\'ve never told anyone.'
+  }.freeze
+
+  CREW_LOW = {
+    aldous: 'Aldous is kind of an idiot and idk how no one was injured.',
+    jules: 'Jules is like a facebook mom\'s group come to life and that\'s as bad as it sounds',
+    dmitros: 'Dmitros is trying too hard and it makes the whole thing feel cringe.',
+    mara: 'Mara\'s straight up creepy.'
+  }.freeze
+
   def self.build(run)
     meters = run.meters
     stars = star_count(meters)
@@ -34,18 +49,21 @@ module Review
       star_line: star_line(stars),
       headline: HEADLINES.fetch(stars),
       body: body_for(meters, stars),
+      crew_high: crew_high_line(run),
+      crew_low: crew_low_line(run),
       meter_text: meter_summary(meters)
     }
   end
 
   def self.star_count(meters)
-    average = METER_KEYS.sum { |key| meter_value(meters, key) } / METER_KEYS.length.to_f
+    # current max (without buffs) is 256
+    total = METER_KEYS.sum { |key| meter_value(meters, key) }
 
     # NOTE: thresholds are a first pass for three-day playtests from zero meters.
-    return 1 if average < 8
-    return 2 if average < 18
-    return 3 if average < 28
-    return 4 if average < 40
+    return 1 if total < 60
+    return 2 if total < 120
+    return 3 if total < 180
+    return 4 if total < 240
 
     5
   end
@@ -84,5 +102,19 @@ module Review
     raise ArgumentError, "Can't find #{key} in #{METER_KEYS}" unless METER_KEYS.include?(key)
 
     meters.send(key)
+  end
+
+  def self.crew_high_line(run)
+    return nil unless CrewRolls.callout?(run)
+
+    summary = CrewRolls.summary(run)
+    CREW_HIGH.fetch(summary[:best_id])
+  end
+
+  def self.crew_low_line(run)
+    return nil unless CrewRolls.callout?(run)
+
+    summary = CrewRolls.summary(run)
+    CREW_LOW.fetch(summary[:worst_id])
   end
 end

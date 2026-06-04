@@ -1,4 +1,5 @@
 require 'lib/cultists'
+require 'lib/crew_rolls'
 
 module Run
   MAX_DAYS = 3
@@ -11,7 +12,8 @@ module Run
       meters: default_meters,
       assignments: {},
       last_resolve: nil,
-      flags: {}
+      flags: {},
+      crew_rolls: CrewRolls.default_stats
     }
     capture_day_meter_baseline!(args.state.run)
   end

@@ -1,6 +1,7 @@
 require 'lib/cultists'
 require 'lib/stations'
 require 'lib/resolve_outcomes'
+require 'lib/crew_rolls'
 
 module Resolve
   def self.valid_assignments?(assignments)
@@ -35,6 +36,7 @@ module Resolve
 
     add_meter!(run, primary[:meter], primary[:total])
     add_meter!(run, secondary[:meter], secondary[:total])
+    CrewRolls.record!(run, cultist_id, primary[:total])
 
     outcome = ResolveOutcomes.pick(cultist_id, station_id, primary[:total])
     ResolveOutcomes.apply_effects!(run, outcome['effects'])
