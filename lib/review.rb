@@ -12,16 +12,16 @@ module Review
   }.freeze
 
   METER_HIGH = {
-    vibes: 'Aldous is a riot. He\'s worth the price of admission alone.',
+    vibes: 'I felt like I was in a farcical British sitcom and I loved that.',
     food: 'the food was better than any of the hipster brunch places.',
     cleanliness: 'the place is spotless. Suspiciously spotless.',
     authenticity: 'it\s very authentic. Uncomfortably so, in fact.'
   }.freeze
 
   METER_LOW = {
-    vibes: 'Something about the tour felt off. Actually the whole thing did',
+    vibes: 'Something about the tour felt off. Actually the experience did',
     food: 'Instead of breakfast I got a vision board crafting session',
-    cleanliness: 'There was blood on the carpet...Not a lot, but enough',
+    cleanliness: 'There was blood on the carpet...not a lot, but enough',
     authenticity: 'Not sure this counts as occult, it felt more like community theater.'
   }.freeze
 
