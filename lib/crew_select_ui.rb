@@ -4,19 +4,19 @@ require 'lib/buttons'
 require 'lib/crew_roster'
 require 'lib/crew_select'
 require 'lib/campaign'
-require 'lib/ui/staff_notes'
+require 'lib/ui/left_side_bar'
+require 'lib/ui/stat_block'
 
 module CrewSelectUI
   include Draw
   include Buttons
-  include UI::StaffNotes
+  include UI::LeftSideBar
+  include UI::StatBlock
 
-  DETAIL_PANEL = { x: 33, y: 33, w: 756, h: 656 }.freeze
-  DETAIL_TEXT_X = 57
+  PANEL = { x: 183, y: 33, w: 756, h: 656 }.freeze
+  DETAIL_TEXT_X = 207
   DETAIL_TEXT_WIDTH = 90
-  PORTRAIT_W = 118
-  PORTRAIT_H = 108
-  READY_BUTTON = { x: 245, y: 80 }
+  READY_BUTTON = { x: (PANEL[:w] + (PANEL[:x]/2)) / 2, y: 80 }
 
   def handle_crew_select_input(args)
     handle_focus_input(args)
@@ -31,11 +31,7 @@ module CrewSelectUI
     # can this be standarized?
     render_detail_panel(focused_id)
 
-    # this should be on the left side of the detail panel
-    # and take up the same amount of vert. space
-    CrewRoster.ids.each_with_index do |id, index|
-      render_crew_slot(id, index)
-    end
+    render_crew_select_slots(PANEL)
 
     draw_button(args, label: 'READY', area: READY_BUTTON)
   end
@@ -46,36 +42,27 @@ module CrewSelectUI
     ids = CrewRoster.ids
     return if ids.empty?
 
+    # keyboard input
     CrewSelect.move_focus!(args, -1) if args.inputs.keyboard.key_down.up
     CrewSelect.move_focus!(args, 1) if args.inputs.keyboard.key_down.down
 
+    # mouse input
     ids.each_with_index do |_id, index|
-      CrewSelect.select_focus!(args, index) if clicked_slot?(args, index)
+      rect = side_bar_rect(PANEL, index)
+      CrewSelect.select_focus!(args, index) if clicked_button?(args, rect, size: rect)
     end
   end
 
-  def clicked_slot?(args, index)
-    rect = crew_slot_rect(index)
-    clicked_button?(args, rect, size: { w: rect[:w], h: rect[:h] })
-  end
-
-  def crew_slot_rect(index)
-    x = NOTE_X + (index % 2) * 7
-    slots_from_bottom = CrewRoster.ids.length - 1 - index
-    y = 24 + slots_from_bottom * (NOTE_H + NOTE_GAP)
-
-    { x: x, y: y, w: NOTE_W, h: NOTE_H }
-  end
 
   def render_detail_panel(id)
     entry = CrewRoster.entry(id)
     return unless entry
 
-    draw_wood_panel(args, DETAIL_PANEL)
+    draw_wood_panel(args, PANEL)
 
     draw_label(
       args,
-      { x: DETAIL_TEXT_X, y: DETAIL_PANEL[:y] + DETAIL_PANEL[:h] - 42, text: 'MEET THE CREW', size_px: 26 },
+      { x: DETAIL_TEXT_X, y: PANEL[:y] + PANEL[:h] - 42, text: 'MEET THE CREW', size_px: 26 },
       color: RGB_CREAM
     )
 
@@ -83,7 +70,7 @@ module CrewSelectUI
       args,
       {
         x: DETAIL_TEXT_X,
-        y: DETAIL_PANEL[:y] + DETAIL_PANEL[:h] - 68,
+        y: PANEL[:y] + PANEL[:h] - 68,
         text: 'All four are on duty. Select a portrait to read their file.',
         size_px: 16
       },
@@ -92,109 +79,50 @@ module CrewSelectUI
 
     note_rect = {
       x: DETAIL_TEXT_X,
-      y: DETAIL_PANEL[:y] + 24,
-      w: DETAIL_PANEL[:w] - (DETAIL_TEXT_X - DETAIL_PANEL[:x]) - 24,
-      h: DETAIL_PANEL[:h] - 124
+      y: PANEL[:y] + 24,
+      w: PANEL[:w] - (DETAIL_TEXT_X - PANEL[:x]) - 24,
+      h: PANEL[:h] - 124
     }
 
     draw_note_paper(note_rect, assigned: false)
     draw_detail_copy(note_rect, id, entry)
   end
 
-  def draw_detail_copy(rect, id, entry)
+  def draw_detail_copy(rect, name, entry)
     text_x = rect[:x] + NOTE_GAP * 2
     top_y = rect[:y] + rect[:h] - NOTE_GAP * 3
     portrait_rect = {
-      x: rect[:x] + rect[:w] - PORTRAIT_W - NOTE_GAP * 2,
-      y: rect[:y] + rect[:h] - PORTRAIT_H - NOTE_GAP * 2,
-      w: PORTRAIT_W,
-      h: PORTRAIT_H
+      x: rect[:x] + rect[:w] - CREW_SLOT_PORTRAIT_W - NOTE_GAP * 2,
+      y: rect[:y] + rect[:h] - CREW_SLOT_PORTRAIT_H - NOTE_GAP * 2,
+      w: CREW_SLOT_PORTRAIT_W,
+      h: CREW_SLOT_PORTRAIT_H
     }
 
-    draw_crew_portrait(args, id, portrait_rect)
+    draw_crew_portrait(args, name, portrait_rect)
 
     draw_title(
       args,
-      { x: text_x, y: top_y, text: Cultists.label(id), size_px: 28, color: NOTE_INK, anchor_x: 0 }
+      { x: text_x, y: top_y, text: Cultists.label(name), size_px: 28, color: RGB_INK, anchor_x: 0 }
     )
 
     draw_label(
       args,
       { x: text_x, y: top_y - 28, text: entry['tagline'], size_px: 18 },
-      color: NOTE_INK
+      color: RGB_INK
     )
 
-    stat_lines(id).each_with_index do |line, index|
-      draw_label(
-        args,
-        {
-          x: text_x + 4,
-          y: top_y - 56 - (index * 20),
-          text: line[:text],
-          size_px: 16
-        },
-        color: line[:bad] ? NOTE_BAD : NOTE_GOOD
-      )
-    end
+    draw_stat_block(name, text_x, top_y)
 
-    y = top_y - 56 - (stat_lines(id).length * 20) - 12
+    y = top_y - 170
     wrap_text(entry['bio'], DETAIL_TEXT_WIDTH).each do |line|
       draw_label(
         args,
         { x: text_x, y: y, text: line, size_px: 16 },
-        color: NOTE_INK
+        color: RGB_INK
       )
       y -= 18
     end
   end
-
-  def render_crew_slot(id, index)
-    rect = crew_slot_rect(index)
-    focused = CrewSelect.focus_index(args) == index
-
-    draw_note_paper(rect, assigned: !focused)
-    draw_slot_portrait(id, rect, focused: focused)
-  end
-
-  def draw_slot_portrait(id, rect, focused: false)
-    portrait_rect = {
-      x: rect[:x] + (rect[:w] - PORTRAIT_W) / 2,
-      y: rect[:y] + 22,
-      w: PORTRAIT_W,
-      h: PORTRAIT_H
-    }
-
-    bob = focused ? (Math.sin(args.state.tick_count * 0.12) * 6).to_i : 0
-    draw_crew_portrait(args, id, portrait_rect, bob: bob)
-    draw_focus_frame(portrait_rect, bob) if focused
-  end
-
-  def draw_crew_portrait(args, id, rect, bob: 0)
-    shifted = rect.merge(y: rect[:y] + bob)
-    tint = CrewRoster::PLACEHOLDER_COLORS.fetch(id)
-
-    args.outputs.primitives << shifted.merge(tint).merge(a: 220, primitive_marker: :solid)
-
-    draw_title(
-      args,
-      {
-        x: shifted[:x] + shifted[:w] / 2,
-        y: shifted[:y] + shifted[:h] / 2,
-        text: Cultists.label(id)[0],
-        size_px: 64,
-        color: RGB_CREAM
-      }
-    )
-  end
-
-  def draw_focus_frame(rect, bob)
-    frame = {
-      x: rect[:x] - 3,
-      y: rect[:y] + bob - 3,
-      w: rect[:w] + 6,
-      h: rect[:h] + 6
-    }
-
-    args.outputs.borders << frame.merge(RGB_GOLD).merge(a: 220)
-  end
 end
+
+

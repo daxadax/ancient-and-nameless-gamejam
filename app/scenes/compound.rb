@@ -34,12 +34,6 @@ module Scenes
     def render
       run = args.state.run
 
-      draw_label(
-        args,
-        { x: 25, y: 625, text: 'Culty Towers'.upcase, size_px: 86, a: 150 },
-        color: RGB_INK
-      )
-
       draw_hud(run)
 
       if assign_mode?

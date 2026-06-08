@@ -2,20 +2,20 @@ require 'lib/draw'
 require 'lib/stations'
 require 'lib/cultists'
 require 'lib/assignment'
-require 'lib/ui/staff_notes'
+require 'lib/ui/left_side_bar'
 
 module AssignUI
   include Draw
-  include UI::StaffNotes
+  include UI::LeftSideBar
 
-  PANEL = { x: 25, y: 50, w: 720, h: 500 }.freeze
+  PANEL = { x: 183, y: 33, w: 756, h: 656 }.freeze
   ROW_HEIGHT = 90
-  STATION_LABEL_X = 40
-  CULTIST_BTN_X = 185
+  STATION_LABEL_X = 207
+  CULTIST_BTN_X = 352
   CULTIST_BTN_W = 120
   CULTIST_BTN_H = 34
   CULTIST_BTN_GAP = 12
-  CONFIRM_BUTTON = { x: 245, y: 80 }
+  CONFIRM_BUTTON = { x: (PANEL[:w] + (PANEL[:x]/2)) / 2, y: 80 }
 
   def handle_assign_input(run)
     return false unless assign_mode?
@@ -52,7 +52,7 @@ module AssignUI
     end
 
     draw_confirm_btn(run)
-    render_staff_notes(run)
+    render_staff_notes(run, PANEL)
   end
 
   def assign_mode?
