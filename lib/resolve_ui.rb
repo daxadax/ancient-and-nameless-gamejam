@@ -6,9 +6,10 @@ module ResolveUI
   include Draw
   include Buttons
 
-  PANEL = { x: 25, y: 50, w: 1230, h: 500 }.freeze
+  PANEL = { x: 25, y: 50, w: FULL_WIDTH * 0.7 - 25, h: FULL_HEIGHT - 100 }.freeze
   LABEL_X = 40
-  CONTINUE_BUTTON = { x: 975, y: 80 }
+  TEXT_WIDTH = 100
+  CONTINUE_BUTTON = { x: 620, y: 80 }
 
   def handle_resolve_input(run, skip_continue: false)
     return unless resolve_mode?
@@ -61,7 +62,7 @@ module ResolveUI
     )
 
     y = base_y - 44
-    wrap_text(result[:narrative], 120).each do |line|
+    wrap_text(result[:narrative], TEXT_WIDTH).each do |line|
       draw_label(
         args,
         { x: LABEL_X, y: y, text: line, size_px: 18 },

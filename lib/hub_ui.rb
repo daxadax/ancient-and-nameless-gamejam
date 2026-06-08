@@ -7,9 +7,10 @@ module HubUI
   include Draw
   include Buttons
 
-  END_DAY_BUTTON = { x: 975, y: 80 }
-  PANEL = { x: 25, y: 50, w: 1230, h: 500 }.freeze
+  PANEL = { x: 25, y: 50, w: FULL_WIDTH * 0.7 - 25, h: FULL_HEIGHT - 100 }.freeze
   LABEL_X = 40
+  TEXT_WIDTH = 100
+  END_DAY_BUTTON = { x: 620, y: 80 }
 
   def handle_hub_input
     return unless hub_mode?
@@ -60,7 +61,7 @@ module HubUI
   def render_evening_beat(beat, top_y)
     y = top_y
 
-    wrap_text(beat['text'], 120).each do |line|
+    wrap_text(beat['text'], TEXT_WIDTH).each do |line|
       draw_label(
         args,
         { x: LABEL_X, y: y, text: line, size_px: 18 },

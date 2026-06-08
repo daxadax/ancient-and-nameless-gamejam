@@ -7,7 +7,7 @@ module IntroUI
   include Draw
   include Buttons
 
-  PANEL = { x: 25, y: 50, w: 875, h: 500 }.freeze
+  PANEL = { x: 25, y: 50, w: FULL_WIDTH * 0.7 - 25, h: FULL_HEIGHT - 100 }.freeze
   LABEL_X = 40
   TEXT_WIDTH = 100
   CONTINUE_BUTTON = { x: 620, y: 80 }
@@ -24,14 +24,25 @@ module IntroUI
     return unless beat
 
     draw_wood_panel(args, PANEL)
+    y = PANEL[:y] + PANEL[:h] - 45
 
-    draw_label(
+    draw_title(
       args,
-      { x: LABEL_X, y: PANEL[:y] + PANEL[:h] - 45, text: beat['title'].to_s.upcase, size_px: 26 },
-      color: RGB_CREAM
+      {
+        x: LABEL_X,
+        y: y,
+        text: beat['title'],
+        size_px: 26,
+        color: RGB_CREAM,
+        anchor_x: 0
+      },
     )
 
-    y = PANEL[:y] + PANEL[:h] - 88
+    y = y - 20
+
+    draw_line(args, { x: LABEL_X, x2: LABEL_X + TEXT_WIDTH * 3, y: y, y2: y }, color: RGB_CREAM)
+
+    y = PANEL[:y] + PANEL[:h] - 100
     wrap_text(beat['text'], TEXT_WIDTH).each do |line|
       draw_label(
         args,

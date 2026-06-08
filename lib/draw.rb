@@ -12,10 +12,12 @@ module Draw
   RGB_CRYSTAL     = { r: 155, g: 105, b: 195 }.freeze
   RGB_PINK        = { r: 176, g: 102, b: 158  }.freeze
 
-  RGB_BODY          = RGB_BROWN
-  RGB_MUTED         = RGB_LIGHT_BROWN
-  RGB_INK           = RGB_DARK_BROWN
-  RGB_PANEL_MUTED   = RGB_BEIGE
+  RGB_BODY        = RGB_BROWN
+  RGB_MUTED       = RGB_LIGHT_BROWN
+  RGB_INK         = RGB_DARK_BROWN
+  RGB_SUCCESS     = RGB_GOLD
+  RGB_FAILURE     = RGB_RED
+  RGB_PANEL_MUTED = RGB_BEIGE
 
   PANEL_FILL   = { r: 92,  g: 68,  b: 52  }.freeze
   BTN_DEFAULT  = { r: 118, g: 88,  b: 68  }.freeze
@@ -27,6 +29,10 @@ module Draw
   PANEL_ALPHA = 235
   ALPHA_READY = 220
   ALPHA_DISABLED = 150
+
+  # WIDTH / HEIGHT
+  FULL_WIDTH = 1280
+  FULL_HEIGHT = 720
 
   def draw_background_color(args, color = DEFAULT_BG)
     args.outputs.background_color = color
