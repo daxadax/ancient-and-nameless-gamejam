@@ -16,7 +16,7 @@ module Review
     vibes: 'I felt like I was in a farcical British sitcom and I loved that.',
     food: 'the food was better than any of the hipster brunch places.',
     cleanliness: 'the place is spotless. Suspiciously spotless.',
-    authenticity: 'it\s very authentic. Uncomfortably so, in fact.'
+    authenticity: 'it\'s very authentic. Uncomfortably so, in fact.'
   }.freeze
 
   METER_LOW = {
@@ -55,11 +55,15 @@ module Review
     }
   end
 
+  # TODO: reconfigure this based on star-rating / category and then ~avg
   def self.star_count(meters)
-    # current max (without buffs) is 256
+    # current total max (without buffs) is 256
+    # total possible vibes: 88
+    # total possible authenticity: 64
+    # total possible cleanliness: 64
+    # total possible food: 40
     total = METER_KEYS.sum { |key| meter_value(meters, key) }
 
-    # NOTE: thresholds are a first pass for three-day playtests from zero meters.
     return 1 if total < 60
     return 2 if total < 120
     return 3 if total < 180
