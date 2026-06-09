@@ -2,6 +2,7 @@ require 'lib/draw'
 require 'lib/stations'
 require 'lib/cultists'
 require 'lib/assignment'
+require 'lib/audio'
 require 'lib/ui/left_side_bar'
 
 module AssignUI
@@ -118,7 +119,10 @@ module AssignUI
 
     Stations::IDS.each_with_index do |station_id, row|
       Cultists::IDS.each_with_index do |cultist_id, col|
-        return [station_id, cultist_id] if args.inputs.mouse.inside_rect?(cultist_btn_rect(row, col))
+        next unless args.inputs.mouse.inside_rect?(cultist_btn_rect(row, col))
+
+        Audio.play_click!(args)
+        return [station_id, cultist_id]
       end
     end
 

@@ -3,7 +3,25 @@ require 'lib/campaign'
 module Audio
   MUSIC_KEY = :music
   MUSIC_PATH = 'sounds/headscratcher.ogg'
-  PREVIEW_SFX = '' # TODO
+  SAMPLE_RATE = 48_000
+  CLICK_FREQUENCY = 333
+  CLICK_DURATION_FRAMES = 8
+  # NOTE: this is probably too complicated to be worth it
+  # but makes some interesting possibilities to dynamically
+  # adapt SFX to game variables?
+  CLICK_WAVE = begin
+    total = (SAMPLE_RATE * CLICK_DURATION_FRAMES / 60.0).to_i
+    period = (SAMPLE_RATE / CLICK_FREQUENCY.to_f).round
+    attack_samples = (period * 0.25).to_i
+
+    total.map_with_index do |i|
+      release = 1.0 - (i / total.to_f)
+      attack = [i / [attack_samples, 1].max.to_f, 1.0].min
+      square = (i % period) < period / 2 ? 1.0 : -1.0
+      square * attack * release * 0.4
+    end
+  end.freeze
+
   STEP = 0.1
 
   def self.tick!(args)
@@ -43,8 +61,18 @@ module Audio
     }
   end
 
+  def self.play_click!(args)
+    gain = sfx_gain(args)
+    return if gain.zero?
+
+    args.audio["click_#{Kernel.tick_count}".to_sym] = {
+      input: [1, SAMPLE_RATE, CLICK_WAVE],
+      gain: gain / 2
+    }
+  end
+
   def self.preview_sfx!(args)
-    play_sfx!(args, PREVIEW_SFX)
+    play_click!(args)
   end
 
   def self.music_gain(args)

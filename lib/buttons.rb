@@ -1,4 +1,5 @@
 require 'lib/draw'
+require 'lib/audio'
 
 module Buttons
   include Draw
@@ -7,7 +8,9 @@ module Buttons
 
   def clicked_button?(args, area, size: DEFAULT_BTN_SIZE)
     mouse = args.inputs.mouse
-    mouse.up && mouse.inside_rect?(size.merge(area))
+    clicked = mouse.up && mouse.inside_rect?(size.merge(area))
+    Audio.play_click!(args) if clicked
+    clicked
   end
 
   def draw_button(args, label:, area:, options: {})
