@@ -38,9 +38,6 @@ module IntroUI
       }
     )
 
-    y = y - 20
-    draw_line(args, { x: LABEL_X, x2: LABEL_X + TEXT_WIDTH * 3, y: y, y2: y }, color: RGB_CREAM)
-
     y = PANEL[:y] + PANEL[:h] - 100
     wrap_text(beat['text'], TEXT_WIDTH).each do |line|
       draw_label(
