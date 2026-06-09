@@ -5,7 +5,6 @@ require 'app/scenes/title'
 require 'app/scenes/intro'
 require 'app/scenes/crew_select'
 require 'app/scenes/compound'
-require 'app/scenes/ritual_space'
 require 'app/scenes/review'
 
 # TODO: more / different images
@@ -20,7 +19,6 @@ module Main
     intro: Scenes::Intro.new,
     crew_select: Scenes::CrewSelect.new,
     compound: Scenes::Compound.new,
-    ritual_space: Scenes::RitualSpace.new,
     review: Scenes::Review.new
   }.freeze
 
