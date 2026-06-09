@@ -25,6 +25,8 @@ module Scenes
     attr_reader :args
 
     def handle_input
+      return if settings_open?(args)
+
       run = args.state.run
       just_confirmed = handle_assign_input(run)
       handle_resolve_input(run, skip_continue: just_confirmed)
@@ -32,9 +34,9 @@ module Scenes
     end
 
     def render
-      run = args.state.run
+      return if settings_open?(args)
 
-      draw_hud(run)
+      run = args.state.run
 
       if assign_mode?
         render_assign_ui(run)
@@ -43,6 +45,8 @@ module Scenes
       elsif hub_mode?
         render_hub_ui(run)
       end
+
+      draw_hud(run)
     end
   end
 end

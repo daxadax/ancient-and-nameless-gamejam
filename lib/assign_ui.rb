@@ -28,7 +28,7 @@ module AssignUI
   end
 
   def render_assign_ui(run)
-    draw_wood_panel(args, PANEL)
+    draw_panel(args, PANEL)
 
     draw_label(
       args,

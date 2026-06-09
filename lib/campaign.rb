@@ -13,8 +13,26 @@ module Campaign
 
   def self.default_state
     {
-      intro_seen: false
+      intro_seen: false,
+      music_volume: 0.6,
+      sfx_volume: 0.6
     }
+  end
+
+  def self.music_volume(args)
+    args.state.campaign.music_volume.to_f.clamp(0.0, 1.0)
+  end
+
+  def self.sfx_volume(args)
+    args.state.campaign.sfx_volume.to_f.clamp(0.0, 1.0)
+  end
+
+  def self.set_music_volume!(args, volume)
+    args.state.campaign.music_volume = volume.to_f.clamp(0.0, 1.0)
+  end
+
+  def self.set_sfx_volume!(args, volume)
+    args.state.campaign.sfx_volume = volume.to_f.clamp(0.0, 1.0)
   end
 
   def self.intro_seen?(args)

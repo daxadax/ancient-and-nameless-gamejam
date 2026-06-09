@@ -58,7 +58,7 @@ module CrewSelectUI
     entry = CrewRoster.entry(id)
     return unless entry
 
-    draw_wood_panel(args, PANEL)
+    draw_panel(args, PANEL)
 
     draw_label(
       args,

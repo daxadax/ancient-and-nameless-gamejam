@@ -1,17 +1,18 @@
 module Draw
-  DEFAULT_BG = [212, 198, 175].freeze
-
+  RGB_BLACK       = { r: 0,   g: 0,   b: 0  }.freeze
+  RGB_WHITE       = { r: 255, g: 255, b: 255 }.freeze
   RGB_DARK_BROWN  = { r: 62,  g: 45,  b: 32  }.freeze
   RGB_LIGHT_BROWN = { r: 130, g: 108, b: 88  }.freeze
   RGB_BROWN       = { r: 100, g: 78,  b: 62  }.freeze
-  RGB_CREAM       = { r: 248, g: 240, b: 228 }.freeze
   RGB_BEIGE       = { r: 205, g: 185, b: 165 }.freeze
+  RGB_CREAM       = { r: 248, g: 240, b: 228 }.freeze
   RGB_GOLD        = { r: 176, g: 142, b: 58  }.freeze
   RGB_YELLOW      = { r: 176, g: 172, b: 58  }.freeze
   RGB_RED         = { r: 158, g: 68,  b: 58  }.freeze
   RGB_CRYSTAL     = { r: 155, g: 105, b: 195 }.freeze
   RGB_PINK        = { r: 176, g: 102, b: 158  }.freeze
 
+  RGB_BG          = RGB_BEIGE
   RGB_BODY        = RGB_BROWN
   RGB_MUTED       = RGB_LIGHT_BROWN
   RGB_INK         = RGB_DARK_BROWN
@@ -34,17 +35,17 @@ module Draw
   FULL_WIDTH = 1280
   FULL_HEIGHT = 720
 
-  def draw_background_color(args, color = DEFAULT_BG)
+  def draw_background_color(args, color = RGB_BG)
     args.outputs.background_color = color
   end
 
-  def draw_wood_panel(args, rect)
+  def draw_panel(args, rect, alpha: PANEL_ALPHA)
     args.outputs.primitives << {
       x: rect[:x],
       y: rect[:y],
       w: rect[:w],
       h: rect[:h],
-      a: PANEL_ALPHA,
+      a: alpha,
       primitive_marker: :solid
     }.merge(PANEL_FILL)
   end

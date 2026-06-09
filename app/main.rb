@@ -1,19 +1,23 @@
 require 'lib/campaign'
+require 'lib/audio'
 require 'lib/run'
 require 'lib/intro'
+require 'lib/ui'
 require 'app/scenes/title'
 require 'app/scenes/intro'
 require 'app/scenes/crew_select'
 require 'app/scenes/compound'
 require 'app/scenes/review'
 
-# TODO: more / different images
+# TODO: generate cultists (later guests?) based on traits & campaign lvl rather than hardcoding
 # TODO: can't pick the same occultist twice for the same position?
 # TODO: resolve / consider secondary station attributes
 # TODO: UI as a journal / notebook?
-# TODO: generate cultists (later guests?) based on traits & campaign lvl rather than hardcoding
+# TODO: more / different images
 
 module Main
+  include UI
+
   SCENES = {
     title: Scenes::Title.new,
     intro: Scenes::Intro.new,
@@ -23,12 +27,17 @@ module Main
   }.freeze
 
   def tick(args)
-    # set_bg_music(args) if Kernel.tick_count == 1
-
     Campaign.resume!(args)
+    Audio.tick!(args)
     args.state.scene ||= :title
 
     SCENES.fetch(args.state.scene).tick(args)
+
+    if settings_open?(args)
+      handle_settings_input(args)
+      render_settings_ui(args)
+    end
+
     apply_scene_transition!(args)
   end
 
@@ -52,9 +61,6 @@ module Main
     end
   end
 
-  def set_bg_music(args)
-    args.audio[:music] = { input: "sounds/headscratcher.ogg", looping: true }
-  end
 end
 
 def reset(args)

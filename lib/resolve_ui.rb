@@ -19,7 +19,7 @@ module ResolveUI
   end
 
   def render_resolve_ui(run)
-    draw_wood_panel(args, PANEL)
+    draw_panel(args, PANEL)
 
     draw_label(
       args,

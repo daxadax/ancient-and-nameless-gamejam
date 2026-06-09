@@ -1,7 +1,9 @@
 require 'lib/draw'
+require 'lib/settings_ui'
 
 module UI
   include Draw
+  include SettingsUI
 
   # TODO: this should be the main file for all UI related methods
   def draw_hud(run)
@@ -15,6 +17,8 @@ module UI
       },
       color: RGB_INK
     )
+
+    draw_settings
 
     # meters = run.meters
     # meter_text = "Vibes #{meters.vibes} "

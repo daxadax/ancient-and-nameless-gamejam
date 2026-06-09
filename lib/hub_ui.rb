@@ -24,7 +24,7 @@ module HubUI
 
   def render_hub_ui(run)
     evening = EveningOutcomes.build(run)
-    draw_wood_panel(args, PANEL)
+    draw_panel(args, PANEL)
 
     if Run.last_day?(run)
       headline = 'Last night at the compound'

@@ -23,7 +23,7 @@ module IntroUI
     beat = Intro.current(args)
     return unless beat
 
-    draw_wood_panel(args, PANEL)
+    draw_panel(args, PANEL)
     y = PANEL[:y] + PANEL[:h] - 45
 
     draw_title(
@@ -35,11 +35,10 @@ module IntroUI
         size_px: 26,
         color: RGB_CREAM,
         anchor_x: 0
-      },
+      }
     )
 
     y = y - 20
-
     draw_line(args, { x: LABEL_X, x2: LABEL_X + TEXT_WIDTH * 3, y: y, y2: y }, color: RGB_CREAM)
 
     y = PANEL[:y] + PANEL[:h] - 100
