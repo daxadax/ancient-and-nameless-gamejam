@@ -9,13 +9,13 @@ module SettingsUI
 
   PANEL = { x: 0, y: 0, w: FULL_WIDTH, h: FULL_HEIGHT }.freeze
   LABEL_X = 420
+  ROW_GAP = 50
 
   SETTINGS_Y = PANEL[:h] - 100
   AUDIO_Y = SETTINGS_Y - ROW_GAP
   AUDIO_SUBTITLE_Y = AUDIO_Y - 30
   MUSIC_ROW_Y = AUDIO_SUBTITLE_Y - ROW_GAP
   SFX_ROW_Y = MUSIC_ROW_Y - ROW_GAP
-  ROW_GAP = 50
 
   ADJUST_BTN = { w: 44, h: 36 }
   DONE_BUTTON = { x: 520, y: 333 }
