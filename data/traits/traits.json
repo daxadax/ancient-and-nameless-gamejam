@@ -1,0 +1,158 @@
+[
+  {
+    "trait": "clumsy",
+    "tagline": "Accidents trail them like a nervous pet.",
+    "stations": {
+      "kitchen": {
+        "fail": "<name> spilled the salt jar into the batch of curry they were making, but never realized it and served it proudly to all the guests.",
+        "mid": "After nearly dropping an entire casserole on the floor, <name> locked in and even managed to get everything out on time. One guest swore there was a subtle hint of brimstone in the potatoes. <name> just smiled.",
+        "success": "Against all odds this brunch slaps. <name> insists their sigilcrafting has really improved lately.",
+        "effects_fail": { "kitchen_incident": true, "salt_casserole": true },
+        "effects_success": { "food_praised": true },
+        "events": {
+          "fail": {
+            "mara": "Mara made them stand inside a salt circle all night with their hands above their head and recite the Orphic hymn to Saturn."
+          },
+          "salt_casserole": {
+            "review_callback": "I still have heart palpitations from that salt casserole."
+          }
+        }
+      },
+      "housekeeping": {
+        "fail": "<name> knocked over a crystal lamp which caused a minor explosion. Nothing was fully consumed by flame, but the guests don't seem to be taking that well.",
+        "mid": "Rooms are clean-ish. <name> left a handwritten note on each pillow apologizing for thought crimes.",
+        "success": "Everything sparkles. <name> also sorted the minibar by emotional resonance. Guests find it upsettingly uplifting without really knowing why.",
+        "effects_fail": { "property_damage": true },
+        "events": {
+          "fail": {
+            "mara": "Mara banned them from the east wing until the smoke clears."
+          }
+        }
+      },
+      "tour_guide": {
+        "fail": "<name> opened the basement door at the same time Mara was making an offering. One guest has not stopped muttering; their friend is threatening to call the police.",
+        "mid": "<name> went off on an interesting tangent about taoist alchemy and the group never left the living room.",
+        "success": "<name> forgot three stops but improvised so well a guest asked if the wrong turn was part of the liminal architecture. Vibes are weirdly up.",
+        "effects_fail": { "guest_disturbed": true },
+        "effects_success": { "guest_delighted": true },
+        "events": {
+          "fail": {
+            "mara": "Mara did not speak to them for the rest of the day, but everyone heard her counting to one thousand in Latin."
+          }
+        }
+      }
+    }
+  },
+  {
+    "trait": "honest_to_a_fault",
+    "tagline": "Confuses honesty with hospitality in a truly genuine way.",
+    "stations": {
+      "tour_guide": {
+        "fail": "<name> opened the basement door at the same time Mara was making an offering to the nameless one. One guest has not stopped muttering; their friend is threatening to call the police.",
+        "mid": "The tour was charming until <name> answered a question about the blood room with complete honesty. Two guests laughed; one went very quiet.",
+        "success": "<name> forgot three stops but improvised so well a guest asked if the wrong turn was part of the liminal architecture. Vibes are weirdly up.",
+        "effects_fail": { "guest_disturbed": true },
+        "effects_success": { "guest_delighted": true },
+        "events": {
+          "fail": {
+            "mara": "Mara said honesty is a virtue and also a liability. She assigned them to laundry."
+          }
+        }
+      }
+    }
+  },
+  {
+    "trait": "wannabe_mystic",
+    "tagline": "Desperately wants to be mystical; terrified of being normal.",
+    "stations": {
+      "ritual": {
+        "fail": "A guest questioned whether the ritual was real. <name> overcompensated, tried for an outfit change, and eventually just ran off weakly sobbing.",
+        "mid": "The ceremony looked legitimate if your experience of the occult is MAD magazine. Authenticity lands in the middle: theater with heart.",
+        "success": "<name> committed so hard it became convincing. They still do not believe in themselves, but the guests absolutely do.",
+        "effects_fail": { "ritual_disrupted": true },
+        "effects_success": { "authenticity_boost": true },
+        "events": {
+          "fail": {
+            "mara": "Mara found them behind the barn sobbing and punching a bale of hay. She left them to it."
+          }
+        }
+      },
+      "kitchen": {
+        "fail": "The meal was rosemary arranged into a pentagram and set on fire.",
+        "mid": "<name> plated like a magazine and cooked like a student. Photogenic, beautifully lit, and just barely edible.",
+        "success": "<name> followed a recipe for once despite intense shame for consuming mainstream media. They were more upset when everyone was delighted.",
+        "effects_fail": { "kitchen_incident": true },
+        "effects_success": { "food_praised": true },
+        "events": {
+          "fail": {
+            "mara": "Mara extinguished the pentagram and chided <name> for theatrics."
+          }
+        }
+      },
+      "housekeeping": {
+        "fail": "<name> left a reversed tarot card in every drawer. One was The Tower. A guest interpreted this as a threat and packed early.",
+        "mid": "Rooms are tidy with small mystical flourishes: salt lines, moon charts on napkins. Clean enough; vibes are complicated.",
+        "success": "Immaculate and tasteful. <name> added one personalized omen of restful sleep note per room. Guests love the attention.",
+        "effects_fail": { "guest_disturbed": true },
+        "events": {
+          "fail": {
+            "mara": "Mara collected the tarot cards. She kept The Tower for her desk."
+          }
+        }
+      },
+      "tour_guide": {
+        "fail": "<name> spoke only in riddles until a guest asked a direct question about checkout time. They spiraled, sat on a hay bale, and whispered something about manifesting capitalism.",
+        "mid": "The tour had excellent aesthetic signage. <name> pointed at ordinary objects and called them omens. Most guests nodded politely.",
+        "success": "<name> found a rhythm: one riddle, one fact, one compliment. A guest tipped them in crystals. They have never felt so seen.",
+        "effects_fail": { "guest_confused": true },
+        "effects_success": { "guest_delighted": true }
+      }
+    }
+  },
+  {
+    "trait": "theatre_kid",
+    "tagline": "A special brand of 'yes, and' occultism.",
+    "stations": {
+      "ritual": {
+        "fail": "<name> went full avant-garde: whispering, crawling, smearing themselves with stage blood. It did NOT land.",
+        "mid": "Strong stage presence, novice occult mechanics. Looks cool; authenticity is community theater with incense.",
+        "success": "The flair carried it. <name> hit every beat like opening night. Guests said it felt expensive, which is close enough.",
+        "effects_fail": { "ritual_disrupted": true },
+        "effects_success": { "authenticity_boost": true },
+        "events": {
+          "fail": {
+            "mara": "Mara asked if the blood was fake. <name> said that ruins the magic."
+          }
+        }
+      },
+      "tour_guide": {
+        "fail": "<name> delivered the tour as a one-act tragedy about the parents that never loved them back. Guests applauded at the wrong moment.",
+        "mid": "Heavy on atmosphere, light on directions. <name> gestured at fog like it was a character. People got lost but looked moved.",
+        "success": "A master class: <name> made a fence post feel haunted. A guest asked for their autograph on a pamphlet about ley lines.",
+        "effects_fail": { "guest_confused": true },
+        "effects_success": { "guest_delighted": true }
+      }
+    }
+  },
+  {
+    "trait": "trained_chef",
+    "tagline": "Food can be magical, right guys? Right?",
+    "stations": {
+      "kitchen": {
+        "fail": "The cooking was passionate but not particularly good. <name> called it rustic intimacy. The guests called it a situation.",
+        "mid": "<name> cooked with passion and cleaned with indifference. The guests were happy; the next person to use the kitchen will not be.",
+        "success": "A triumph of culinary drama. <name> called it rustic intimacy. Guests asked for seconds and left inspired.",
+        "effects_fail": { "kitchen_incident": true },
+        "effects_success": { "food_praised": true },
+        "events": {
+          "success": {
+            "mara": "Mara ate a full plate in silence. That is her highest praise."
+          },
+          "food_praised": {
+            "review_callback": "The food was the only normal thing about this place. I mean that as a compliment. I think."
+          }
+        }
+      }
+    }
+  }
+]
