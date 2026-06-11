@@ -1,10 +1,13 @@
-require 'lib/cultists'
+require 'lib/character'
+require 'lib/campaign'
 require 'lib/crew_rolls'
 
 module Run
   MAX_DAYS = 3
 
   def self.start!(args)
+    crew = Campaign.roster_data(args).map(&:dup)
+
     args.state.run = {
       day: 1,
       max_days: MAX_DAYS,
@@ -13,13 +16,29 @@ module Run
       assignments: {},
       last_resolve: nil,
       flags: {},
-      crew_rolls: CrewRolls.default_stats
+      mara_asides: [],
+      review_callbacks: [],
+      crew: crew,
+      crew_rolls: CrewRolls.default_stats(crew)
     }
     capture_day_meter_baseline!(args.state.run)
   end
 
   def self.active?(args)
     !args.state.run.nil?
+  end
+
+  def self.crew(run)
+    run.crew.map { |data| Character.wrap(data) }
+  end
+
+  def self.character(run, id)
+    data = run.crew.find { |entry| entry['id'] == id.to_s }
+    Character.wrap(data) if data
+  end
+
+  def self.crew_ids(run)
+    run.crew.map { |entry| entry['id'] }
   end
 
   def self.end_day!(args)
@@ -56,7 +75,7 @@ module Run
   end
 
   def self.meter_snapshot(run)
-    Cultists::METER_KEYS.to_h { |meter| [meter, run.meters.send(meter).to_i] }
+    Character::METER_KEYS.to_h { |meter| [meter, run.meters.send(meter).to_i] }
   end
 
   def self.last_day?(run)
@@ -64,6 +83,6 @@ module Run
   end
 
   def self.default_meters
-    @default_meters ||= Cultists::METER_KEYS.map { |x| [x, 0] }.to_h
+    @default_meters ||= Character::METER_KEYS.map { |x| [x, 0] }.to_h
   end
 end

@@ -1,0 +1,7 @@
+{
+  "fail": "<name> lost the group twice and answered a question about checkout with a prophecy.",
+  "mid": "<name> kept the tour moving. Nothing special, nothing disastrous.",
+  "success": "<name> handled the tour well. Guests nodded at the right moments and even asked a few questions.",
+  "effects_fail": { "guest_confused": true },
+  "effects_success": { "guest_delighted": true }
+}

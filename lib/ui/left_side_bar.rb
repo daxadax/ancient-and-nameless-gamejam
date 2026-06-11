@@ -1,6 +1,8 @@
-require 'lib/cultists'
-require 'lib/stations'
+require 'lib/character'
 require 'lib/draw'
+require 'lib/stations'
+require 'lib/campaign'
+require 'lib/crew_select'
 require 'lib/ui/stat_block'
 
 module UI
@@ -8,34 +10,33 @@ module UI
     include Draw
     include UI::StatBlock
 
-    NOTE_W = 150
-    NOTE_H = 150
-    NOTE_X = 1000
     NOTE_GAP = 8
-
     CREW_SLOTS = 4
     CREW_SLOT_PORTRAIT_W = 118
     CREW_SLOT_PORTRAIT_H = 108
 
     def render_staff_notes(run, panel)
-      Cultists::IDS.each_with_index do |name, index|
-        render_staff_note(run, name, panel, index)
+      Run.crew(run).each_with_index do |character, index|
+        render_staff_note(run, character, panel, index)
       end
     end
 
     def render_crew_select_slots(panel)
-      CrewRoster.ids.each_with_index do |id, index|
-        rect = side_bar_rect(panel, index)
+      lineup = Campaign.roster(args)
+      slot_count = lineup.length
+
+      lineup.each_with_index do |character, index|
+        rect = side_bar_rect(panel, index, slot_count)
         focused = CrewSelect.focus_index(args) == index
 
         draw_note_paper(rect, assigned: !focused)
-        draw_slot_portrait(id, rect, focused: focused)
+        draw_slot_portrait(character, rect, focused: focused)
       end
     end
 
-    def side_bar_rect(panel, index)
-      side = panel[:h] / CREW_SLOTS
-      slots_from_bottom = CREW_SLOTS - 1 - index
+    def side_bar_rect(panel, index, slot_count = CREW_SLOTS)
+      side = panel[:h] / slot_count
+      slots_from_bottom = slot_count - 1 - index
 
       x = panel[:x] - side
       y = panel[:y] + slots_from_bottom * side
@@ -45,8 +46,7 @@ module UI
 
     private
 
-    # start crew select
-    def draw_slot_portrait(id, rect, focused: false)
+    def draw_slot_portrait(character, rect, focused: false)
       portrait_rect = {
         x: rect[:x] + (rect[:w] - CREW_SLOT_PORTRAIT_W) / 2,
         y: rect[:y] + 22,
@@ -55,13 +55,12 @@ module UI
       }
 
       bob = focused ? (Math.sin(args.state.tick_count * 0.12) * 6).to_i : 0
-      draw_crew_portrait(args, id, portrait_rect, bob: bob)
-      draw_focus_frame(portrait_rect, bob) if focused
+      draw_crew_portrait(args, character, portrait_rect, bob: bob)
     end
 
-    def draw_crew_portrait(args, id, rect, bob: 0)
+    def draw_crew_portrait(args, character, rect, bob: 0)
       shifted = rect.merge(y: rect[:y] + bob)
-      tint = CrewRoster::PLACEHOLDER_COLORS.fetch(id)
+      tint = character.portrait_color
 
       args.outputs.primitives << shifted.merge(tint).merge(a: 220, primitive_marker: :solid)
 
@@ -70,37 +69,24 @@ module UI
         {
           x: shifted[:x] + shifted[:w] / 2,
           y: shifted[:y] + shifted[:h] / 2,
-          text: Cultists.label(id)[0],
+          text: character.initial,
           size_px: 64,
           color: RGB_CREAM
         }
       )
     end
 
-    def draw_focus_frame(rect, bob)
-      frame = {
-        x: rect[:x] - 3,
-        y: rect[:y] + bob - 3,
-        w: rect[:w] + 6,
-        h: rect[:h] + 6
-      }
-
-      args.outputs.borders << frame.merge(RGB_GOLD).merge(a: 220)
-    end
-    # end crew select
-
-    # start staff notes
-    def render_staff_note(run, name, panel, index)
-      assigned = cultist_assigned?(run, name)
+    def render_staff_note(run, character, panel, index)
+      assigned = cultist_assigned?(run, character.id)
       rect = side_bar_rect(panel, index)
 
       draw_note_paper(rect, assigned: assigned)
-      draw_nametag(rect, name)
-      draw_note_copy(rect, name)
+      draw_nametag(rect, character)
+      draw_note_copy(rect, character)
     end
 
-    def cultist_assigned?(run, name)
-      Stations::IDS.any? { |station_id| run.assignments[station_id] == name }
+    def cultist_assigned?(run, character_id)
+      Stations::IDS.any? { |station_id| run.assignments[station_id] == character_id }
     end
 
     def draw_note_paper(rect, assigned: false)
@@ -114,7 +100,7 @@ module UI
       }.merge(RGB_CREAM)
     end
 
-    def draw_nametag(rect, name)
+    def draw_nametag(rect, character)
       x = rect[:x] + NOTE_GAP * 2
       y = rect[:y] + rect[:h] - NOTE_GAP * 3
 
@@ -123,7 +109,7 @@ module UI
         {
           x: x,
           y: y,
-          text: Cultists.label(name),
+          text: character.display_name,
           size_px: 21,
           color: RGB_INK,
           anchor_x: 0
@@ -131,12 +117,11 @@ module UI
       )
     end
 
-    def draw_note_copy(rect, name)
+    def draw_note_copy(rect, character)
       text_x = rect[:x] + NOTE_GAP * 2
       top_y = rect[:y] + rect[:h] - NOTE_GAP
 
-      draw_stat_block(name, text_x, top_y)
+      draw_stat_block(character, text_x, top_y)
     end
-    # end staff_notes
   end
 end

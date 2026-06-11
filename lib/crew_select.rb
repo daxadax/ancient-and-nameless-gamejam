@@ -1,8 +1,9 @@
-require 'lib/crew_roster'
+require 'lib/campaign'
 
 module CrewSelect
   def self.reset!(args)
     args.state.crew_select = { focus_index: 0 }
+    Campaign.ensure_founding_lineup!(args)
   end
 
   def self.focus_index(args)
@@ -11,11 +12,12 @@ module CrewSelect
   end
 
   def self.focused_id(args)
-    CrewRoster.ids[focus_index(args)]
+    ids = CrewRoster.ids(args)
+    ids[focus_index(args)]
   end
 
   def self.move_focus!(args, delta)
-    ids = CrewRoster.ids
+    ids = CrewRoster.ids(args)
     return if ids.empty?
 
     next_index = (focus_index(args) + delta) % ids.length
@@ -24,7 +26,7 @@ module CrewSelect
 
   def self.select_focus!(args, index)
     ensure!(args)
-    max = CrewRoster.ids.length - 1
+    max = CrewRoster.ids(args).length - 1
     args.state.crew_select[:focus_index] = index.clamp(0, max)
   end
 

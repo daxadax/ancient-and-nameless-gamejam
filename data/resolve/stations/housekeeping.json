@@ -1,0 +1,7 @@
+{
+  "fail": "<name> left a room in worse shape than they found it. A guest asked for fresh towels and got a monologue about the Alchemical fountains of Heidelberg.",
+  "mid": "<name> hit the basics. Rooms pass inspection if you do not look too closely.",
+  "success": "<name> left everything spotless. One guest said the pillows felt spiritually aligned.",
+  "effects_fail": { "guest_learned_something_new": true },
+  "effects_success": {}
+}

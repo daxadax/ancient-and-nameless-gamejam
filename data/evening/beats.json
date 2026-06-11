@@ -12,7 +12,7 @@
   {
     "id": "filmed_ritual",
     "requires": { "flags_all": ["filmed_ritual"] },
-    "text": "Someone posted a clip labeled 'authentic occult retreat.' Mara is on the verge of kicking them out. Jules says it is free marketing."
+    "text": "Someone posted a clip labeled 'authentic occult retreat.' Mara is on the verge of kicking them out. You say it's free marketing."
   },
   {
     "id": "authenticity_too_real",
@@ -42,7 +42,7 @@
   {
     "id": "strong_food",
     "requires": { "meter_delta": { "food": ">=8" } },
-    "text": "People are still talking about brunch at supper. Dmitros accepts the praise and beams."
+    "text": "People are still talking about brunch at supper. Even reddit would approve of those chives."
   },
   {
     "id": "weak_food",
@@ -67,7 +67,7 @@
   {
     "id": "weak_auth",
     "requires": { "meter_delta": { "authenticity": "<=2" } },
-    "text": "The guests compare notes and decide the occult branding is 'more Etsy than abyss.' Jules looks personally wounded."
+    "text": "The guests compare notes and decide the occult branding is 'more Etsy than esoteric.'"
   },
   {
     "id": "balanced_day",

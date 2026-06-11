@@ -1,4 +1,4 @@
-require 'lib/cultists'
+require 'lib/character'
 require 'lib/draw'
 require 'lib/buttons'
 require 'lib/crew_roster'
@@ -13,7 +13,7 @@ module CrewSelectUI
   include UI::LeftSideBar
   include UI::StatBlock
 
-  PANEL = { x: 183, y: 33, w: 756, h: 656 }.freeze
+  PANEL = { x: 183, y: 33, w: 756, h: 656 }
   DETAIL_TEXT_X = 207
   DETAIL_TEXT_WIDTH = 90
   READY_BUTTON = { x: (PANEL[:w] + (PANEL[:x]/2)) / 2, y: 80 }
@@ -22,41 +22,37 @@ module CrewSelectUI
     handle_focus_input(args)
     return unless clicked_button?(args, READY_BUTTON)
 
+    Campaign.complete_founding!(args)
     args.state.next_scene = :compound
   end
 
   def render_crew_select_ui(args)
     focused_id = CrewSelect.focused_id(args)
 
-    # can this be standarized?
-    render_detail_panel(focused_id)
-
+    render_detail_panel(args, focused_id)
     render_crew_select_slots(PANEL)
-
     draw_button(args, label: 'READY', area: READY_BUTTON)
   end
 
   private
 
   def handle_focus_input(args)
-    ids = CrewRoster.ids
+    ids = CrewRoster.ids(args)
     return if ids.empty?
 
-    # keyboard input
     CrewSelect.move_focus!(args, -1) if args.inputs.keyboard.key_down.up
     CrewSelect.move_focus!(args, 1) if args.inputs.keyboard.key_down.down
 
-    # mouse input
+    slot_count = ids.length
     ids.each_with_index do |_id, index|
-      rect = side_bar_rect(PANEL, index)
+      rect = side_bar_rect(PANEL, index, slot_count)
       CrewSelect.select_focus!(args, index) if clicked_button?(args, rect, size: rect)
     end
   end
 
-
-  def render_detail_panel(id)
-    entry = CrewRoster.entry(id)
-    return unless entry
+  def render_detail_panel(args, id)
+    character = CrewRoster.character(args, id)
+    return unless character
 
     draw_panel(args, PANEL)
 
@@ -71,7 +67,7 @@ module CrewSelectUI
       {
         x: DETAIL_TEXT_X,
         y: PANEL[:y] + PANEL[:h] - 68,
-        text: 'All four are on duty. Select a portrait to read their file.',
+        text: 'Mara runs this place. Select a portrait to read their file.',
         size_px: 16
       },
       color: RGB_PANEL_MUTED
@@ -85,10 +81,10 @@ module CrewSelectUI
     }
 
     draw_note_paper(note_rect, assigned: false)
-    draw_detail_copy(note_rect, id, entry)
+    draw_detail_copy(args, note_rect, character)
   end
 
-  def draw_detail_copy(rect, name, entry)
+  def draw_detail_copy(args, rect, character)
     text_x = rect[:x] + NOTE_GAP * 2
     top_y = rect[:y] + rect[:h] - NOTE_GAP * 3
     portrait_rect = {
@@ -98,23 +94,17 @@ module CrewSelectUI
       h: CREW_SLOT_PORTRAIT_H
     }
 
-    draw_crew_portrait(args, name, portrait_rect)
+    draw_crew_portrait(args, character, portrait_rect)
 
     draw_title(
       args,
-      { x: text_x, y: top_y, text: Cultists.label(name), size_px: 28, color: RGB_INK, anchor_x: 0 }
+      { x: text_x, y: top_y, text: character.display_name, size_px: 28, color: RGB_INK, anchor_x: 0 }
     )
 
-    draw_label(
-      args,
-      { x: text_x, y: top_y - 28, text: entry['tagline'], size_px: 18 },
-      color: RGB_INK
-    )
-
-    draw_stat_block(name, text_x, top_y)
+    draw_stat_block(character, text_x, top_y)
 
     y = top_y - 170
-    wrap_text(entry['bio'], DETAIL_TEXT_WIDTH).each do |line|
+    wrap_text(character.bio, DETAIL_TEXT_WIDTH).each do |line|
       draw_label(
         args,
         { x: text_x, y: y, text: line, size_px: 16 },
@@ -124,5 +114,3 @@ module CrewSelectUI
     end
   end
 end
-
-

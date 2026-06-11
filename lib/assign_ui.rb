@@ -1,8 +1,10 @@
 require 'lib/draw'
 require 'lib/stations'
-require 'lib/cultists'
+require 'lib/character'
 require 'lib/assignment'
+require 'lib/resolve'
 require 'lib/audio'
+require 'lib/run'
 require 'lib/ui/left_side_bar'
 
 module AssignUI
@@ -21,7 +23,7 @@ module AssignUI
   def handle_assign_input(run)
     return false unless assign_mode?
 
-    station_id, cultist_id = fetch_selection
+    station_id, cultist_id = fetch_selection(run)
     Assignment.pick!(run, station_id, cultist_id) if station_id
     return true if clicked_button?(args, CONFIRM_BUTTON) && Assignment.confirm!(run)
 
@@ -70,10 +72,10 @@ module AssignUI
       color: RGB_CREAM
     )
 
-    Cultists::IDS.each_with_index do |cultist_id, col|
-      selected = Assignment.read(run, station_id) == cultist_id
-      elsewhere = assigned_elsewhere?(run, station_id, cultist_id)
-      draw_cultist_btn(row, col, cultist_id, selected: selected, dim: elsewhere)
+    Run.crew_ids(run).each_with_index do |character_id, col|
+      selected = Assignment.read(run, station_id) == character_id
+      elsewhere = assigned_elsewhere?(run, station_id, character_id)
+      draw_cultist_btn(run, row, col, character_id, selected: selected, dim: elsewhere)
     end
   end
 
@@ -90,14 +92,14 @@ module AssignUI
     }
   end
 
-  def assigned_elsewhere?(run, station_id, cultist_id)
+  def assigned_elsewhere?(run, station_id, character_id)
     Stations::IDS.any? do |sid|
-      sid != station_id && Assignment.read(run, sid) == cultist_id
+      sid != station_id && Assignment.read(run, sid) == character_id
     end
   end
 
   def draw_confirm_btn(run)
-    ready = Resolve.valid_assignments?(run.assignments)
+    ready = Resolve.valid_assignments?(run.assignments, Run.crew_ids(run))
     fill = ready ? BTN_ACTION : BTN_DISABLED
     alpha = ready ? ALPHA_READY : ALPHA_DISABLED
     options = { fill: fill, alpha: alpha }
@@ -105,24 +107,25 @@ module AssignUI
     draw_button(args, label: 'CONFIRM ASSIGNMENTS', area: CONFIRM_BUTTON, options: options)
   end
 
-  def draw_cultist_btn(row, col, cultist_id, selected:, dim:)
+  def draw_cultist_btn(run, row, col, character_id, selected:, dim:)
     rect = cultist_btn_rect(row, col)
     fill = selected ? BTN_SELECTED : BTN_IDLE
     alpha = dim && !selected ? ALPHA_DISABLED : ALPHA_READY
     options = { fill: fill, alpha: alpha }
+    character = Run.character(run, character_id)
 
-    draw_button(args, label: Cultists.label(cultist_id), area: rect, options: options)
+    draw_button(args, label: character.display_name, area: rect, options: options)
   end
 
-  def fetch_selection
+  def fetch_selection(run)
     return unless args.inputs.mouse.up
 
     Stations::IDS.each_with_index do |station_id, row|
-      Cultists::IDS.each_with_index do |cultist_id, col|
+      Run.crew_ids(run).each_with_index do |character_id, col|
         next unless args.inputs.mouse.inside_rect?(cultist_btn_rect(row, col))
 
         Audio.play_click!(args)
-        return [station_id, cultist_id]
+        return [station_id, character_id]
       end
     end
 

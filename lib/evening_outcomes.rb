@@ -1,4 +1,4 @@
-require 'lib/cultists'
+require 'lib/character'
 require 'lib/resolve_outcomes'
 
 module EveningOutcomes
@@ -52,13 +52,13 @@ module EveningOutcomes
   end
 
   def self.meter_deltas(run)
-    Cultists::METER_KEYS.to_h do |meter|
+    Character::METER_KEYS.to_h do |meter|
       [meter, run.meters.send(meter) - run.meters_at_day_start.send(meter)]
     end
   end
 
   def self.format_meter_summary(day_deltas)
-    Cultists::METER_KEYS.map do |meter|
+    Character::METER_KEYS.map do |meter|
       delta = day_deltas[meter]
       sign = delta.negative? ? '' : '+'
       "#{meter.to_s.capitalize} #{sign}#{delta}"

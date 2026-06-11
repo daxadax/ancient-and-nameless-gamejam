@@ -19,7 +19,7 @@ module Assignment
   end
 
   def self.confirm!(run)
-    return false unless Resolve.valid_assignments?(run.assignments)
+    return false unless Resolve.valid_assignments?(run.assignments, Run.crew_ids(run))
 
     Run.capture_day_meter_baseline!(run)
     Resolve.run!(run)

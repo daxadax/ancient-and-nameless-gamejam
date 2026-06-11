@@ -1,0 +1,7 @@
+{
+  "fail": "<name> lost the room mid-ritual. A guest asked if this was interactive theater. It was not clear how to answer.",
+  "mid": "<name> kept the ceremony on rails. Respectful, a little flat, finished on time.",
+  "success": "<name> held the space. Guests left quiet in the way that counts as a win around here.",
+  "effects_fail": { "ritual_disrupted": true },
+  "effects_success": { "authenticity_boost": true }
+}

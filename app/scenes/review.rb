@@ -49,14 +49,23 @@ module Scenes
         y -= 30
       end
 
-      meter_y = 280
-      if review[:crew_high]
-        draw_title(args, { x: 640, y: 300, text: review[:crew_high], size_px: 24, color: RGB_INK })
-        meter_y = 244
+      if review[:callback]
+        y -= 10
+        wrap_text(review[:callback], 80).each do |line|
+          draw_title(args, { x: 640, y: y, text: line, size_px: 24, color: RGB_INK })
+          y -= 28
+        end
       end
+
+      meter_y = y - 20
+      if review[:crew_high]
+        draw_title(args, { x: 640, y: meter_y, text: review[:crew_high], size_px: 24, color: RGB_INK })
+        meter_y -= 36
+      end
+
       if review[:crew_low]
-        draw_title(args, { x: 640, y: 272, text: review[:crew_low], size_px: 24, color: RGB_INK })
-        meter_y = 216
+        draw_title(args, { x: 640, y: meter_y, text: review[:crew_low], size_px: 24, color: RGB_INK })
+        meter_y -= 36
       end
 
       draw_title(

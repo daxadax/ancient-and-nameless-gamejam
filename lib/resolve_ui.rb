@@ -27,8 +27,10 @@ module ResolveUI
       color: RGB_CREAM
     )
 
-    run.last_resolve.each_with_index do |result, index|
-      render_result_line(result, index)
+    y = PANEL[:y] + PANEL[:h] - 72
+
+    run.last_resolve.each do |result|
+      y = render_result_line(result, y)
     end
 
     draw_button(args, label: 'CONTINUE', area: CONTINUE_BUTTON)
@@ -40,42 +42,48 @@ module ResolveUI
 
   private
 
-  def render_result_line(result, index)
-    base_y = PANEL[:y] + PANEL[:h] - 90 - (index * 95)
+  def render_result_line(result, top_y)
+    y = top_y
 
     draw_label(
       args,
       {
         x: LABEL_X,
-        y: base_y,
+        y: y,
         text: "#{result[:station_label]} — #{result[:cultist_label]}",
         size_px: 24
       },
       color: RGB_YELLOW
     )
 
-    y = base_y - 20
+    y -= 26
     draw_label(
       args,
       { x: LABEL_X, y: y, text: format_roll(result[:primary]), size_px: 16 },
       color: RGB_PANEL_MUTED
     )
 
-    y = base_y - 44
-    wrap_text(result[:narrative], TEXT_WIDTH).each do |line|
-      draw_label(
-        args,
-        { x: LABEL_X, y: y, text: line, size_px: 18 },
-        color: RGB_CREAM
-      )
-      y -= 16
+    y -= 22
+    y = draw_wrapped_lines(result[:narrative], y, size_px: 18, color: RGB_CREAM)
+
+    if result[:mara]
+      y -= 10
+      y = draw_wrapped_lines(result[:mara], y, size_px: 16, color: RGB_WHITE)
     end
 
-    # draw_label(
-    #   args,
-    #   { x: LABEL_X, y: y - 22, text: format_roll(result[:secondary]), size_px: 16 },
-    #   color: RGB_PANEL_MUTED
-    # )
+    y - 16
+  end
+
+  def draw_wrapped_lines(text, top_y, size_px:, color:)
+    y = top_y
+    line_gap = size_px + 2
+
+    wrap_text(text, TEXT_WIDTH).each do |line|
+      draw_label(args, { x: LABEL_X, y: y, text: line, size_px: size_px }, color: color)
+      y -= line_gap
+    end
+
+    y
   end
 
   def format_roll(line)

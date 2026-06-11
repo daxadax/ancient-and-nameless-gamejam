@@ -1,8 +1,9 @@
-require 'lib/cultists'
+require 'lib/character'
 require 'lib/crew_rolls'
+require 'lib/run'
 
 module Review
-  METER_KEYS = Cultists::METER_KEYS
+  METER_KEYS = Character::METER_KEYS
 
   HEADLINES = {
     1 => 'Would not recommend to my ex. Or anyone.',
@@ -26,20 +27,6 @@ module Review
     authenticity: 'Not sure this counts as occult, it felt more like community theater.'
   }.freeze
 
-  CREW_HIGH = {
-    aldous: 'Aldous was on fire all weekend, we\'re all still quoting him.',
-    jules: 'Jules reminds me of the weird girl from The Breakfast Club',
-    dmitros: 'Dmitros is amazing and soooo mysterious.',
-    mara: 'Mara is legit AF. She knew things about me I\'ve never told anyone.'
-  }.freeze
-
-  CREW_LOW = {
-    aldous: 'Aldous is kind of an idiot and idk how no one was injured.',
-    jules: 'Jules is like a facebook mom\'s group come to life and that\'s as bad as it sounds',
-    dmitros: 'Dmitros is trying too hard and it makes the whole thing feel cringe.',
-    mara: 'Mara\'s straight up creepy.'
-  }.freeze
-
   def self.build(run)
     meters = run.meters
     stars = star_count(meters)
@@ -49,10 +36,15 @@ module Review
       star_line: star_line(stars),
       headline: HEADLINES.fetch(stars),
       body: body_for(meters, stars),
+      callback: callback_line(run),
       crew_high: crew_high_line(run),
       crew_low: crew_low_line(run),
       meter_text: meter_summary(meters)
     }
+  end
+
+  def self.callback_line(run)
+    run.review_callbacks&.first
   end
 
   # TODO: reconfigure this based on star-rating / category and then ~avg
@@ -108,17 +100,24 @@ module Review
     meters.send(key)
   end
 
+  # TODO: these should be based on traits / more fun / interesting
   def self.crew_high_line(run)
     return nil unless CrewRolls.callout?(run)
 
     summary = CrewRolls.summary(run)
-    CREW_HIGH.fetch(summary[:best_id])
+    character = Run.character(run, summary[:best_id])
+    return nil unless character
+
+    "#{character.display_name} carried the weekend."
   end
 
   def self.crew_low_line(run)
     return nil unless CrewRolls.callout?(run)
 
     summary = CrewRolls.summary(run)
-    CREW_LOW.fetch(summary[:worst_id])
+    character = Run.character(run, summary[:worst_id])
+    return nil unless character
+
+    "#{character.display_name} had a rough few days."
   end
 end

@@ -1,27 +1,29 @@
-require 'lib/cultists'
+require 'lib/character'
 require 'lib/stations'
 require 'lib/resolve_outcomes'
 require 'lib/crew_rolls'
+require 'lib/run'
 
 module Resolve
-  def self.valid_assignments?(assignments)
+  def self.valid_assignments?(assignments, crew_ids)
     return false unless assignments
     return false unless assignments.keys.sort == Stations::IDS.sort
 
-    cultist_ids = assignments.values
-    return false unless cultist_ids.uniq.length == cultist_ids.length
-    return false unless cultist_ids.all? { |id| Cultists::IDS.include?(id) }
+    assigned = assignments.values
+    return false unless assigned.uniq.length == assigned.length
+    return false unless assigned.all? { |id| crew_ids.include?(id.to_s) }
 
     true
   end
 
   def self.run!(run)
-    return nil unless valid_assignments?(run.assignments)
+    return nil unless valid_assignments?(run.assignments, Run.crew_ids(run))
 
     results = []
 
     Stations::IDS.each do |station_id|
-      result = resolve_station!(run, station_id, run.assignments[station_id])
+      character_id = run.assignments[station_id]
+      result = resolve_station!(run, station_id, character_id)
       results << result
     end
 
@@ -29,26 +31,28 @@ module Resolve
     results
   end
 
-  def self.resolve_station!(run, station_id, cultist_id)
+  def self.resolve_station!(run, station_id, character_id)
+    character = Run.character(run, character_id)
     station = Stations::ALL.fetch(station_id)
-    primary = roll_line(cultist_id, station[:primary_meter], station[:primary_die])
-    secondary = roll_line(cultist_id, station[:secondary_meter], station[:secondary_die])
+    primary = roll_line(character, station[:primary_meter], station[:primary_die])
+    secondary = roll_line(character, station[:secondary_meter], station[:secondary_die])
 
     add_meter!(run, primary[:meter], primary[:total])
     add_meter!(run, secondary[:meter], secondary[:total])
-    CrewRolls.record!(run, cultist_id, primary[:total])
+    CrewRolls.record!(run, character_id, primary[:total])
 
-    outcome = ResolveOutcomes.pick(cultist_id, station_id, primary[:total])
-    ResolveOutcomes.apply_effects!(run, outcome['effects'])
+    outcome = ResolveOutcomes.pick(character, station_id, primary[:total])
+    ResolveOutcomes.apply_outcome!(run, outcome, character.display_name)
 
     {
       station: station_id,
       station_label: Stations.label(station_id),
-      cultist: cultist_id,
-      cultist_label: Cultists.label(cultist_id),
+      cultist: character_id,
+      cultist_label: character.display_name,
       primary: primary,
       secondary: secondary,
       narrative: outcome['text'],
+      mara: outcome['mara'],
       effects: outcome['effects'] || {}
     }
   end
@@ -66,9 +70,9 @@ module Resolve
     end
   end
 
-  def self.roll_line(cultist_id, meter, sides)
+  def self.roll_line(character, meter, sides)
     roll = roll_die(sides)
-    mod = Cultists.mod(cultist_id, meter)
+    mod = character.mod(meter)
     total = roll + mod
 
     {

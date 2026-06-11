@@ -1,0 +1,15 @@
+{
+  "id": "mara",
+  "name": "Mara",
+  "stats": {
+    "vibes": -2,
+    "food": 1,
+    "cleanliness": 2,
+    "authenticity": 3
+  },
+  "traits": [],
+  "tagline": "The main character",
+  "bio": "Inherited the farm and turned it into her base of operations. Her air of mystery comes through a lifetime of being surrounded by weirdos.",
+  "portrait_color": { "r": 0, "g": 0, "b": 0 },
+  "resolve_file": "data/resolve/mara.json"
+}

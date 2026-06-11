@@ -1,0 +1,7 @@
+{
+  "fail": "<name> sent out food that should have stayed in the test kitchen. Guests are polite but visibly concerned.",
+  "mid": "<name> got meals out on time. Edible, forgettable, fine.",
+  "success": "<name> ran a tight service. Guests went back for seconds without asking what was in it.",
+  "effects_fail": { "kitchen_incident": true },
+  "effects_success": { "food_praised": true }
+}

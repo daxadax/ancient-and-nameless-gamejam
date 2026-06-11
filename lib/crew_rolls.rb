@@ -1,21 +1,21 @@
-require 'lib/cultists'
+require 'lib/character'
 
 module CrewRolls
   MIN_SPREAD = 4
 
-  def self.default_stats
-    Cultists::IDS.to_h { |id| [id, { primary_sum: 0, roll_count: 0 }] }
+  def self.default_stats(crew)
+    crew.map { |character| character['id'] }.to_h { |id| [id, { primary_sum: 0, roll_count: 0 }] }
   end
 
-  def self.record!(run, cultist_id, primary_total)
-    entry = run.crew_rolls[cultist_id]
+  def self.record!(run, character_id, primary_total)
+    entry = run.crew_rolls[character_id]
     entry.primary_sum += primary_total.to_i
     entry.roll_count += 1
   end
 
   def self.summary(run)
     stats = run.crew_rolls
-    ranked = Cultists::IDS
+    ranked = Run.crew_ids(run)
       .select { |id| stats[id].roll_count.positive? }
       .sort_by { |id| stats[id].primary_sum }
 
