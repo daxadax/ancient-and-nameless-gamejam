@@ -1,77 +1,163 @@
 [
   {
+    "id": "salt_casserole",
+    "station": "kitchen",
+    "communication_type": "Group chat",
+    "requires": { "flags_all": ["salt_casserole"] },
+    "text": "A guest messages the group chat: \"Is intentional sodium poisoning part of the wellness arc?\" You pin the listing FAQ about elimination diets."
+  },
+  {
+    "id": "kitchen_incident",
+    "station": "kitchen",
+    "communication_type": "Compound alert",
+    "requires": { "flags_all": ["kitchen_incident"] },
+    "text": "Smoke sets off the antique bell system. Guests applaud like it was scheduled. You update the listing to say \"ambient fire energy.\""
+  },
+  {
+    "id": "food_praised",
+    "station": "kitchen",
+    "communication_type": "Guest post",
+    "requires": { "flags_all": ["food_praised"] },
+    "text": "A guest posts brunch before eating. Caption: Manifesting clarity. The food actually slapped. You draft a price increase and delete it."
+  },
+  {
+    "id": "strong_food",
+    "station": "kitchen",
+    "communication_type": "Dining room",
+    "requires": { "meter_delta": { "food": ">=9" } },
+    "text": "People are still talking about brunch at supper. You consider adding \"farm-to-table\" even though the farm mostly grows potatoes and mild frustration."
+  },
+  {
+    "id": "weak_food",
+    "station": "kitchen",
+    "communication_type": "Room service",
+    "requires": { "meter_delta": { "food": "<=4" } },
+    "text": "Room service notes mention traumatic eggs. Guests eat crackers in their rooms and call it a fasting module."
+  },
+  {
+    "id": "property_damage",
+    "station": "housekeeping",
+    "communication_type": "Damage report",
+    "requires": { "flags_all": ["property_damage"] },
+    "text": "Something expensive did not survive the day. You open the damage-deposit template, close it, and open the \"rustic charm\" template instead."
+  },
+  {
+    "id": "guest_learned_something_new",
+    "station": "housekeeping",
+    "communication_type": "Direct message",
+    "requires": { "flags_all": ["guest_learned_something_new"] },
+    "text": "A guest DMs you: \"There is a lot of what looks like dried blood in my closet. Why?\" You paste the saved reply about historical restoration and pour a large Armagnac."
+  },
+  {
+    "id": "strong_clean",
+    "station": "housekeeping",
+    "communication_type": "Housekeeping",
+    "requires": { "meter_delta": { "cleanliness": ">=9" } },
+    "text": "The halls smell like soap with a tinge of ozone. A guest asks who your housekeeper is. You spread your hands and smile like a host who knows."
+  },
+  {
+    "id": "weak_clean",
+    "station": "housekeeping",
+    "communication_type": "Housekeeping",
+    "requires": { "meter_delta": { "cleanliness": "<=4" } },
+    "text": "A guest finds glitter in the bath. Another finds glitter in the bread basket. It is the same glitter. You mark the turnover as completed."
+  },
+  {
+    "id": "guest_confused",
+    "station": "tour_guide",
+    "communication_type": "Guest message",
+    "requires": { "flags_all": ["guest_confused"] },
+    "text": "Three guests compare notes in the hall. None agree on what they witnessed. Your listing promises curated ambiguity. This was not curated."
+  },
+  {
+    "id": "guest_delighted",
+    "station": "tour_guide",
+    "communication_type": "Guest message",
+    "requires": { "flags_all": ["guest_delighted"] },
+    "text": "Word spreads through the guest wing that today was deeply weird. Everyone is thrilled. Your response rate has never looked better."
+  },
+  {
     "id": "guest_disturbed",
+    "station": "tour_guide",
+    "communication_type": "Guest message",
     "requires": { "flags_all": ["guest_disturbed"] },
     "text": "Dinner starts late because a guest is still composing a formal complaint in the library. Everyone else pretends not to hear them practicing it."
   },
   {
-    "id": "kitchen_incident",
-    "requires": { "flags_all": ["kitchen_incident"] },
-    "text": "Smoke from the kitchen sets off the antique bell system. Weirdly, the guests love this."
-  },
-  {
-    "id": "filmed_ritual",
-    "requires": { "flags_all": ["filmed_ritual"] },
-    "text": "Someone posted a clip labeled 'authentic occult retreat.' Mara is on the verge of kicking them out. You say it's free marketing."
-  },
-  {
-    "id": "authenticity_too_real",
-    "requires": { "flags_all": ["authenticity_too_real"] },
-    "text": "The ritual today was a little *too* real. Guests are spooked and deeply questioning everything."
-  },
-  {
-    "id": "property_damage",
-    "requires": { "flags_all": ["property_damage"] },
-    "text": "There were some mishaps today and while there weren't any serious injuries, certain objects didn't survive. One guest is still being talked down from filing a police report."
-  },
-  {
-    "id": "guest_delighted",
-    "requires": { "flags_all": ["guest_delighted"] },
-    "text": "Word spreads through the guest wing that today was deeply weird - everyone is thrilled."
-  },
-  {
     "id": "strong_vibes",
-    "requires": { "meter_delta": { "vibes": ">=8" } },
-    "text": "The common room is loud in a good way. Guests are making friends and plans with each other."
+    "station": "tour_guide",
+    "communication_type": "Common room",
+    "requires": { "meter_delta": { "vibes": ">=9" } },
+    "text": "The common room is loud in a good way. Guests are making friends and whispering about rebooking before they have even seen the barn."
   },
   {
     "id": "weak_vibes",
-    "requires": { "meter_delta": { "vibes": "<=2" } },
+    "station": "tour_guide",
+    "communication_type": "Common room",
+    "requires": { "meter_delta": { "vibes": "<=4" } },
     "text": "The evening is polite and brittle. Guests say goodnight like they are leaving a museum where they touched something they should not have."
   },
   {
-    "id": "strong_food",
-    "requires": { "meter_delta": { "food": ">=8" } },
-    "text": "People are still talking about brunch at supper. Even reddit would approve of those chives."
+    "id": "ritual_disrupted",
+    "station": "ritual",
+    "communication_type": "Guest message",
+    "requires": { "flags_all": ["ritual_disrupted"] },
+    "text": "The circle broke early. Someone asked if they could leave a one-star review mid-ritual. You reminded them reviews unlock after checkout."
   },
   {
-    "id": "weak_food",
-    "requires": { "meter_delta": { "food": "<=2" } },
-    "text": "Room service notes mention 'traumatic eggs.' The guests eat crackers in their rooms and call it fasting."
+    "id": "authenticity_too_real",
+    "station": "ritual",
+    "communication_type": "Guest message",
+    "requires": { "flags_all": ["authenticity_too_real"] },
+    "text": "Tonight felt too real. Guests are quiet in that way that means they will either rebook or call a lawyer. You hide the ceremonial knives."
   },
   {
-    "id": "strong_clean",
-    "requires": { "meter_delta": { "cleanliness": ">=8" } },
-    "text": "The halls smell like soap with a tinge of ozone. A guest asks who your housekeeper is. You simply spread your hands in front of you and smile."
+    "id": "filmed_ritual",
+    "station": "ritual",
+    "communication_type": "Platform notification",
+    "requires": { "flags_all": ["filmed_ritual"] },
+    "text": "Someone posted a clip labeled authentic occult retreat. Mara wants them gone. You say it is free marketing and disable notifications."
   },
   {
-    "id": "weak_clean",
-    "requires": { "meter_delta": { "cleanliness": "<=2" } },
-    "text": "A guest finds glitter in the bath. Another finds glitter in the bread basket. It is the same glitter."
+    "id": "authenticity_boost",
+    "station": "ritual",
+    "communication_type": "Whisper network",
+    "requires": { "flags_all": ["authenticity_boost"] },
+    "text": "A guest whispers that something here felt genuinely old. You nod like you planned that and add \"ancient & nameless\" to next week's listing."
+  },
+  {
+    "id": "guest_awed",
+    "station": "ritual",
+    "communication_type": "Guest message",
+    "requires": { "flags_all": ["guest_awed"] },
+    "text": "Two guests loved the ritual. One is packing at 3pm anyway. You screenshot the happy ones for the listing carousel."
   },
   {
     "id": "strong_auth",
-    "requires": { "meter_delta": { "authenticity": ">=8" } },
-    "text": "Someone whispers that this place might actually be real. You take the opportunity to charge extra for candles."
+    "station": "ritual",
+    "communication_type": "Guest message",
+    "requires": { "meter_delta": { "authenticity": ">=9" } },
+    "text": "Someone whispers this place might actually be real. You take the opportunity to charge extra for séance candles."
   },
   {
     "id": "weak_auth",
-    "requires": { "meter_delta": { "authenticity": "<=2" } },
-    "text": "The guests compare notes and decide the occult branding is 'more Etsy than esoteric.'"
+    "station": "ritual",
+    "communication_type": "Guest message",
+    "requires": { "meter_delta": { "authenticity": "<=4" } },
+    "text": "Guests compare notes and decide the occult branding is more Etsy than abyss. You imply that one finds what one is ready for."
   },
   {
     "id": "balanced_day",
+    "station": "compound",
+    "communication_type": "Compound update",
     "requires": { "default": true },
-    "text": "No disasters, no miracles. Things settle into that specific quiet where everyone wonders if they are relaxed or afraid."
+    "text": "No disasters, no miracles. The compound settles into that specific quiet where everyone wonders if they are relaxed or afraid."
+  },
+  {
+    "id": "busy_evening",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "default_busy": true },
+    "text": "You skim the guest channels, update the incident log, and pour something strong. Tomorrow's listing still says peaceful retreat. You'd love for that to be true."
   }
 ]
