@@ -7,7 +7,13 @@ module EveningOutcomes
   DEFAULT_COMMUNICATION_TYPE = 'Compound update'
 
   def self.compound_page_beats(run, exclude_ids: [])
-    beats_for_station(:compound, {}, {}, exclude_ids: exclude_ids, compound_quiet: day_quiet?(run))
+    beats_for_station(
+      :compound,
+      normalize_flags(run.flags),
+      meter_deltas(run),
+      exclude_ids: exclude_ids,
+      compound_quiet: day_quiet?(run)
+    )
   end
 
   def self.day_quiet?(run)
@@ -30,7 +36,9 @@ module EveningOutcomes
     end
 
     if station_key == 'compound'
-      return matched if matched.any?
+      unless matched.empty?
+        return matched.sort_by { |beat| [beat_priority(beat), -flag_specificity(beat)] }.first(1)
+      end
 
       fallback_key = compound_quiet ? 'default' : 'default_busy'
       fallback = load_beats.find { |beat| beat.dig('requires', fallback_key) }
@@ -47,10 +55,16 @@ module EveningOutcomes
 
   def self.beat_priority(beat)
     requires = beat['requires'] || {}
-    return 0 if requires['flags_all'] || requires['flags_any']
-    return 1 if requires['meter_delta']&.any?
+    return 0 if requires['flags_all']
+    return 1 if requires['flags_any']
+    return 2 if requires['meter_delta']&.any?
 
-    2
+    3
+  end
+
+  def self.flag_specificity(beat)
+    requires = beat['requires'] || {}
+    requires.fetch('flags_all', requires.fetch('flags_any', [])).length
   end
 
   def self.communication_type_for(beat)

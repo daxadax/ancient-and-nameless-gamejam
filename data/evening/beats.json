@@ -147,6 +147,118 @@
     "text": "Guests compare notes and decide the occult branding is more Etsy than abyss. You imply that one finds what one is ready for."
   },
   {
+    "id": "manager_salt_casserole",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["salt_casserole"] },
+    "text": "After the fifth message about today's meal, you pin the FAQ, disable notifications, and schedule a kitchen debrief nobody will enjoy."
+  },
+  {
+    "id": "manager_kitchen_incident",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["kitchen_incident"] },
+    "text": "Smoke got into the antique bell system again. You log it as 'excess of fire energy' and approve whatever it costs to make the alarms stop."
+  },
+  {
+    "id": "manager_property_damage",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["property_damage"] },
+    "text": "Something expensive did not survive the shift. You open the damage-deposit template, close it, and open the rustic charm template instead."
+  },
+  {
+    "id": "manager_filmed_ritual",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["filmed_ritual"] },
+    "text": "A clip of tonight's ritual is circulating. Mara wants the guest gone. You call it free marketing and turn off your phone."
+  },
+  {
+    "id": "manager_authenticity_too_real",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["authenticity_too_real"] },
+    "text": "Guests are quiet in that specific way that means lawyers or rebookings. You hide the ceremonial knives and pour yourself something medicinal."
+  },
+  {
+    "id": "manager_ritual_disrupted",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["ritual_disrupted"] },
+    "text": "The circle broke early and someone asked about one-star reviews mid-ritual. You remind yourself that feedback unlocks after checkout for a reason."
+  },
+  {
+    "id": "manager_guest_disturbed",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["guest_disturbed"] },
+    "text": "A guest is still composing a formal complaint in the library. You consider locking them in for the night but instead offer a cup of tea."
+  },
+  {
+    "id": "manager_guest_confused",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["guest_confused"] },
+    "text": "Three guests compared notes in the hall and none agree on what they saw. You update tomorrow's listing to promise curated ambiguity."
+  },
+  {
+    "id": "manager_blood_room_dm",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["guest_learned_something_new"] },
+    "text": "A guest DMed about the blood room. You paste the historical restoration reply, pour a glass of wine and promise yourself to rename it the wine cellar."
+  },
+  {
+    "id": "manager_food_praised",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["food_praised"] },
+    "text": "Brunch is getting posted before people eat. You draft a price increase, delete it, and tell the kitchen to keep doing whatever that was."
+  },
+  {
+    "id": "manager_guest_delighted",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["guest_delighted"] },
+    "text": "Word spread that today was deeply weird and everyone is thrilled. Your response rate has never looked better. You allow yourself one smug moment."
+  },
+  {
+    "id": "manager_authenticity_boost",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["authenticity_boost"] },
+    "text": "A guest whispered something here felt genuinely old. You add ancient lineage to next week's listing and try not to look guilty."
+  },
+  {
+    "id": "manager_guest_awed",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "flags_all": ["guest_awed"] },
+    "text": "Two guests loved the ritual enough to photograph each other looking awed. You save the photo and make sure you have their consent forms on file."
+  },
+  {
+    "id": "manager_vibes_surge",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "meter_delta": { "vibes": ">=12" } },
+    "text": "The common room is still loud after lights-out. People are sharing experiences and making plans - and it's at least partly cause you made it happen! It's a nice feeling."
+  },
+  {
+    "id": "manager_food_struggle",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "meter_delta": { "food": "<=8" } },
+    "text": "Room service notes mention traumatic eggs. You add a fasting module to the wellness brochure and order better butter."
+  },
+  {
+    "id": "manager_cleanliness_slip",
+    "station": "compound",
+    "communication_type": "Manager notes",
+    "requires": { "meter_delta": { "cleanliness": "<=8" } },
+    "text": "Glitter keeps turning up in places glitter should not be. You mark turnover complete and schedule a conversation about restraint."
+  },
+  {
     "id": "balanced_day",
     "station": "compound",
     "communication_type": "Compound update",
