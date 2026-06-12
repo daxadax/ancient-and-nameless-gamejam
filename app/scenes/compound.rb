@@ -2,7 +2,6 @@ require 'lib/draw'
 require 'lib/ui'
 require 'lib/assign_ui'
 require 'lib/resolve_ui'
-require 'lib/hub_ui'
 require 'lib/run'
 
 module Scenes
@@ -11,7 +10,6 @@ module Scenes
     include UI
     include AssignUI
     include ResolveUI
-    include HubUI
 
     def tick(args)
       @args = args
@@ -30,7 +28,6 @@ module Scenes
       run = args.state.run
       just_confirmed = handle_assign_input(run)
       handle_resolve_input(run, skip_continue: just_confirmed)
-      handle_hub_input
     end
 
     def render
@@ -42,8 +39,6 @@ module Scenes
         render_assign_ui(run)
       elsif resolve_mode?
         render_resolve_ui(run)
-      elsif hub_mode?
-        render_hub_ui(run)
       end
 
       draw_hud(run)
