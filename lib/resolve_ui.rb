@@ -167,7 +167,7 @@ module ResolveUI
     draw_label(
       args,
       {
-        x: rect[:x] + rect[:w] - 12,
+        x: rect[:x] + rect[:w] - 40,
         y: rect[:y] + 16,
         text: "#{current}/#{total}",
         size_px: 14,
