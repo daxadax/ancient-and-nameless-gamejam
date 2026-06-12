@@ -53,7 +53,15 @@ module Resolve
       secondary: secondary,
       narrative: outcome['text'],
       mara: outcome['mara'],
-      effects: outcome['effects'] || {}
+      effects: outcome['effects'] || {},
+      station_meters: station_meters(primary, secondary)
+    }
+  end
+
+  def self.station_meters(primary, secondary)
+    {
+      primary[:meter] => primary[:total],
+      secondary[:meter] => secondary[:total]
     }
   end
 

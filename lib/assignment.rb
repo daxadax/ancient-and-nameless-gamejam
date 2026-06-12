@@ -1,6 +1,7 @@
 require 'lib/resolve'
 require 'lib/run'
 require 'lib/stations'
+require 'lib/day_report'
 
 module Assignment
   def self.read(run, station_id)
@@ -23,6 +24,8 @@ module Assignment
 
     Run.capture_day_meter_baseline!(run)
     Resolve.run!(run)
+    run.resolve_step = 0
+    run.day_report = DayReport.build(run)
     run.phase = :resolve
     true
   end

@@ -15,6 +15,8 @@ module Run
       meters: default_meters,
       assignments: {},
       last_resolve: nil,
+      resolve_step: 0,
+      day_report: nil,
       flags: {},
       mara_asides: [],
       review_callbacks: [],
@@ -66,7 +68,10 @@ module Run
     capture_day_meter_baseline!(run)
     run.assignments = {}
     run.last_resolve = nil
+    run.resolve_step = 0
+    run.day_report = nil
     run.flags = {}
+    run.mara_asides = []
     run.phase = :assign
   end
 
