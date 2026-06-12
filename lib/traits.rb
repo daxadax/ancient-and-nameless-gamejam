@@ -18,6 +18,13 @@ module Traits
     by_id(trait_id)&.fetch('tagline')
   end
 
+  def self.stat_bonuses_for(trait_id)
+    bonuses = by_id(trait_id)&.fetch('stat_bonuses', nil)
+    return {} unless bonuses
+
+    bonuses.transform_keys(&:to_s).transform_values(&:to_i)
+  end
+
   def self.station_entry(trait_id, station_id)
     by_id(trait_id)&.dig('stations', station_id.to_s)
   end

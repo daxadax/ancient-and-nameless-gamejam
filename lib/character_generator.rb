@@ -18,7 +18,7 @@ module CharacterGenerator
       {
         'id' => "r#{seed}_#{index}",
         'name' => names[index],
-        'stats' => generate_stats(rng),
+        'stats' => generate_stats(rng, trait: trait),
         'traits' => [trait],
         'tagline' => tagline,
         'portrait_color' => portrait_color(rng),
@@ -27,7 +27,13 @@ module CharacterGenerator
     end
   end
 
-  def self.generate_stats(rng)
+  def self.generate_stats(rng, trait: nil)
+    stats = random_stat_rolls(rng)
+    apply_trait_bonuses!(stats, trait)
+    stats
+  end
+
+  def self.random_stat_rolls(rng)
     keys = Character::METER_KEYS.map(&:to_s)
     stats = keys.to_h { |key| [key, 0] }
 
@@ -41,6 +47,12 @@ module CharacterGenerator
     end
 
     stats
+  end
+
+  def self.apply_trait_bonuses!(stats, trait)
+    Traits.stat_bonuses_for(trait).each do |key, bonus|
+      stats[key] += bonus
+    end
   end
 
   def self.portrait_color(rng)

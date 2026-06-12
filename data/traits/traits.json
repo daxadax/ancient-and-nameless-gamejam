@@ -1,6 +1,7 @@
 [
   {
     "trait": "clumsy",
+    "stat_bonuses": { "vibes": 1, "authenticity": -1, "food": -1 },
     "tagline": "Accidents trail them like a nervous pet.",
     "stations": {
       "kitchen": {
@@ -45,6 +46,7 @@
   },
   {
     "trait": "honest_to_a_fault",
+    "stat_bonuses": { "authenticity": 1 },
     "tagline": "Confuses honesty with hospitality in a truly genuine way.",
     "stations": {
       "tour_guide": {
@@ -63,6 +65,7 @@
   },
   {
     "trait": "wannabe_mystic",
+    "stat_bonuses": { "authenticity": -1 },
     "tagline": "Desperately wants to be mystical; terrified of being normal.",
     "stations": {
       "ritual": {
@@ -111,6 +114,7 @@
   },
   {
     "trait": "theatre_kid",
+    "stat_bonuses": { "vibes": 1, "authenticity": -1 },
     "tagline": "A special brand of 'yes, and' occultism.",
     "stations": {
       "ritual": {
@@ -136,6 +140,7 @@
   },
   {
     "trait": "trained_chef",
+    "stat_bonuses": { "food": 1 },
     "tagline": "Food can be magical, right guys? Right?",
     "stations": {
       "kitchen": {
