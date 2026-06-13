@@ -203,11 +203,11 @@
     "text": "Three guests compared notes in the hall and none agree on what they saw. You update tomorrow's listing to promise curated ambiguity."
   },
   {
-    "id": "manager_blood_room_dm",
+    "id": "manager_piss_jars_dm",
     "station": "compound",
     "communication_type": "Manager notes",
     "requires": { "flags_all": ["guest_learned_something_new"] },
-    "text": "A guest DMed about the blood room. You paste the historical restoration reply, pour a glass of wine and promise yourself to rename it the wine cellar."
+    "text": "Another guest DMed about the jars of precious bodily fluids. You pour a glass of wine and promise yourself to rename it the wine cellar. Has no one seen Dr. Strangelove? You really thought that joke would land."
   },
   {
     "id": "manager_food_praised",
