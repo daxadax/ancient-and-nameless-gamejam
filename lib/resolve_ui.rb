@@ -35,7 +35,7 @@ module ResolveUI
     draw_panel_headline(page_headline(page))
 
     rect = dialog_rect
-    draw_dialog_box(rect, border_color: page[:result]&.dig(:mara) ? RGB_CRYSTAL : RGB_INK)
+    draw_dialog_box(rect, border_color: mara_page?(page) ? RGB_CRYSTAL : RGB_INK)
 
     text_x = rect[:x] + 20
     y = rect[:y] + rect[:h] - 28
@@ -79,10 +79,12 @@ module ResolveUI
         color: RGB_INK,
         label_x: text_x
       )
+    end
 
-      if result[:mara]
-        y -= 12
-        y = draw_mara_aside(text_x, y, result[:mara])
+    if page[:mara_asides]
+      page[:mara_asides].each do |aside|
+        y -= 16
+        y = draw_mara_aside(text_x, y, aside)
       end
     end
 
@@ -117,9 +119,14 @@ module ResolveUI
   end
 
   def page_headline(page)
+    return 'OFF THE RECORD' if page[:station_id] == :mara
     return 'EVENING AT THE COMPOUND' if page[:station_id] == :compound
 
     'HOW DID IT GO?'
+  end
+
+  def mara_page?(page)
+    page[:station_id] == :mara
   end
 
   def end_day_label(run)

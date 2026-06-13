@@ -27,6 +27,8 @@ module DayReport
 
     compound_beats = EveningOutcomes.compound_page_beats(run, exclude_ids: used_beat_ids)
 
+    pages << mara_page(run) if run.mara_asides&.any?
+
     pages << {
       station_id: :compound,
       station_label: 'Evening',
@@ -36,5 +38,15 @@ module DayReport
     }
 
     pages
+  end
+
+  def self.mara_page(run)
+    {
+      station_id: :mara,
+      station_label: 'Mara',
+      result: nil,
+      beats: [],
+      mara_asides: run.mara_asides.dup
+    }
   end
 end
