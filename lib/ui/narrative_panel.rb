@@ -6,9 +6,8 @@ module UI
 
     PANEL = { x: 25, y: 50, w: FULL_WIDTH * 0.7 - 25, h: FULL_HEIGHT - 100 }.freeze
     LABEL_X = 40
-    TEXT_WIDTH = 100
+    TEXT_WIDTH = 90
     DIALOG_INSET = 28
-    DIALOG_TEXT_WIDTH = 72
 
     def draw_panel_headline(text, panel: PANEL, inset: 45, size_px: 26, color: RGB_CREAM)
       draw_label(

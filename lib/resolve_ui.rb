@@ -64,6 +64,8 @@ module ResolveUI
         color: RGB_PANEL_MUTED
       )
 
+      y -= 18
+
       draw_label(
         args,
         { x: text_x, y: y, text: result[:cultist_label].upcase, size_px: 20 },
@@ -75,8 +77,7 @@ module ResolveUI
         y - 32,
         size_px: 20,
         color: RGB_INK,
-        label_x: text_x,
-        text_width: DIALOG_TEXT_WIDTH
+        label_x: text_x
       )
 
       if result[:mara]
@@ -141,8 +142,7 @@ module ResolveUI
       top_y - 22,
       size_px: 18,
       color: RGB_DARK_BROWN,
-      label_x: text_x,
-      text_width: DIALOG_TEXT_WIDTH
+      label_x: text_x
     )
   end
 
@@ -158,8 +158,7 @@ module ResolveUI
       top_y - 22,
       size_px: 18,
       color: RGB_INK,
-      label_x: text_x,
-      text_width: DIALOG_TEXT_WIDTH
+      label_x: text_x
     )
   end
 
