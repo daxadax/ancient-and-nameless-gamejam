@@ -3,9 +3,14 @@ require 'lib/campaign'
 module Audio
   MUSIC_KEY = :music
   MUSIC_PATH = 'sounds/headscratcher.ogg'
+  COIN_RATTLE_PATH = 'sounds/coins-rattling.mp3'
+  COIN_CLINK_PATH = 'sounds/coin-4.mp3'
+  COIN_RATTLE_GAIN = 0.72
+  COIN_CLINK_GAIN = 0.55
   SAMPLE_RATE = 48_000
   CLICK_FREQUENCY = 333
   CLICK_DURATION_FRAMES = 8
+
   # NOTE: this is probably too complicated to be worth it
   # but makes some interesting possibilities to dynamically
   # adapt SFX to game variables?
@@ -68,6 +73,27 @@ module Audio
     args.audio["click_#{Kernel.tick_count}".to_sym] = {
       input: [1, SAMPLE_RATE, CLICK_WAVE],
       gain: gain / 2
+    }
+  end
+
+  def self.play_coin_rattle!(args)
+    gain = sfx_gain(args)
+    return if gain.zero?
+
+    args.audio[:coin_rattle] = {
+      input: COIN_RATTLE_PATH,
+      gain: gain * COIN_RATTLE_GAIN
+    }
+  end
+
+  def self.play_coin_clink!(args, index: 0)
+    gain = sfx_gain(args)
+    return if gain.zero?
+
+    path = COIN_CLINK_PATH
+    args.audio["coin_clink_#{Kernel.tick_count}_#{index}".to_sym] = {
+      input: path,
+      gain: gain * COIN_CLINK_GAIN
     }
   end
 

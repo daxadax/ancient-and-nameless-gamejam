@@ -67,9 +67,12 @@ module Main
       UI::PayoutAnimation.start!(args)
     end
   end
-
 end
 
 def reset(args)
   DR.reset
 end
+
+# FOR DEBUG
+# DR.recording.should_reset_after_replay_completed = false
+# DR.reset_and_replay 'replay.txt', speed: 15

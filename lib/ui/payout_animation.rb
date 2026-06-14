@@ -1,15 +1,68 @@
+require 'lib/audio'
+
 module UI
   module PayoutAnimation
-    DELAY = 100
-    DURATION = 240
+    DELAY = 40
+    DURATION = 180
     FLOATER_DURATION = 180
+    MIN_CLINKS = 10
+    MAX_CLINKS = 24
+    CREDITS_PER_CLINK = 10
 
     def self.start!(args)
-      args.state.payout_anim = { started_at: args.state.tick_count }
+      args.state.payout_anim = {
+        started_at: args.state.tick_count,
+        rattle_played: false,
+        clinks_played: 0,
+        clink_schedule: nil
+      }
     end
 
     def self.reset!(args)
       args.state.payout_anim = nil
+    end
+
+    def self.tick_sfx!(args, payout)
+      return unless args.state.payout_anim
+      return unless clinkable?(payout)
+
+      elapsed = args.state.tick_count - args.state.payout_anim[:started_at]
+      anim_elapsed = elapsed - DELAY
+      return if anim_elapsed.negative?
+
+      anim = args.state.payout_anim
+      unless anim[:rattle_played]
+        Audio.play_coin_rattle!(args)
+        anim[:rattle_played] = true
+        anim[:clink_schedule] = clink_schedule(payout)
+      end
+
+      schedule = anim[:clink_schedule] || []
+      played = anim[:clinks_played] || 0
+
+      while played < schedule.length && anim_elapsed >= schedule[played]
+        Audio.play_coin_clink!(args, index: played)
+        played += 1
+      end
+
+      anim[:clinks_played] = played
+    end
+
+    def self.clinkable?(payout)
+      payout[:total].positive? && credit_delta(payout).positive?
+    end
+
+    def self.clink_count(payout)
+      [(payout[:total] / CREDITS_PER_CLINK.to_f).ceil, MIN_CLINKS].max.clamp(MIN_CLINKS, MAX_CLINKS)
+    end
+
+    def self.clink_schedule(payout)
+      count = clink_count(payout)
+
+      (0...count).map do |index|
+        fraction = ((index + 1.0) / (count + 1))**0.9
+        (DURATION * fraction).to_i
+      end
     end
 
     def self.snapshot(args, payout)

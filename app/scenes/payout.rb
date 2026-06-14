@@ -11,6 +11,7 @@ module Scenes
       @args = args
       draw_background_color(args)
 
+      tick_sfx
       handle_input
       render
     end
@@ -18,6 +19,13 @@ module Scenes
     private
 
     attr_reader :args
+
+    def tick_sfx
+      payout = args.state.stay_payout
+      return unless payout
+
+      UI::PayoutAnimation.tick_sfx!(args, payout)
+    end
 
     def handle_input
       return unless continue_pressed?
