@@ -2,7 +2,7 @@ require 'lib/evening_outcomes'
 
 module DayReport
   def self.build(run)
-    used_beat_ids = []
+    used_beat_ids = Array(run.used_evening_beat_ids).dup
     pages = []
 
     run.last_resolve.each do |result|
@@ -14,7 +14,6 @@ module DayReport
         exclude_ids: used_beat_ids
       )
 
-      # TODO: it might make sense to make this per run so they don't get overused
       beats.each { |beat| used_beat_ids << beat['id'] }
 
       pages << {
@@ -26,6 +25,9 @@ module DayReport
     end
 
     compound_beats = EveningOutcomes.compound_page_beats(run, exclude_ids: used_beat_ids)
+    compound_beats.each { |beat| used_beat_ids << beat['id'] }
+
+    run.used_evening_beat_ids = used_beat_ids
 
     pages << mara_page(run) if run.mara_asides&.any?
 

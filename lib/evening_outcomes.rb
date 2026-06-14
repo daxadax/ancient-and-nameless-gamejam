@@ -35,6 +35,10 @@ module EveningOutcomes
       matches_requirements?(beat['requires'], station_flags, station_meters)
     end
 
+    unless station_key == 'compound'
+      matched.reject! { |beat| redundant_with_resolve?(beat, station_flags) }
+    end
+
     if station_key == 'compound'
       unless matched.empty?
         return matched.sort_by { |beat| [beat_priority(beat), -flag_specificity(beat)] }.first(1)
@@ -65,6 +69,21 @@ module EveningOutcomes
   def self.flag_specificity(beat)
     requires = beat['requires'] || {}
     requires.fetch('flags_all', requires.fetch('flags_any', [])).length
+  end
+
+  def self.redundant_with_resolve?(beat, station_flags)
+    requires = beat['requires'] || {}
+    return false if requires['meter_delta']&.any?
+
+    if requires['flags_all']
+      return requires['flags_all'].all? { |flag| station_flags[flag.to_sym] }
+    end
+
+    if requires['flags_any']
+      return requires['flags_any'].any? { |flag| station_flags[flag.to_sym] }
+    end
+
+    false
   end
 
   def self.communication_type_for(beat)

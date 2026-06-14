@@ -21,6 +21,7 @@ module Run
       stay_flags: {},
       mara_asides: [],
       review_callbacks: [],
+      used_evening_beat_ids: [],
       crew: crew,
       crew_rolls: CrewRolls.default_stats(crew)
     }
