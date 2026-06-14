@@ -18,6 +18,7 @@ module Run
       resolve_step: 0,
       day_report: nil,
       flags: {},
+      stay_flags: {},
       mara_asides: [],
       review_callbacks: [],
       crew: crew,

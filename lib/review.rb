@@ -1,9 +1,12 @@
 require 'lib/character'
 require 'lib/crew_rolls'
+require 'lib/evening_outcomes'
+require 'lib/review_outcomes'
 require 'lib/run'
 
 module Review
   METER_KEYS = Character::METER_KEYS
+  MAX_CALLBACKS = 1
 
   HEADLINES = {
     1 => 'Would not recommend to my ex. Or anyone.',
@@ -29,37 +32,62 @@ module Review
 
   def self.build(run)
     meters = run.meters
-    stars = star_count(meters)
+    stay_flags = EveningOutcomes.normalize_flags(run.stay_flags)
+    stars = star_count(meters, stay_flags)
+    primary = ReviewOutcomes.primary_line(stay_flags)
 
     {
       stars: stars,
       star_line: star_line(stars),
       headline: HEADLINES.fetch(stars),
-      body: body_for(meters, stars),
-      callback: callback_line(run),
+      body: body_for(meters, stars, stay_flags, primary),
+      callbacks: callback_lines(run, stay_flags, primary),
       crew_high: crew_high_line(run),
       crew_low: crew_low_line(run),
       meter_text: meter_summary(meters)
     }
   end
 
-  def self.callback_line(run)
-    run.review_callbacks&.first
+  def self.body_for(meters, stars, _stay_flags, primary)
+    return primary['text'] if primary
+
+    meter_body_for(meters, stars)
   end
 
-  # TODO: reconfigure this based on star-rating / category and then ~avg
-  def self.star_count(meters)
-    # current total max (without buffs) is 256
-    # total possible vibes: 88
-    # total possible authenticity: 64
-    # total possible cleanliness: 64
-    # total possible food: 40
-    total = METER_KEYS.sum { |key| meter_value(meters, key) }
+  def self.callback_lines(run, _stay_flags, primary)
+    primary_text = primary&.fetch('text', nil)
 
-    return 1 if total < 60
-    return 2 if total < 120
-    return 3 if total < 180
-    return 4 if total < 240
+    (run.review_callbacks || [])
+      .reject { |line| overlaps_review_body?(line, primary_text) }
+      .first(MAX_CALLBACKS)
+  end
+
+  def self.overlaps_review_body?(callback, primary_text)
+    return false unless primary_text
+
+    callback = callback.to_s.strip
+    body = primary_text.to_s.strip
+    return true if callback.empty?
+
+    callback == body || body.start_with?(callback) || callback.start_with?(body)
+  end
+
+  def self.star_count(meters, stay_flags)
+    total = METER_KEYS.sum { |key| meter_value(meters, key) }
+    base = meter_stars(total)
+    (base + ReviewOutcomes.star_adjustment(stay_flags)).clamp(1, 5)
+  end
+
+  # current total max (without buffs) is 256
+  # total possible vibes: 88
+  # total possible authenticity: 64
+  # total possible cleanliness: 64
+  # total possible food: 40
+  def self.meter_stars(total)
+    return 1 if total < 60  # ~23%
+    return 2 if total < 120 # ~47%
+    return 3 if total < 190 # ~74%
+    return 4 if total < 240 # ~94%
 
     5
   end
@@ -70,7 +98,7 @@ module Review
     "#{filled}#{empty}"
   end
 
-  def self.body_for(meters, stars)
+  def self.meter_body_for(meters, stars)
     values = meter_values(meters)
     worst = values.min_by { |_key, value| value }.first
     best = values.max_by { |_key, value| value }.first
@@ -100,7 +128,6 @@ module Review
     meters.send(key)
   end
 
-  # TODO: these should be based on traits / more fun / interesting
   def self.crew_high_line(run)
     return nil unless CrewRolls.callout?(run)
 

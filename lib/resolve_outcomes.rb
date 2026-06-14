@@ -68,8 +68,13 @@ module ResolveOutcomes
     return if effects.nil? || effects.empty?
 
     run.flags ||= {}
+    run.stay_flags ||= {}
     effects.each do |key, value|
-      run.flags[key.to_sym] = value if value
+      next unless value
+
+      flag = key.to_sym
+      run.flags[flag] = value
+      run.stay_flags[flag] = value
     end
   end
 
