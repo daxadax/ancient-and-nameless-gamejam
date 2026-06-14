@@ -1,0 +1,6 @@
+{
+  "economy": {
+    "base_payout_per_stay": 500,
+    "farm_save_goal": 5000
+  }
+}

@@ -1,5 +1,7 @@
 require 'lib/character'
 require 'lib/character_generator'
+require 'lib/economy'
+require 'lib/stay_payout'
 
 module Campaign
   # NOTE: Campaign survives title ↔ compound ↔ review loops.
@@ -24,6 +26,7 @@ module Campaign
       seed: nil,
       stage: 1,
       runs_completed: 0,
+      credits: 0,
       founding_complete: false,
       roster: []
     }
@@ -49,8 +52,27 @@ module Campaign
     args.state.campaign.founding_complete = true
   end
 
-  def self.complete_run!(args)
+  def self.complete_run!(args, run)
+    payout = StayPayout.for_run(run)
+    credits_before = credits(args)
+
     args.state.campaign.runs_completed += 1
+    args.state.campaign.credits = credits_before + payout[:total]
+
+    payout.merge(
+      credits_before: credits_before,
+      credits_after: credits(args),
+      farm_save_goal: Economy.farm_save_goal,
+      farm_saved: farm_saved?(args)
+    )
+  end
+
+  def self.credits(args)
+    args.state.campaign.credits.to_i
+  end
+
+  def self.farm_saved?(args)
+    credits(args) >= Economy.farm_save_goal
   end
 
   def self.runs_completed(args)
