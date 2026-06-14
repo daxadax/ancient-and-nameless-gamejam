@@ -6,6 +6,8 @@ module Scenes
   class Review
     include Draw
 
+    TEXT_WIDTH = 100
+
     def tick(args)
       draw_background_color(args)
 
@@ -28,49 +30,52 @@ module Scenes
       return if args.state.run.nil?
       review = ::Review.build(args.state.run)
 
-      draw_title(args, { x: 640, y: 560, text: 'Guest Review', size_px: 48, color: RGB_INK })
+      y = 600
+      draw_title(args, { x: 640, y: y, text: 'Guest Review', size_px: 48, color: RGB_INK })
 
+      y -= 60
       draw_title(
         args,
-        { x: 640, y: 490, text: review[:star_line], size_px: 40, color: RGB_GOLD }
+        { x: 640, y: y, text: review[:star_line], size_px: 40, color: RGB_GOLD }
       )
 
+      y -= 60
       draw_title(
         args,
-        { x: 640, y: 420, text: review[:headline], size_px: 24, color: RGB_INK }
+        { x: 640, y: y, text: review[:headline], size_px: 24, color: RGB_INK }
       )
 
-      y = 380
-      wrap_text(review[:body], 80).each do |line|
+      y -= 40
+      wrap_text(review[:body], TEXT_WIDTH).each do |line|
         draw_title(
           args,
           { x: 640, y: y, text: line, size_px: 24, color: RGB_INK }
         )
-        y -= 30
+        y -= 40
       end
 
-      if review[:callback]
-        y -= 10
-        wrap_text(review[:callback], 80).each do |line|
-          draw_title(args, { x: 640, y: y, text: line, size_px: 24, color: RGB_INK })
-          y -= 28
+      if review[:callbacks].any?
+        review[:callbacks].each do |callback|
+          wrap_text(callback, TEXT_WIDTH).each do |line|
+            draw_title(args, { x: 640, y: y, text: line, size_px: 24, color: RGB_INK })
+            y -= 40
+          end
         end
       end
 
-      meter_y = y - 20
       if review[:crew_high]
-        draw_title(args, { x: 640, y: meter_y, text: review[:crew_high], size_px: 24, color: RGB_INK })
-        meter_y -= 36
+        draw_title(args, { x: 640, y: y, text: review[:crew_high], size_px: 24, color: RGB_INK })
+        y -= 40
       end
 
       if review[:crew_low]
-        draw_title(args, { x: 640, y: meter_y, text: review[:crew_low], size_px: 24, color: RGB_INK })
-        meter_y -= 36
+        draw_title(args, { x: 640, y: y, text: review[:crew_low], size_px: 24, color: RGB_INK })
+        y -= 40
       end
 
       draw_title(
         args,
-        { x: 640, y: meter_y, text: review[:meter_text], size_px: 18, color: RGB_MUTED }
+        { x: 640, y: y, text: review[:meter_text], size_px: 18, color: RGB_MUTED }
       )
 
       prompt = 'Press ENTER or SPACE to continue'
