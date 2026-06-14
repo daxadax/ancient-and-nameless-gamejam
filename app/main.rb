@@ -8,6 +8,7 @@ require 'app/scenes/intro'
 require 'app/scenes/crew_select'
 require 'app/scenes/compound'
 require 'app/scenes/review'
+require 'app/scenes/payout'
 
 # TODO: generate cultists (later guests?) based on traits & campaign lvl rather than hardcoding
 # TODO: can't pick the same occultist twice for the same position?
@@ -23,7 +24,8 @@ module Main
     intro: Scenes::Intro.new,
     crew_select: Scenes::CrewSelect.new,
     compound: Scenes::Compound.new,
-    review: Scenes::Review.new
+    review: Scenes::Review.new,
+    payout: Scenes::Payout.new
   }.freeze
 
   def tick(args)
@@ -58,6 +60,11 @@ module Main
       CrewSelect.reset!(args)
     when :compound
       Run.start!(args) unless Run.active?(args)
+    when :payout
+      return unless Run.active?(args)
+
+      args.state.stay_payout = Campaign.complete_run!(args, args.state.run)
+      args.state.run = nil
     end
   end
 

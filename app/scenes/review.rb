@@ -23,11 +23,7 @@ module Scenes
 
       return unless continue
 
-      # NOTE: later: moves to payout screen
-      # for now: applies credits + runs_completed
-      Campaign.complete_run!(args, args.state.run)
-      args.state.run = nil
-      args.state.next_scene = :title
+      args.state.next_scene = :payout
     end
 
     def render(args)
