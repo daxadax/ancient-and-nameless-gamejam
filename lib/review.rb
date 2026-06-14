@@ -8,6 +8,10 @@ require 'lib/traits'
 module Review
   METER_KEYS = Character::METER_KEYS
   MAX_CALLBACKS = 1
+  KITCHEN_DISASTER_FLAGS = %i[salt_casserole kitchen_incident].freeze
+  FOOD_PRAISE_CALLBACKS = [
+    'The food was the only normal thing about this place. I mean that as a compliment. I think.'
+  ].freeze
 
   DEFAULT_CALLOUTS = {
     high: '<name> is such a gem, he completely stole the show.',
@@ -65,12 +69,26 @@ module Review
     meter_body_for(meters, stars)
   end
 
-  def self.callback_lines(run, _stay_flags, primary)
+  def self.callback_lines(run, stay_flags, primary)
+    stay_flags = EveningOutcomes.normalize_flags(stay_flags)
     primary_text = primary&.fetch('text', nil)
 
     (run.review_callbacks || [])
       .reject { |line| overlaps_review_body?(line, primary_text) }
+      .reject { |line| contradicts_stay_narrative?(line, stay_flags) }
       .first(MAX_CALLBACKS)
+  end
+
+  def self.contradicts_stay_narrative?(line, stay_flags)
+    kitchen_disaster?(stay_flags) && food_praise_callback?(line)
+  end
+
+  def self.kitchen_disaster?(stay_flags)
+    KITCHEN_DISASTER_FLAGS.any? { |flag| stay_flags[flag] }
+  end
+
+  def self.food_praise_callback?(line)
+    FOOD_PRAISE_CALLBACKS.include?(line.to_s.strip)
   end
 
   def self.overlaps_review_body?(callback, primary_text)
@@ -154,9 +172,17 @@ module Review
     id = kind == :high ? summary[:best_id] : summary[:worst_id]
     character = Run.character(run, id)
     return nil unless character
+    return nil if skip_crew_callout?(kind, run, character)
 
     template = callout_template_for(character, kind)
     Traits.substitute(template, character.display_name)
+  end
+
+  def self.skip_crew_callout?(kind, run, character)
+    return false unless kind == :high
+
+    kitchen_disaster?(EveningOutcomes.normalize_flags(run.stay_flags)) &&
+      character.traits.include?(:trained_chef)
   end
 
   def self.callout_template_for(character, kind)

@@ -13,6 +13,27 @@ module ReviewOutcomes
     food_praised guest_delighted authenticity_boost guest_awed
   ].freeze
 
+  # NOTE: flags persist across the whole stay; negative kitchen beats positive food praise in review copy.
+  CONFLICT_GROUPS = [
+    {
+      negative: %i[salt_casserole kitchen_incident],
+      positive: %i[food_praised]
+    }
+  ].freeze
+
+  def self.resolve_narrative_flags(flags)
+    normalized = EveningOutcomes.normalize_flags(flags)
+    result = normalized.dup
+
+    CONFLICT_GROUPS.each do |group|
+      next unless group[:negative].any? { |flag| normalized[flag] }
+
+      group[:positive].each { |flag| result[flag] = false }
+    end
+
+    result
+  end
+
   def self.matched_lines(flags)
     load_lines
       .reject { |line| line.dig('requires', 'default') }
@@ -21,7 +42,7 @@ module ReviewOutcomes
   end
 
   def self.primary_line(flags)
-    matched = matched_lines(flags)
+    matched = matched_lines(resolve_narrative_flags(flags))
     return matched.first if matched.any?
 
     load_lines.find { |line| line.dig('requires', 'default') }
