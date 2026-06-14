@@ -49,6 +49,14 @@ module Campaign
     args.state.campaign.founding_complete = true
   end
 
+  def self.complete_run!(args)
+    args.state.campaign.runs_completed += 1
+  end
+
+  def self.runs_completed(args)
+    args.state.campaign.runs_completed.to_i
+  end
+
   def self.roster_data(args)
     args.state.campaign.roster
   end

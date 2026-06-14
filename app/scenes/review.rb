@@ -1,3 +1,4 @@
+require 'lib/campaign'
 require 'lib/draw'
 require 'lib/run'
 require 'lib/review'
@@ -22,6 +23,7 @@ module Scenes
 
       return unless continue
 
+      Campaign.complete_run!(args)
       args.state.run = nil
       args.state.next_scene = :title
     end
