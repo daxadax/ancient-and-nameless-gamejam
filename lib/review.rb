@@ -3,17 +3,23 @@ require 'lib/crew_rolls'
 require 'lib/evening_outcomes'
 require 'lib/review_outcomes'
 require 'lib/run'
+require 'lib/traits'
 
 module Review
   METER_KEYS = Character::METER_KEYS
   MAX_CALLBACKS = 1
 
+  DEFAULT_CALLOUTS = {
+    high: '<name> is such a gem, he completely stole the show.',
+    low: '<name> single-handedly made me regret booking this.'
+  }.freeze
+
   HEADLINES = {
     1 => 'Would not recommend to my ex. Or anyone.',
     2 => 'An experience. That is the nicest thing I can say.',
-    3 => 'Perfectly adequate cult retreat. The crystals were nice.',
-    4 => 'Genuinely weird in a good way. Already told two friends.',
-    5 => 'They had me at the summoning circle. Five stars, no notes.'
+    3 => 'Perfectly adequate cult retreat, I think I developed a thing for crystals.',
+    4 => 'Genuinely weird in a good way, I\'ve already told two friends.',
+    5 => 'Five stars, no notes. This was a weird, fun and genuinely great experience that has me questioning everything.'
   }.freeze
 
   METER_HIGH = {
@@ -24,9 +30,9 @@ module Review
   }.freeze
 
   METER_LOW = {
-    vibes: 'Something about the tour felt off. Actually the experience did',
+    vibes: 'Something about the tour felt off...actually the entire experience did',
     food: 'Instead of breakfast I got a vision board crafting session',
-    cleanliness: 'There was blood on the carpet...not a lot, but enough',
+    cleanliness: 'There was blood on the carpet...not a lot, but still way too much',
     authenticity: 'Not sure this counts as occult, it felt more like community theater.'
   }.freeze
 
@@ -129,22 +135,33 @@ module Review
   end
 
   def self.crew_high_line(run)
-    return nil unless CrewRolls.callout?(run)
-
-    summary = CrewRolls.summary(run)
-    character = Run.character(run, summary[:best_id])
-    return nil unless character
-
-    "#{character.display_name} carried the weekend."
+    crew_callout_line(run, :high)
   end
 
   def self.crew_low_line(run)
+    crew_callout_line(run, :low)
+  end
+
+  def self.crew_callout_line(run, kind)
     return nil unless CrewRolls.callout?(run)
 
     summary = CrewRolls.summary(run)
-    character = Run.character(run, summary[:worst_id])
+    id = kind == :high ? summary[:best_id] : summary[:worst_id]
+    character = Run.character(run, id)
     return nil unless character
 
-    "#{character.display_name} had a rough few days."
+    template = callout_template_for(character, kind)
+    Traits.substitute(template, character.display_name)
+  end
+
+  def self.callout_template_for(character, kind)
+    key = kind == :high ? 'review_high' : 'review_low'
+
+    character.traits.each do |trait_id|
+      line = Traits.review_callout_for(trait_id, kind)
+      return line if line
+    end
+
+    character.to_h[key] || DEFAULT_CALLOUTS.fetch(kind)
   end
 end

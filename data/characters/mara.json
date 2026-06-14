@@ -9,6 +9,8 @@
   },
   "traits": [],
   "tagline": "The main character",
+  "review_high": "Mara is genuinely impressive. She made me really question if all of this is real.",
+  "review_low": "The owner stared through my soul and then complimented my shoes. I still have absolutely no idea what to think of her.",
   "bio": "Inherited the farm and turned it into her base of operations. Her air of mystery comes through a lifetime of being surrounded by weirdos.",
   "portrait_color": { "r": 0, "g": 0, "b": 0 },
   "resolve_file": "data/resolve/mara.json"

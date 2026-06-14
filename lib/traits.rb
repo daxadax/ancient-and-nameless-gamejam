@@ -25,6 +25,11 @@ module Traits
     bonuses.transform_keys(&:to_s).transform_values(&:to_i)
   end
 
+  def self.review_callout_for(trait_id, kind)
+    key = kind == :high ? 'review_high' : 'review_low'
+    by_id(trait_id)&.fetch(key, nil)
+  end
+
   def self.station_entry(trait_id, station_id)
     by_id(trait_id)&.dig('stations', station_id.to_s)
   end

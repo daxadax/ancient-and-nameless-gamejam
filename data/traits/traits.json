@@ -3,6 +3,8 @@
     "trait": "clumsy",
     "stat_bonuses": { "vibes": 1, "authenticity": -1, "food": -1 },
     "tagline": "Accidents trail them like a nervous pet.",
+    "review_high": "<name> is strangely sweet - they gave the whole stay a real sitcom vibe that was genuinely enjoyable.",
+    "review_low": "<name> is a bumbling idiot and honestly I just feel grateful that no one was more seriously injured.",
     "stations": {
       "kitchen": {
         "fail": "<name> spilled the salt jar into the batch of curry they were making, but never realized it and served it proudly to all the guests.",
@@ -48,6 +50,8 @@
     "trait": "honest_to_a_fault",
     "stat_bonuses": { "authenticity": 1 },
     "tagline": "Confuses honesty with hospitality in a truly genuine way.",
+    "review_high": "<name> answered every question with real honesty and warmth, even ones that were clearly just trolling.",
+    "review_low": "<name> answered questions I didn't ask and I know more about their struggles with incontinence than anyone (possibly even their doctor) should.",
     "stations": {
       "tour_guide": {
         "fail": "<name> opened the basement door at the same time Mara was making an offering to the nameless one. One guest has not stopped muttering; their friend is threatening to call the police.",
@@ -67,6 +71,8 @@
     "trait": "wannabe_mystic",
     "stat_bonuses": { "authenticity": -1 },
     "tagline": "Desperately wants to be mystical; terrified of being normal.",
+    "review_high": "The manic pixie baby witch thing somehow really works for <name>, they're a lot of fun.",
+    "review_low": "The first time I heard <name> sobbing behind the barn I concerned, after the 10th I was a little put out to be paying for this.",
     "stations": {
       "ritual": {
         "fail": "A guest questioned whether the ritual was real. <name> overcompensated, tried for an outfit change, and eventually just ran off weakly sobbing.",
@@ -116,6 +122,8 @@
     "trait": "theatre_kid",
     "stat_bonuses": { "vibes": 1, "authenticity": -1 },
     "tagline": "A special brand of 'yes, and' occultism.",
+    "review_high": "<name> is phenomenal. I've never felt so a part of something in all my life, idk if that's magic or what it is but what an experience!",
+    "review_low": "<name> made the experience feel like playing a TTRPG with an immature and underprepared DM. Just a cringy waste of time.",
     "stations": {
       "ritual": {
         "fail": "<name> went full avant-garde: whispering, crawling, smearing themselves with stage blood. It did NOT land.",
@@ -142,6 +150,8 @@
     "trait": "trained_chef",
     "stat_bonuses": { "food": 1 },
     "tagline": "Food can be magical, right guys? Right?",
+    "review_high": "The food is like..really good. Way better than it has any reason to be. The rest of the experience was not bad but the food was seriously the best part.",
+    "review_low": "I'm really glad I brought some snacks with me - I wasn't expecting high level cooking but it was mostly unedible.",
     "stations": {
       "kitchen": {
         "fail": "The cooking was passionate but not particularly good. <name> called it rustic intimacy. The guests called it a situation.",
