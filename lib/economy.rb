@@ -12,4 +12,12 @@ module Economy
   def self.farm_save_goal
     config.fetch('farm_save_goal').to_i
   end
+
+  def self.star_bonus(stars)
+    config.fetch('star_bonuses', {}).fetch(stars.to_s, 0).to_i
+  end
+
+  def self.star_penalty(stars)
+    config.fetch('star_penalties', {}).fetch(stars.to_s, 0).to_i
+  end
 end

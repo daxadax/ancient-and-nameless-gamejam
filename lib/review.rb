@@ -39,7 +39,7 @@ module Review
   def self.build(run)
     meters = run.meters
     stay_flags = EveningOutcomes.normalize_flags(run.stay_flags)
-    stars = star_count(meters, stay_flags)
+    stars = stars_for(run)
     primary = ReviewOutcomes.primary_line(stay_flags)
 
     {
@@ -52,6 +52,11 @@ module Review
       crew_low: crew_low_line(run),
       meter_text: meter_summary(meters)
     }
+  end
+
+  def self.stars_for(run)
+    stay_flags = EveningOutcomes.normalize_flags(run.stay_flags)
+    star_count(run.meters, stay_flags)
   end
 
   def self.body_for(meters, stars, _stay_flags, primary)

@@ -75,8 +75,10 @@ module Scenes
       end
 
       if review[:crew_low]
-        draw_title(args, { x: 640, y: y, text: review[:crew_low], size_px: 24, color: RGB_INK })
-        y -= 40
+        wrap_text(review[:crew_low], TEXT_WIDTH).each do |line|
+          draw_title(args, { x: 640, y: y, text: line, size_px: 24, color: RGB_INK })
+          y -= 40
+        end
       end
 
       draw_title(
