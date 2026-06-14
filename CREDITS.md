@@ -18,8 +18,8 @@
 - **Source:** https://sounddino.com/en/effects/coins/
 - **Attribution line:** Sounds by Sounddino
 
-### Coins 1-4
-- **File:** `sounds/coin-*.mp3`
+### Coin SFX
+- **File:** `sounds/coin-4.mp3`
 - **Author:** Driken Stan
 - **Source:** https://pixabay.com/users/driken5482-45721595/
 - **Attribution line:** Coin sounds by Driken5482 via pixabay.com
