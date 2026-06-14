@@ -10,7 +10,6 @@ require 'app/scenes/compound'
 require 'app/scenes/review'
 require 'app/scenes/payout'
 
-# TODO: generate cultists (later guests?) based on traits & campaign lvl rather than hardcoding
 # TODO: can't pick the same occultist twice for the same position?
 # TODO: resolve / consider secondary station attributes
 # TODO: UI as a journal / notebook?
