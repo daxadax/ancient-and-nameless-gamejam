@@ -65,6 +65,7 @@ module Main
 
       args.state.stay_payout = Campaign.complete_run!(args, args.state.run)
       args.state.run = nil
+      UI::PayoutAnimation.start!(args)
     end
   end
 
