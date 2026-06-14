@@ -1,0 +1,72 @@
+[
+  {
+    "id": "review_salt_casserole",
+    "requires": { "flags_all": ["salt_casserole"] },
+    "text": "I still have heart palpitations from that salt casserole. The wellness arc needs a warning label."
+  },
+  {
+    "id": "review_kitchen_incident",
+    "requires": { "flags_all": ["kitchen_incident"] },
+    "text": "Something caught fire in the kitchen and everyone clapped like it was scheduled. I did not feel safe. I felt marketed to."
+  },
+  {
+    "id": "review_property_damage",
+    "requires": { "flags_all": ["property_damage"] },
+    "text": "An heirloom did not survive my stay. Management called it rustic charm. My insurance company used different words."
+  },
+  {
+    "id": "review_guest_disturbed",
+    "requires": { "flags_all": ["guest_disturbed"] },
+    "text": "I am still composing the formal complaint. The library acoustics are excellent for practicing outrage."
+  },
+  {
+    "id": "review_ritual_disrupted",
+    "requires": { "flags_all": ["ritual_disrupted"] },
+    "text": "I asked if I could leave a one-star review mid-ritual. They said feedback unlocks after checkout. Bold policy."
+  },
+  {
+    "id": "review_authenticity_too_real",
+    "requires": { "flags_all": ["authenticity_too_real"] },
+    "text": "Tonight felt too real. I have packed. I may also call my therapist and my lawyer, in that order."
+  },
+  {
+    "id": "review_filmed_ritual",
+    "requires": { "flags_all": ["filmed_ritual"] },
+    "text": "Someone posted our ritual online without asking. Authentic occult retreat, my ass. I want my face blurred and my soul back."
+  },
+  {
+    "id": "review_guest_confused",
+    "requires": { "flags_all": ["guest_confused"] },
+    "text": "Three of us compared notes in the hall and none of us agree on what we witnessed. I left with more questions than answers and I guess that's kind of good but it doesn't feel good."
+  },
+  {
+    "id": "review_piss_jars",
+    "requires": { "flags_all": ["guest_learned_something_new"] },
+    "text": "We saw what looked like an old wine cellar full of 'precious bodily fluids.' That really weirded me out. I did research. Are they *serious* weirdos or just into Kubrick?"
+  },
+  {
+    "id": "review_food_praised",
+    "requires": { "flags_all": ["food_praised"] },
+    "text": "The food was the only normal thing about this place. I mean that as a compliment. I think."
+  },
+  {
+    "id": "review_guest_delighted",
+    "requires": { "flags_all": ["guest_delighted"] },
+    "text": "Deeply weird in the best way. Already told two friends. One is booking. The other wrote a concered DM to my mom."
+  },
+  {
+    "id": "review_authenticity_boost",
+    "requires": { "flags_all": ["authenticity_boost"] },
+    "text": "Something here felt genuinely old. I cannot prove it. I also cannot stop thinking about it."
+  },
+  {
+    "id": "review_guest_awed",
+    "requires": { "flags_all": ["guest_awed"] },
+    "text": "The ritual was unsettling and excellent. I loved it. I am also leaving early because I need a secular breakfast."
+  },
+  {
+    "id": "review_quiet_stay",
+    "requires": { "default": true },
+    "text": "No disasters, no miracles. A perfectly adequate cult retreat. The crystals were nice."
+  }
+]
