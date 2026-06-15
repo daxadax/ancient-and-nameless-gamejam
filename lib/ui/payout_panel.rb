@@ -67,9 +67,10 @@ module UI
       draw_bar_sparkle(bar_top_y, anim[:bar_ratio], anim[:t]) unless anim[:in_delay]
 
       if payout[:farm_saved] && anim[:complete]
+        message = payout[:just_saved_farm] ? 'You paid off this month\'s debt!' : 'This month\'s debt has been paid.'
         draw_title(
           args,
-          { x: 640, y: bar_top_y - 36, text: 'The farm note is covered.', size_px: 20, color: RGB_GOLD }
+          { x: 640, y: bar_top_y - 36, text: message, size_px: 20, color: RGB_GOLD }
         )
       end
     end
@@ -115,6 +116,7 @@ module UI
       args.outputs.primitives << fill.merge(RGB_GOLD).merge(a: fill_alpha, primitive_marker: :solid)
     end
 
+    # NOTE: surely there's a better way to this?
     def draw_bar_sparkle(top_y, ratio, t)
       return if t >= 1.0 || ratio <= 0.0
 

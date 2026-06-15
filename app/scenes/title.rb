@@ -43,6 +43,8 @@ module Scenes
           { x: 516, y: 625, text: SUBTITLE, size_px: 24, color: RGB_DARK_BROWN, anchor_x: 0 }
         )
 
+        draw_debt_free_msg(args) if Campaign.farm_note_paid?(args)
+
         draw_glowing_title(
           args,
           { x: 640, y: 50, text: 'Press ENTER or SPACE to begin', size_px: 22, color: RGB_CREAM },
@@ -72,6 +74,19 @@ module Scenes
       }.merge(RGB_BEIGE)
 
       CrystalGlow.render(args)
+    end
+
+    def draw_debt_free_msg(args)
+      draw_glowing_title(
+        args,
+        { x: 20, y: 0 + 45, text: 'You\'re debt free! ...currently.', size_px: 24, color: RGB_CREAM, anchor_x: 0 }
+      )
+
+      line = "You've got #{Campaign.credits(args)} quid stuffed under the mattress"
+      draw_glowing_title(
+        args,
+        { x: 20, y: 0 + 20, text: line, size_px: 20, color: RGB_CREAM, anchor_x: 0 }
+      )
     end
   end
 end

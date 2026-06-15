@@ -9,6 +9,7 @@ require 'app/scenes/crew_select'
 require 'app/scenes/compound'
 require 'app/scenes/review'
 require 'app/scenes/payout'
+require 'app/scenes/win'
 
 # TODO: can't pick the same occultist twice for the same position?
 # TODO: resolve / consider secondary station attributes
@@ -24,7 +25,8 @@ module Main
     crew_select: Scenes::CrewSelect.new,
     compound: Scenes::Compound.new,
     review: Scenes::Review.new,
-    payout: Scenes::Payout.new
+    payout: Scenes::Payout.new,
+    win: Scenes::Win.new
   }.freeze
 
   def tick(args)

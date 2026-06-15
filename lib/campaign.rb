@@ -27,6 +27,7 @@ module Campaign
       stage: 1,
       runs_completed: 0,
       credits: 0,
+      farm_note_paid: false,
       founding_complete: false,
       roster: []
     }
@@ -55,15 +56,21 @@ module Campaign
   def self.complete_run!(args, run)
     payout = StayPayout.for_run(run)
     credits_before = credits(args)
+    was_paid = farm_note_paid?(args)
 
     args.state.campaign.runs_completed += 1
     args.state.campaign.credits = credits_before + payout[:total]
+
+    now_saved = farm_saved?(args)
+    just_saved_farm = !was_paid && now_saved
+    args.state.campaign.farm_note_paid = true if now_saved
 
     payout.merge(
       credits_before: credits_before,
       credits_after: credits(args),
       farm_save_goal: Economy.farm_save_goal,
-      farm_saved: farm_saved?(args)
+      farm_saved: now_saved,
+      just_saved_farm: just_saved_farm
     )
   end
 
@@ -73,6 +80,10 @@ module Campaign
 
   def self.farm_saved?(args)
     credits(args) >= Economy.farm_save_goal
+  end
+
+  def self.farm_note_paid?(args)
+    args.state.campaign.farm_note_paid == true
   end
 
   def self.runs_completed(args)

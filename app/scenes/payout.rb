@@ -32,8 +32,9 @@ module Scenes
       return unless animation_complete?
 
       UI::PayoutAnimation.reset!(args)
+      payout = args.state.stay_payout
+      args.state.next_scene = payout&.fetch(:just_saved_farm, false) ? :win : :title
       args.state.stay_payout = nil
-      args.state.next_scene = :title
     end
 
     def render
