@@ -12,7 +12,7 @@ module Run
       day: 1,
       max_days: MAX_DAYS,
       phase: :assign,
-      meters: default_meters,
+      meters: fresh_meters,
       assignments: {},
       last_resolve: nil,
       resolve_step: 0,
@@ -89,7 +89,7 @@ module Run
     run.day >= run.max_days
   end
 
-  def self.default_meters
-    @default_meters ||= Character::METER_KEYS.map { |x| [x, 0] }.to_h
+  def self.fresh_meters
+    Character::METER_KEYS.to_h { |key| [key, 0] }
   end
 end
