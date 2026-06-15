@@ -1,4 +1,4 @@
-require 'lib/character'
+require 'lib/characters/character'
 
 module CrewRolls
   MIN_SPREAD = 4

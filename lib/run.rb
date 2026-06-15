@@ -1,6 +1,6 @@
-require 'lib/character'
+require 'lib/characters/character'
+require 'lib/characters/crew_rolls'
 require 'lib/campaign'
-require 'lib/crew_rolls'
 
 module Run
   MAX_DAYS = 3

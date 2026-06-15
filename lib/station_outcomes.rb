@@ -1,4 +1,4 @@
-require 'lib/traits'
+require 'lib/characters/traits'
 
 module StationOutcomes
   DATA_DIR = 'data/resolve/stations'.freeze

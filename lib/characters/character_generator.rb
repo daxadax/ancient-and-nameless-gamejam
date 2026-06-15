@@ -1,5 +1,5 @@
-require 'lib/character'
-require 'lib/traits'
+require 'lib/characters/character'
+require 'lib/characters/traits'
 
 module CharacterGenerator
   STAGES_FILE = 'data/generation/stages.json'.freeze

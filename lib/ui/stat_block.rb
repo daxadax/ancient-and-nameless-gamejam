@@ -1,4 +1,4 @@
-require 'lib/character'
+require 'lib/characters/character'
 require 'lib/helpers/draw'
 
 module UI

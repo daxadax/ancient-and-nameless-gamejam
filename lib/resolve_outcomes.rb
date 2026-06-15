@@ -1,6 +1,6 @@
-require 'lib/traits'
+require 'lib/characters/traits'
+require 'lib/characters/character'
 require 'lib/station_outcomes'
-require 'lib/character'
 
 module ResolveOutcomes
   FALLBACK = {

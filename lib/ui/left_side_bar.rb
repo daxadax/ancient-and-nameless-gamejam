@@ -1,5 +1,5 @@
 require 'lib/helpers/draw'
-require 'lib/character'
+require 'lib/characters/character'
 require 'lib/stations'
 require 'lib/campaign'
 require 'lib/crew_select'

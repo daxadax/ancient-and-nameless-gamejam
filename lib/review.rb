@@ -1,9 +1,9 @@
-require 'lib/character'
-require 'lib/crew_rolls'
+require 'lib/characters/character'
+require 'lib/characters/crew_rolls'
+require 'lib/characters/traits'
 require 'lib/evening_outcomes'
 require 'lib/review_outcomes'
 require 'lib/run'
-require 'lib/traits'
 
 module Review
   METER_KEYS = Character::METER_KEYS

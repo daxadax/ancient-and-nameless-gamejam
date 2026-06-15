@@ -1,7 +1,7 @@
 require 'lib/helpers/draw'
 require 'lib/helpers/audio'
+require 'lib/characters/character'
 require 'lib/stations'
-require 'lib/character'
 require 'lib/assignment'
 require 'lib/resolve'
 require 'lib/run'

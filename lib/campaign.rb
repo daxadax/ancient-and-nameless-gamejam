@@ -1,5 +1,5 @@
-require 'lib/character'
-require 'lib/character_generator'
+require 'lib/characters/character'
+require 'lib/characters/character_generator'
 require 'lib/economy'
 require 'lib/stay_payout'
 
