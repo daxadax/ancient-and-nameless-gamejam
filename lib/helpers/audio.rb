@@ -33,7 +33,7 @@ module Audio
     gain = music_gain(args)
     track = args.audio[MUSIC_KEY]
 
-    # return start_music!(args) if track.nil? && gain.positive?
+    return start_music!(args) if track.nil? && gain.positive?
 
     return unless track
 
