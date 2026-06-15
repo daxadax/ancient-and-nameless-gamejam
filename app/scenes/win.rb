@@ -9,7 +9,7 @@ module Scenes
     include Buttons
     include UI
 
-    TEXT_WIDTH = 72
+    TEXT_WIDTH = 100
     KEEP_PLAYING_BTN = { x: 520, y: 120, w: 240, h: 44 }
 
     def tick(args)
@@ -34,7 +34,7 @@ module Scenes
     end
 
     def render
-      y = 620
+      y = 540
       draw_title(args, { x: 640, y: y, text: 'You\'re (currently) debt free!', size_px: 48, color: RGB_GOLD })
 
       y -= 70
