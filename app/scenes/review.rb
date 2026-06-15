@@ -7,7 +7,7 @@ module Scenes
   class Review
     include Draw
 
-    TEXT_WIDTH = 70
+    TEXT_WIDTH = 85
 
     def tick(args)
       draw_background_color(args)
@@ -46,35 +46,12 @@ module Scenes
       )
 
       y -= 40
-      wrap_text(review[:body], TEXT_WIDTH).each do |line|
+      wrap_text(build_review_text(review), TEXT_WIDTH).each do |line|
         draw_title(
           args,
           { x: 640, y: y, text: line, size_px: 24, color: RGB_INK }
         )
-        y -= 40
-      end
-
-      if review[:callbacks].any?
-        review[:callbacks].each do |callback|
-          wrap_text(callback, TEXT_WIDTH).each do |line|
-            draw_title(args, { x: 640, y: y, text: line, size_px: 24, color: RGB_INK })
-            y -= 40
-          end
-        end
-      end
-
-      if review[:crew_high]
-        wrap_text(review[:crew_high], TEXT_WIDTH).each do |line|
-          draw_title(args, { x: 640, y: y, text: line, size_px: 24, color: RGB_INK })
-          y -= 40
-        end
-      end
-
-      if review[:crew_low]
-        wrap_text(review[:crew_low], TEXT_WIDTH).each do |line|
-          draw_title(args, { x: 640, y: y, text: line, size_px: 24, color: RGB_INK })
-          y -= 40
-        end
+        y -= 35
       end
 
       draw_title(
@@ -84,6 +61,15 @@ module Scenes
 
       prompt = 'Press ENTER or SPACE to continue'
       draw_title(args, { x: 640, y: 80, text: prompt, size_px: 22, color: RGB_MUTED })
+    end
+
+    def build_review_text(review)
+      text = review[:body] + ' '
+      text += review[:callbacks].join(' ') + ' ' if review[:callbacks].any?
+      text += review[:crew_high] + ' ' if review[:crew_high]
+      text += review[:crew_low] + ' ' if review[:crew_low]
+
+      text
     end
   end
 end
