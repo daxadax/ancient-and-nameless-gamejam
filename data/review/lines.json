@@ -7,7 +7,7 @@
   {
     "id": "review_kitchen_incident",
     "requires": { "flags_all": ["kitchen_incident"] },
-    "text": "Something caught fire in the kitchen and everyone clapped like it was scheduled. I did not feel safe. I felt marketed to."
+    "text": "Something caught fire in the kitchen and everyone clapped like it was part of the show. I can't tell if it actually was or not and I think that really sums up this experience."
   },
   {
     "id": "review_property_damage",

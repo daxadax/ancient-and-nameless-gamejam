@@ -7,7 +7,7 @@ module Scenes
   class Review
     include Draw
 
-    TEXT_WIDTH = 100
+    TEXT_WIDTH = 70
 
     def tick(args)
       draw_background_color(args)
@@ -30,7 +30,7 @@ module Scenes
       return if args.state.run.nil?
       review = ::Review.build(args.state.run)
 
-      y = 600
+      y = 540
       draw_title(args, { x: 640, y: y, text: 'Guest Review', size_px: 48, color: RGB_INK })
 
       y -= 60
