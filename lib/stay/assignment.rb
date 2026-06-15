@@ -1,6 +1,6 @@
-require 'lib/resolve'
-require 'lib/run'
-require 'lib/stations'
+require 'lib/stay/resolve'
+require 'lib/stay/run'
+require 'lib/stay/stations'
 require 'lib/outcomes/day_report'
 
 module Assignment

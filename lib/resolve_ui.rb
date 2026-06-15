@@ -2,7 +2,7 @@ require 'lib/helpers/draw'
 require 'lib/helpers/buttons'
 require 'lib/outcomes/day_report'
 require 'lib/outcomes/evening_outcomes'
-require 'lib/run'
+require 'lib/stay/run'
 require 'lib/ui/narrative_panel'
 
 module ResolveUI

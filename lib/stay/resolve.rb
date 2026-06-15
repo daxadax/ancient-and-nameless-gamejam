@@ -1,8 +1,8 @@
 require 'lib/characters/character'
 require 'lib/characters/crew_rolls'
-require 'lib/stations'
+require 'lib/stay/stations'
 require 'lib/outcomes/resolve_outcomes'
-require 'lib/run'
+require 'lib/stay/run'
 
 module Resolve
   def self.valid_assignments?(assignments, crew_ids)

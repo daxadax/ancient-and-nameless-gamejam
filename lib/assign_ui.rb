@@ -1,10 +1,10 @@
 require 'lib/helpers/draw'
 require 'lib/helpers/audio'
 require 'lib/characters/character'
-require 'lib/stations'
-require 'lib/assignment'
-require 'lib/resolve'
-require 'lib/run'
+require 'lib/stay/stations'
+require 'lib/stay/assignment'
+require 'lib/stay/resolve'
+require 'lib/stay/run'
 require 'lib/ui/left_side_bar'
 
 module AssignUI

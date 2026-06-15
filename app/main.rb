@@ -1,6 +1,6 @@
 require 'lib/helpers/audio'
 require 'lib/campaign'
-require 'lib/run'
+require 'lib/stay/run'
 require 'lib/intro'
 require 'lib/ui'
 require 'app/scenes/title'

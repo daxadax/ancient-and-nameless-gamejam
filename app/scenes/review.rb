@@ -1,6 +1,6 @@
 require 'lib/helpers/draw'
 require 'lib/campaign'
-require 'lib/run'
+require 'lib/stay/run'
 require 'lib/review'
 
 module Scenes

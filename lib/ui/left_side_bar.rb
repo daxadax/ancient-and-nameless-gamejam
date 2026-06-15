@@ -1,6 +1,6 @@
 require 'lib/helpers/draw'
 require 'lib/characters/character'
-require 'lib/stations'
+require 'lib/stay/stations'
 require 'lib/campaign'
 require 'lib/crew_select'
 require 'lib/ui/stat_block'

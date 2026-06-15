@@ -3,7 +3,7 @@ require 'lib/characters/crew_rolls'
 require 'lib/characters/traits'
 require 'lib/outcomes/evening_outcomes'
 require 'lib/outcomes/review_outcomes'
-require 'lib/run'
+require 'lib/stay/run'
 
 module Review
   METER_KEYS = Character::METER_KEYS
