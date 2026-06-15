@@ -1,5 +1,5 @@
 require 'lib/draw'
-require 'lib/ui/payout_animation'
+require 'lib/animations/payout'
 require 'lib/ui/payout_panel'
 
 module Scenes
@@ -24,14 +24,14 @@ module Scenes
       payout = args.state.stay_payout
       return unless payout
 
-      UI::PayoutAnimation.tick_sfx!(args, payout)
+      Animations::Payout.tick_sfx!(args, payout)
     end
 
     def handle_input
       return unless continue_pressed?
       return unless animation_complete?
 
-      UI::PayoutAnimation.reset!(args)
+      Animations::Payout.reset!(args)
       payout = args.state.stay_payout
       args.state.next_scene = payout&.fetch(:just_saved_farm, false) ? :win : :title
       args.state.stay_payout = nil
@@ -41,7 +41,7 @@ module Scenes
       payout = args.state.stay_payout
       return unless payout
 
-      anim = UI::PayoutAnimation.snapshot(args, payout)
+      anim = Animations::Payout.snapshot(args, payout)
       render_payout_cashbox(payout, anim: anim)
 
       prompt = anim[:complete] ? 'Press ENTER or SPACE to continue' : 'Counting the till...'
@@ -55,7 +55,7 @@ module Scenes
       payout = args.state.stay_payout
       return true unless payout
 
-      UI::PayoutAnimation.snapshot(args, payout)[:complete]
+      Animations::Payout.snapshot(args, payout)[:complete]
     end
 
     def continue_pressed?

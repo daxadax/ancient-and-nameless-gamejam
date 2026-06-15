@@ -1,7 +1,7 @@
 require 'lib/campaign'
 require 'lib/draw'
-require 'lib/crystal_glow'
 require 'lib/ui'
+require 'lib/animations/crystal_glow'
 
 module Scenes
   class Title
@@ -73,7 +73,7 @@ module Scenes
         primitive_marker: :solid
       }.merge(RGB_BEIGE)
 
-      CrystalGlow.render(args)
+      Animations::CrystalGlow.render(args)
     end
 
     def draw_debt_free_msg(args)

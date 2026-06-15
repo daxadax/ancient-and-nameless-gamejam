@@ -1,6 +1,5 @@
 require 'lib/draw'
 require 'lib/review'
-require 'lib/ui/payout_animation'
 
 module UI
   module PayoutPanel

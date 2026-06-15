@@ -1,7 +1,7 @@
 require 'lib/audio'
 
-module UI
-  module PayoutAnimation
+module Animations
+  module Payout
     DELAY = 40
     DURATION = 180
     FLOATER_DURATION = 180
