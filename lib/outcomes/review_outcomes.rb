@@ -1,4 +1,4 @@
-require 'lib/evening_outcomes'
+require 'lib/outcomes/evening_outcomes'
 
 module ReviewOutcomes
   DATA_FILE = 'data/review/lines.json'.freeze

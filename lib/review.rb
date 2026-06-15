@@ -1,8 +1,8 @@
 require 'lib/characters/character'
 require 'lib/characters/crew_rolls'
 require 'lib/characters/traits'
-require 'lib/evening_outcomes'
-require 'lib/review_outcomes'
+require 'lib/outcomes/evening_outcomes'
+require 'lib/outcomes/review_outcomes'
 require 'lib/run'
 
 module Review

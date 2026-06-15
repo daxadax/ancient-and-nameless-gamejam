@@ -1,7 +1,7 @@
 require 'lib/helpers/draw'
 require 'lib/helpers/buttons'
-require 'lib/day_report'
-require 'lib/evening_outcomes'
+require 'lib/outcomes/day_report'
+require 'lib/outcomes/evening_outcomes'
 require 'lib/run'
 require 'lib/ui/narrative_panel'
 

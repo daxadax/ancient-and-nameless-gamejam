@@ -1,5 +1,5 @@
 require 'lib/characters/character'
-require 'lib/resolve_outcomes'
+require 'lib/outcomes/resolve_outcomes'
 
 module EveningOutcomes
   DATA_FILE = 'data/evening/beats.json'.freeze

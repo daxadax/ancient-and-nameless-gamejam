@@ -1,7 +1,7 @@
 require 'lib/characters/character'
 require 'lib/characters/crew_rolls'
 require 'lib/stations'
-require 'lib/resolve_outcomes'
+require 'lib/outcomes/resolve_outcomes'
 require 'lib/run'
 
 module Resolve

@@ -1,4 +1,4 @@
-require 'lib/evening_outcomes'
+require 'lib/outcomes/evening_outcomes'
 
 module DayReport
   def self.build(run)

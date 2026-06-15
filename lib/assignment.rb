@@ -1,7 +1,7 @@
 require 'lib/resolve'
 require 'lib/run'
 require 'lib/stations'
-require 'lib/day_report'
+require 'lib/outcomes/day_report'
 
 module Assignment
   def self.read(run, station_id)
