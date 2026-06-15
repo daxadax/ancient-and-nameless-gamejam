@@ -1,5 +1,5 @@
+require 'lib/helpers/audio'
 require 'lib/campaign'
-require 'lib/audio'
 require 'lib/run'
 require 'lib/intro'
 require 'lib/ui'

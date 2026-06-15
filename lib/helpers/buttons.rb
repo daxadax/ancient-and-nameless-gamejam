@@ -1,5 +1,5 @@
-require 'lib/draw'
-require 'lib/audio'
+require 'lib/helpers/draw'
+require 'lib/helpers/audio'
 
 module Buttons
   include Draw

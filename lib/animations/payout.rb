@@ -1,4 +1,4 @@
-require 'lib/audio'
+require 'lib/helpers/audio'
 
 module Animations
   module Payout

@@ -1,4 +1,4 @@
-require 'lib/draw'
+require 'lib/helpers/draw'
 require 'lib/intro_ui'
 
 module Scenes

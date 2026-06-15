@@ -1,6 +1,6 @@
-require 'lib/draw'
-require 'lib/buttons'
-require 'lib/audio'
+require 'lib/helpers/draw'
+require 'lib/helpers/buttons'
+require 'lib/helpers/audio'
 require 'lib/campaign'
 
 module SettingsUI

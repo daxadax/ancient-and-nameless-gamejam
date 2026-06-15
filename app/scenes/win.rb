@@ -1,6 +1,7 @@
-require 'lib/buttons'
+require 'lib/helpers/buttons'
+require 'lib/helpers/draw'
 require 'lib/campaign'
-require 'lib/draw'
+require 'lib/ui'
 
 module Scenes
   class Win

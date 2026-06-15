@@ -1,4 +1,4 @@
-require 'lib/draw'
+require 'lib/helpers/draw'
 require 'lib/animations/payout'
 require 'lib/ui/payout_panel'
 

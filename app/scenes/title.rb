@@ -1,5 +1,5 @@
+require 'lib/helpers/draw'
 require 'lib/campaign'
-require 'lib/draw'
 require 'lib/ui'
 require 'lib/animations/crystal_glow'
 

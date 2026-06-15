@@ -1,5 +1,5 @@
-require 'lib/draw'
-require 'lib/buttons'
+require 'lib/helpers/draw'
+require 'lib/helpers/buttons'
 require 'lib/intro'
 require 'lib/campaign'
 

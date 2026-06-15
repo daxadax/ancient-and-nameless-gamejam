@@ -1,4 +1,4 @@
-require 'lib/draw'
+require 'lib/helpers/draw'
 require 'lib/ui'
 require 'lib/assign_ui'
 require 'lib/resolve_ui'

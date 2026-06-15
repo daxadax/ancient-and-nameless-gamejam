@@ -1,9 +1,9 @@
-require 'lib/draw'
+require 'lib/helpers/draw'
+require 'lib/helpers/audio'
 require 'lib/stations'
 require 'lib/character'
 require 'lib/assignment'
 require 'lib/resolve'
-require 'lib/audio'
 require 'lib/run'
 require 'lib/ui/left_side_bar'
 

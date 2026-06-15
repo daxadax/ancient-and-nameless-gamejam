@@ -1,6 +1,6 @@
+require 'lib/helpers/draw'
+require 'lib/helpers/buttons'
 require 'lib/character'
-require 'lib/draw'
-require 'lib/buttons'
 require 'lib/crew_roster'
 require 'lib/crew_select'
 require 'lib/campaign'
