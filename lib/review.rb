@@ -1,6 +1,7 @@
 require 'lib/characters/character'
 require 'lib/characters/crew_rolls'
 require 'lib/characters/traits'
+require 'lib/helpers/text_overlap'
 require 'lib/outcomes/evening_outcomes'
 require 'lib/outcomes/review_outcomes'
 require 'lib/stay/run'
@@ -46,12 +47,15 @@ module Review
     stars = stars_for(run)
     primary = ReviewOutcomes.primary_line(stay_flags, stars: stars)
 
+    body = body_for(meters, stars, stay_flags, primary)
+    headline = headline_for(stars, body)
+
     {
       stars: stars,
       star_line: star_line(stars),
-      headline: HEADLINES.fetch(stars),
-      body: body_for(meters, stars, stay_flags, primary),
-      callbacks: callback_lines(run, stay_flags, primary, stars),
+      headline: headline,
+      body: body,
+      callbacks: callback_lines(run, stay_flags, primary, stars, headline: headline),
       crew_high: crew_high_line(run),
       crew_low: crew_low_line(run, stars: stars, stay_flags: stay_flags),
       meter_text: meter_summary(meters)
@@ -63,20 +67,29 @@ module Review
     star_count(run.meters, stay_flags)
   end
 
+  def self.headline_for(stars, body)
+    headline = HEADLINES.fetch(stars)
+    return headline unless body
+    return nil if TextOverlap.overlaps_text?(headline, body)
+
+    headline
+  end
+
   def self.body_for(meters, stars, _stay_flags, primary)
     return primary['text'] if primary
 
     meter_body_for(meters, stars)
   end
 
-  def self.callback_lines(run, stay_flags, primary, stars)
+  def self.callback_lines(run, stay_flags, primary, stars, headline: nil)
     stay_flags = EveningOutcomes.normalize_flags(stay_flags)
     return [] if stars >= 4 && ReviewOutcomes.any_negative?(stay_flags)
 
     primary_text = primary&.fetch('text', nil)
 
     (run.review_callbacks || [])
-      .reject { |line| overlaps_review_body?(line, primary_text) }
+      .reject { |line| TextOverlap.overlaps_text?(line, primary_text) }
+      .reject { |line| TextOverlap.overlaps_text?(line, headline) }
       .reject { |line| contradicts_stay_narrative?(line, stay_flags) }
       .first(MAX_CALLBACKS)
   end
@@ -91,16 +104,6 @@ module Review
 
   def self.food_praise_callback?(line)
     FOOD_PRAISE_CALLBACKS.include?(line.to_s.strip)
-  end
-
-  def self.overlaps_review_body?(callback, primary_text)
-    return false unless primary_text
-
-    callback = callback.to_s.strip
-    body = primary_text.to_s.strip
-    return true if callback.empty?
-
-    callback == body || body.start_with?(callback) || callback.start_with?(body)
   end
 
   def self.star_count(meters, stay_flags)

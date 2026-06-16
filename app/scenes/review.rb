@@ -40,12 +40,14 @@ module Scenes
       )
 
       y -= 60
-      draw_title(
-        args,
-        { x: 640, y: y, text: review[:headline], size_px: 24, color: RGB_INK }
-      )
+      if review[:headline]
+        draw_title(
+          args,
+          { x: 640, y: y, text: review[:headline], size_px: 24, color: RGB_INK }
+        )
+        y -= 40
+      end
 
-      y -= 40
       wrap_text(build_review_text(review), TEXT_WIDTH).each do |line|
         draw_title(
           args,
