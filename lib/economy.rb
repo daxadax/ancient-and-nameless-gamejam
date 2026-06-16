@@ -20,4 +20,16 @@ module Economy
   def self.star_penalty(stars)
     config.fetch('star_penalties', {}).fetch(stars.to_s, 0).to_i
   end
+
+  def self.event_refunds
+    config.fetch('event_refunds', {})
+  end
+
+  def self.refund_groups
+    config.fetch('refund_groups', [])
+  end
+
+  def self.refund_jitter_pct
+    config.fetch('refund_jitter_pct', 0.12).to_f
+  end
 end

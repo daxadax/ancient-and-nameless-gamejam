@@ -7,6 +7,21 @@
     },
     "star_penalties": {
       "1": 0
+    },
+    "refund_jitter_pct": 0.12,
+    "refund_groups": [
+      ["salt_casserole", "kitchen_incident"]
+    ],
+    "event_refunds": {
+      "salt_casserole": { "amount": 80, "label": "Brunch comp" },
+      "kitchen_incident": { "amount": 65, "label": "Kitchen incident" },
+      "property_damage": { "amount": 110, "label": "Damage claim" },
+      "guest_disturbed": { "amount": 55, "label": "Guest comp" },
+      "ritual_disrupted": { "amount": 60, "label": "Ritual refund" },
+      "authenticity_too_real": { "amount": 95, "label": "Distress comp" },
+      "filmed_ritual": { "amount": 120, "label": "Privacy settlement" },
+      "guest_confused": { "amount": 35, "label": "Partial refund" },
+      "guest_learned_something_new": { "amount": 40, "label": "Housekeeping comp" }
     }
   }
 }

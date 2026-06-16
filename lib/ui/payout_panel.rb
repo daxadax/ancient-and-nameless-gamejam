@@ -27,19 +27,21 @@ module UI
         { x: 640, y: 490, text: Review.star_line(payout[:stars]), size_px: 36, color: RGB_GOLD }
       )
 
-      y = 400
+      y = 420
       payout[:lines].each do |line|
         draw_label(
           args,
           { x: LABEL_X, y: y, text: line[:label], size_px: 22 },
           color: RGB_CREAM
         )
+
         draw_label(
           args,
           { x: VALUE_X, y: y, text: format_amount(line[:amount]), size_px: 22, anchor_x: 1 },
           color: amount_color(line[:amount])
         )
-        y -= 36
+
+        y -= 30
       end
 
       draw_label(
@@ -145,7 +147,7 @@ module UI
     end
 
     def amount_color(amount)
-      return RGB_FAILURE if amount.negative?
+      return RGB_PINK if amount.negative?
 
       RGB_SUCCESS
     end

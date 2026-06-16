@@ -54,7 +54,8 @@ module Campaign
   end
 
   def self.complete_run!(args, run)
-    payout = StayPayout.for_run(run)
+    jitter_seed = args.state.campaign.runs_completed.to_i
+    payout = StayPayout.for_run(run, jitter_seed: jitter_seed)
     credits_before = credits(args)
     was_paid = farm_note_paid?(args)
 
