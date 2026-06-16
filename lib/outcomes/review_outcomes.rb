@@ -21,6 +21,11 @@ module ReviewOutcomes
     }
   ].freeze
 
+  # NOTE: One kitchen disaster counts once for star math, same as refund grouping.
+  INCIDENT_GROUPS = [
+    %i[salt_casserole kitchen_incident]
+  ].freeze
+
   def self.resolve_narrative_flags(flags)
     normalized = EveningOutcomes.normalize_flags(flags)
     result = normalized.dup
@@ -68,10 +73,32 @@ module ReviewOutcomes
   end
 
   def self.star_adjustment(flags)
-    adjustment = 0
-    NEGATIVE_FLAGS.each { |flag| adjustment -= 1 if flags[flag] }
-    POSITIVE_FLAGS.each { |flag| adjustment += 1 if flags[flag] }
-    adjustment.clamp(-2, 2)
+    normalized = EveningOutcomes.normalize_flags(flags)
+    positives = POSITIVE_FLAGS.count { |flag| normalized[flag] }
+    negatives = negative_incident_count(normalized)
+
+    (positives - negatives).clamp(-1, 2)
+  end
+
+  def self.negative_incident_count(flags)
+    grouped = []
+    hits = 0
+
+    INCIDENT_GROUPS.each do |group|
+      next unless group.any? { |flag| flags[flag] }
+
+      hits += 1
+      grouped.concat(group)
+    end
+
+    NEGATIVE_FLAGS.each do |flag|
+      next if grouped.include?(flag)
+      next unless flags[flag]
+
+      hits += 1
+    end
+
+    hits
   end
 
   def self.load_lines
