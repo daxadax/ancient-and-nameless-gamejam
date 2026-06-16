@@ -44,16 +44,16 @@ module Review
     meters = run.meters
     stay_flags = EveningOutcomes.normalize_flags(run.stay_flags)
     stars = stars_for(run)
-    primary = ReviewOutcomes.primary_line(stay_flags)
+    primary = ReviewOutcomes.primary_line(stay_flags, stars: stars)
 
     {
       stars: stars,
       star_line: star_line(stars),
       headline: HEADLINES.fetch(stars),
       body: body_for(meters, stars, stay_flags, primary),
-      callbacks: callback_lines(run, stay_flags, primary),
+      callbacks: callback_lines(run, stay_flags, primary, stars),
       crew_high: crew_high_line(run),
-      crew_low: crew_low_line(run),
+      crew_low: crew_low_line(run, stars: stars, stay_flags: stay_flags),
       meter_text: meter_summary(meters)
     }
   end
@@ -69,8 +69,10 @@ module Review
     meter_body_for(meters, stars)
   end
 
-  def self.callback_lines(run, stay_flags, primary)
+  def self.callback_lines(run, stay_flags, primary, stars)
     stay_flags = EveningOutcomes.normalize_flags(stay_flags)
+    return [] if stars >= 4 && ReviewOutcomes.any_negative?(stay_flags)
+
     primary_text = primary&.fetch('text', nil)
 
     (run.review_callbacks || [])
@@ -104,7 +106,8 @@ module Review
   def self.star_count(meters, stay_flags)
     total = METER_KEYS.sum { |key| meter_value(meters, key) }
     base = meter_stars(total)
-    (base + ReviewOutcomes.star_adjustment(stay_flags)).clamp(1, 5)
+    stars = (base + ReviewOutcomes.star_adjustment(stay_flags)).clamp(1, 5)
+    [stars, ReviewOutcomes.star_cap(stay_flags)].min
   end
 
   # current total max (without buffs) is 256
@@ -161,7 +164,9 @@ module Review
     crew_callout_line(run, :high)
   end
 
-  def self.crew_low_line(run)
+  def self.crew_low_line(run, stars:, stay_flags:)
+    return nil if stars >= 4 && ReviewOutcomes.any_negative?(stay_flags)
+
     crew_callout_line(run, :low)
   end
 

@@ -41,11 +41,30 @@ module ReviewOutcomes
       .sort_by { |line| [EveningOutcomes.beat_priority(line), -EveningOutcomes.flag_specificity(line)] }
   end
 
-  def self.primary_line(flags)
+  def self.primary_line(flags, stars: nil)
     matched = matched_lines(resolve_narrative_flags(flags))
+    matched = matched.reject { |line| negative_line?(line) } if stars && stars >= 4
+
     return matched.first if matched.any?
 
     load_lines.find { |line| line.dig('requires', 'default') }
+  end
+
+  def self.negative_line?(line)
+    requires = line['requires'] || {}
+    return false if requires['default']
+
+    flag_ids = requires['flags_all'] || requires['flags_any'] || []
+    flag_ids.any? { |flag| NEGATIVE_FLAGS.include?(flag.to_sym) }
+  end
+
+  def self.any_negative?(flags)
+    normalized = EveningOutcomes.normalize_flags(flags)
+    NEGATIVE_FLAGS.any? { |flag| normalized[flag] }
+  end
+
+  def self.star_cap(flags)
+    any_negative?(flags) ? 4 : 5
   end
 
   def self.star_adjustment(flags)
