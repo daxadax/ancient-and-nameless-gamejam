@@ -26,5 +26,7 @@ platforms="$(ruby -e "
 cd "$DR_ROOT"
 ./dragonruby-publish --package --platforms="$platforms" game
 
+ruby "$GAME_ROOT/tools/patch_html5_loader.rb"
+
 echo
-echo "Build output: $DR_ROOT/build"
+echo "Build output: $DR_ROOT/builds"
