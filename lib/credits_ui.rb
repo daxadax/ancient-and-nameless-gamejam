@@ -33,11 +33,11 @@ module CreditsUI
     },
     {
       type: :text,
-      text: 'Sounds — Coins rattling on the table: sounds/coins-rattling.mp3. Author: Sounddino. Source: sounddino.com/en/effects/coins/. Attribution: Sounds by Sounddino'
+      text: 'Sounds — Coins rattling on the table: sounds/coins-rattling.ogg. Author: Sounddino. Source: sounddino.com/en/effects/coins/. Attribution: Sounds by Sounddino'
     },
     {
       type: :text,
-      text: 'Coin SFX: sounds/coin-4.mp3. Author: Driken Stan. Source: pixabay.com/users/driken5482-45721595. Attribution: Coin sounds by Driken5482 via pixabay.com'
+      text: 'Coin SFX: sounds/coin-4.ogg. Author: Driken Stan. Source: pixabay.com/users/driken5482-45721595. Attribution: Coin sounds by Driken5482 via pixabay.com'
     },
     {
       type: :text,
