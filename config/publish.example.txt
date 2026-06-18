@@ -1,0 +1,44 @@
+# Culty Towers — itch.io / DragonRuby publish config
+#
+# Setup:
+#   1. Copy this file to config/publish.local.txt (gitignored).
+#   2. Create your itch page: https://itch.io/game/new
+#      - Kind of project: HTML (supports browser + download builds)
+#      - Project URL becomes your gameid below
+#   3. Fill in the values below.
+#   4. Sync into metadata:  ruby tools/sync_publish_metadata.rb
+#   5. Build zips only:     ./tools/package.sh
+#
+# When you are ready to upload to itch (not yet!):
+#   cd .. && ./dragonruby-publish game
+#
+# Browser build settings on itch (for the html5 zip):
+#   - Check "This file will be played in the browser"
+#   - SharedArrayBuffer support: on
+#   - Viewport: 1280 x 720 (landscape)
+#   - Fullscreen button: on
+#
+# Jam submission: https://itch.io/jam/kifass-4
+
+# --- itch.io identity (required before publish) ---
+
+devid=your_itch_username
+devtitle=Your Name
+gameid=culty-towers
+gametitle=Culty Towers
+version=0.1
+icon=metadata/icon.png
+
+# --- build targets (used by tools/package.sh) ---
+
+# Comma-separated. Standard license supports html5 + desktop.
+# Options: html5, linux-amd64, linux-arm64, windows-amd64, macos
+platforms=html5,linux-amd64
+
+# --- top-level game dirs to omit from packages ---
+
+# DragonRuby only ignores top-level dirs unless recursive is true.
+ignore_directories=errors,notes
+
+# Leave false unless you know you need deep ignores.
+ignore_directories_recursively=false
