@@ -1,4 +1,6 @@
 require 'lib/helpers/draw'
+require 'lib/helpers/buttons'
+require 'lib/helpers/tooltip'
 require 'lib/campaign'
 require 'lib/ui'
 require 'lib/animations/crystal_glow'
@@ -6,10 +8,19 @@ require 'lib/animations/crystal_glow'
 module Scenes
   class Title
     include Draw
+    include Buttons
+    include Tooltip
     include UI
 
     TITLE = 'Culty Towers'
     SUBTITLE = 'A struggling-cult-in-the-platform-economy simulator'
+
+    NEW_GAME_TOOLTIP = 'Start a new run with a randomly generated crew'.freeze
+    CONTINUE_TOOLTIP = 'Prepare for the next stay with your current crew'.freeze
+
+    BUTTON = { w: 220, h: 64 }.freeze
+    CONTINUE_BUTTON = { x: 1000, y: 375, w: BUTTON[:w], h: BUTTON[:h] }.freeze
+    NEW_GAME_BUTTON = { x: 1000, y: 300, w: BUTTON[:w], h: BUTTON[:h] }.freeze
 
     def tick(args)
       @args = args
@@ -19,15 +30,31 @@ module Scenes
     end
 
     private
+
     attr_reader :args
 
     def handle_input
       return if settings_open?(args)
 
-      start = args.inputs.keyboard.key_down.enter || args.inputs.keyboard.key_down.space
-      return unless start
+      if clicked_button?(args, new_game_area)
+        start_new_game
+        return
+      end
 
-      args.state.next_scene = Campaign.entry_scene(args)
+      return unless Campaign.continue_available?(args)
+      return unless clicked_button?(args, continue_area)
+
+      continue_game
+    end
+
+    def start_new_game
+      Campaign.start_new_game!(args)
+      args.state.next_scene = Campaign.new_game_scene(args)
+    end
+
+    def continue_game
+      args.state.run = nil
+      args.state.next_scene = :compound
     end
 
     def render
@@ -44,15 +71,28 @@ module Scenes
         )
 
         draw_debt_free_msg(args) if Campaign.farm_note_paid?(args)
-
-        draw_glowing_title(
-          args,
-          { x: 640, y: 50, text: 'Press ENTER or SPACE to begin', size_px: 22, color: RGB_CREAM },
-          glow_alpha: 100
-        )
+        draw_title_buttons(args)
       end
 
       draw_settings
+    end
+
+    def draw_title_buttons(args)
+      draw_button(args, label: 'NEW GAME', area: new_game_area)
+      draw_tooltip(args, NEW_GAME_TOOLTIP) if mouse_over?(args, new_game_area)
+
+      return unless Campaign.continue_available?(args)
+
+      draw_button(args, label: 'CONTINUE', area: continue_area)
+      draw_tooltip(args, CONTINUE_TOOLTIP) if mouse_over?(args, continue_area)
+    end
+
+    def new_game_area
+      NEW_GAME_BUTTON
+    end
+
+    def continue_area
+      CONTINUE_BUTTON
     end
 
     def draw_title_background(args)

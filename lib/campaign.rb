@@ -138,4 +138,26 @@ module Campaign
 
     :crew_select
   end
+
+  def self.continue_available?(args)
+    founding_complete?(args) && runs_completed(args).positive?
+  end
+
+  def self.savings_summary(args)
+    "#{credits(args)} / #{Economy.farm_save_goal} quid saved"
+  end
+
+  def self.start_new_game!(args)
+    args.state.campaign = default_state.merge(
+      intro_seen: intro_seen?(args),
+      music_volume: music_volume(args),
+      sfx_volume: sfx_volume(args)
+    )
+    args.state.run = nil
+    args.state.stay_payout = nil
+  end
+
+  def self.new_game_scene(args)
+    intro_seen?(args) ? :crew_select : :intro
+  end
 end
