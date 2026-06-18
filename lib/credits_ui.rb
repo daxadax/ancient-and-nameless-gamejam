@@ -61,7 +61,7 @@ module CreditsUI
   def handle_credits_input(args)
     return unless credits_open?(args)
 
-    close_credits!(args) if done_pressed?(args)
+    close_credits!(args) if modal_dismissed?(args, DONE_BUTTON)
     handle_credits_link_click!(args)
   end
 
@@ -82,10 +82,6 @@ module CreditsUI
   end
 
   private
-
-  def done_pressed?(args)
-    clicked_button?(args, DONE_BUTTON) || args.inputs.keyboard.key_down.escape
-  end
 
   def credits_lines
     CREDITS_ENTRIES.flat_map { |entry| lines_for_entry(entry) }

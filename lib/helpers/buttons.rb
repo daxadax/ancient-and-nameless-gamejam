@@ -13,6 +13,10 @@ module Buttons
     clicked
   end
 
+  def modal_dismissed?(args, button_area)
+    clicked_button?(args, button_area) || args.inputs.keyboard.key_down.escape
+  end
+
   def draw_button(args, label:, area:, options: {})
     area[:w] ||= DEFAULT_BTN_SIZE[:w]
     area[:h] ||= DEFAULT_BTN_SIZE[:h]

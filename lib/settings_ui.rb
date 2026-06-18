@@ -44,7 +44,7 @@ module SettingsUI
   def handle_settings_input(args)
     return unless settings_open?(args)
 
-    close_settings!(args) if done_pressed?(args)
+    close_settings!(args) if modal_dismissed?(args, DONE_BUTTON)
 
     handle_volume_row(args, :music, MUSIC_ROW_Y)
     handle_volume_row(args, :sfx, SFX_ROW_Y)
@@ -80,10 +80,6 @@ module SettingsUI
   end
 
   private
-
-  def done_pressed?(args)
-    clicked_button?(args, DONE_BUTTON) || args.inputs.keyboard.key_down.escape
-  end
 
   def handle_volume_row(args, kind, y)
     if clicked_button?(args, minus_rect(y))
