@@ -11,7 +11,7 @@ module UI
     BAR_X = 380
     BAR_W = 500
     BAR_H = 18
-    TOTAL_SAVED_Y = 328
+    TOTAL_SAVED_Y = 285
 
     def render_payout_cashbox(payout, anim:)
       draw_panel(args, PANEL)
