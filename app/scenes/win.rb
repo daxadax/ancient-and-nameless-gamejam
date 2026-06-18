@@ -56,11 +56,6 @@ module Scenes
       )
 
       draw_button(args, label: 'Keep playing?', area: KEEP_PLAYING_BTN)
-
-      draw_title(
-        args,
-        { x: 640, y: 70, text: 'Press ENTER or SPACE to continue', size_px: 20, color: RGB_MUTED }
-      )
     end
 
     def body_copy

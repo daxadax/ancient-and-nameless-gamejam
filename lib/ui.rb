@@ -7,7 +7,6 @@ module UI
   include SettingsUI
   include CreditsUI
 
-  # TODO: this should be the main file for all UI related methods
   def draw_hud(run)
     draw_label(
       args,
@@ -21,12 +20,5 @@ module UI
     )
 
     draw_settings
-
-    # meters = run.meters
-    # meter_text = "Vibes #{meters.vibes} "
-    # meter_text += "Food #{meters.food} "
-    # meter_text += "Cleanliness #{meters.cleanliness} "
-    # meter_text += "Authenticity #{meters.authenticity}"
-    # draw_label(args, { x: 40, y: 575, text: meter_text, size_px: 18 }, color: RGB_BODY)
   end
 end

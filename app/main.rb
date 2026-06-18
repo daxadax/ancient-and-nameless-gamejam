@@ -11,11 +11,6 @@ require 'app/scenes/review'
 require 'app/scenes/payout'
 require 'app/scenes/win'
 
-# TODO: can't pick the same occultist twice for the same position?
-# TODO: resolve / consider secondary station attributes
-# TODO: UI as a journal / notebook?
-# TODO: more / different images
-
 module Main
   include UI
 

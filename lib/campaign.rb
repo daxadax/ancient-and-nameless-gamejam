@@ -132,19 +132,8 @@ module Campaign
     args.state.campaign.intro_seen = true
   end
 
-  def self.entry_scene(args)
-    return :intro unless intro_seen?(args)
-    return :compound if founding_complete?(args)
-
-    :crew_select
-  end
-
   def self.continue_available?(args)
     founding_complete?(args) && runs_completed(args).positive?
-  end
-
-  def self.savings_summary(args)
-    "#{credits(args)} / #{Economy.farm_save_goal} quid saved"
   end
 
   def self.start_new_game!(args)
