@@ -12,12 +12,10 @@ module Audio
   STEP = 0.1
 
   def self.tick!(args)
-    unlock_web_audio!(args)
-
     gain = music_gain(args)
     track = args.audio[MUSIC_KEY]
 
-    return start_music!(args) if track.nil? && gain.positive? && web_audio_ready?(args)
+    return start_music!(args) if track.nil? && gain.positive?
 
     return unless track
 
@@ -28,7 +26,6 @@ module Audio
   def self.start_music!(args)
     gain = music_gain(args)
     return if gain.zero?
-    return unless web_audio_ready?(args)
 
     args.audio[MUSIC_KEY] = {
       input: MUSIC_PATH,
@@ -88,27 +85,8 @@ module Audio
     "#{(volume * 100).round}%"
   end
 
-  def self.web_audio_ready?(args)
-    return true unless $gtk.platform?(:web)
-
-    args.state.web_audio_ready
-  end
-
-  def self.unlock_web_audio!(args)
-    return if web_audio_ready?(args)
-    return unless web_user_input?(args)
-
-    args.state.web_audio_ready = true
-    start_music!(args) if args.audio[MUSIC_KEY].nil? && music_gain(args).positive?
-  end
-
-  def self.web_user_input?(args)
-    inputs = args.inputs
-    return true if inputs.mouse.up || inputs.mouse.down
-
-    inputs.keyboard.key_down.truthy_keys.any?
-  end
-
+  # NOTE: DragonRuby maps outputs.sounds into args.audio each frame.
+  # One-shots via outputs.sounds, looping music via args.audio — see samples/01_rendering_basics/05_sounds.
   def self.play_one_shot!(args, path, gain:)
     level = sfx_gain(args)
     return if level.zero?

@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
-# Skip DragonRuby's click-to-play splash; start the game as soon as data loads.
-# Browsers still unlock audio on the first in-game click/tap.
+# HTML5 loader patches for itch.io (docs/guides/deploying-to-itch.md):
+# - Start the game immediately (title screen visible, no splash)
+# - Unlock audio on first click/tap/key via DragonRuby's clickToPlayListener
+# - Keep keyboard focus on canvas so web builds don't auto-mute (DR 5.16+)
 
 DR_ROOT = File.expand_path('../..', __dir__)
 BUILD_DIR = Dir.glob(File.join(DR_ROOT, 'builds', 'culty-towers-html5-*')).max
@@ -12,7 +14,28 @@ AUTO_START_CALLBACK = <<~JS.chomp
       Module.setStatus("");
       statusElement.style.display='none';
       document.getElementById('progressdiv').style.display='none';
+
       startGame();
+
+      var canvas = document.getElementById('canvas');
+      var toplevel = document.getElementById('toplevel');
+
+      var focusGame = function() {
+        if (toplevel) toplevel.focus();
+        if (canvas) canvas.focus();
+      };
+
+      var unlockAudio = function() {
+        Module.clickToPlayListener();
+        focusGame();
+      };
+
+      canvas.addEventListener('mousedown', unlockAudio, { once: true, capture: true });
+      canvas.addEventListener('touchstart', unlockAudio, { once: true, capture: true });
+      canvas.addEventListener('mousedown', focusGame, true);
+      canvas.addEventListener('touchstart', focusGame, true);
+
+      document.addEventListener('keydown', Module.enterPressedCallback);
       window.gtk.play = Module.clickToPlayListener;
     });
 JS
