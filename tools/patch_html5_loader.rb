@@ -1,27 +1,20 @@
 #!/usr/bin/env ruby
-# Replace DragonRuby's branded click-to-play splash with a transparent overlay.
-# Browsers still require one click/tap before the game runs (autoplay policy).
+# Skip DragonRuby's click-to-play splash; start the game as soon as data loads.
+# Browsers still unlock audio on the first in-game click/tap.
 
 DR_ROOT = File.expand_path('../..', __dir__)
 BUILD_DIR = Dir.glob(File.join(DR_ROOT, 'builds', 'culty-towers-html5-*')).max
 LOADER = BUILD_DIR && File.join(BUILD_DIR, 'dragonruby-html5-loader.js')
 
-MINIMAL_CLICK_TO_PLAY = <<~JS.chomp
-  startClickToPlay: function() {
-    var div = document.createElement('div');
-    div.id = 'clicktoplaydiv';
-    div.style.width = '100%';
-    div.style.height = '100%';
-    div.style.position = 'absolute';
-    div.style.top = '0';
-    div.style.left = '0';
-    div.style.backgroundColor = 'transparent';
-    div.style.cursor = 'pointer';
-    document.body.appendChild(div);
-    div.addEventListener('click', Module.clickToPlayListener);
-    document.addEventListener("keydown", Module.enterPressedCallback);
-    window.gtk.play = Module.clickToPlayListener;
-  }
+AUTO_START_CALLBACK = <<~JS.chomp
+    loadDataFiles(GDragonRubyGameId, 'gamedata/', function() {
+      console.log("Game data is sync'd to MEMFS.");
+      Module.setStatus("");
+      statusElement.style.display='none';
+      document.getElementById('progressdiv').style.display='none';
+      startGame();
+      window.gtk.play = Module.clickToPlayListener;
+    });
 JS
 
 unless BUILD_DIR && File.exist?(LOADER)
@@ -30,12 +23,16 @@ unless BUILD_DIR && File.exist?(LOADER)
 end
 
 content = File.read(LOADER)
-unless content.match?(/startClickToPlay: function\(\)/)
-  warn "startClickToPlay not found in #{LOADER}"
+unless content.match?(/loadDataFiles\(GDragonRubyGameId, 'gamedata\/', function\(\)/)
+  warn "loadDataFiles callback not found in #{LOADER}"
   exit 1
 end
 
-patched = content.sub(/startClickToPlay: function\(\) \{.*?\n  \},/m, "#{MINIMAL_CLICK_TO_PLAY},")
+patched = content.sub(
+  /loadDataFiles\(GDragonRubyGameId, 'gamedata\/', function\(\) \{.*?\n    \}\);/m,
+  AUTO_START_CALLBACK
+)
+
 if patched == content
   warn 'Loader patch made no changes.'
   exit 1
