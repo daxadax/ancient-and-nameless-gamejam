@@ -21,7 +21,7 @@ module Scenes
     BUTTON = { w: 220, h: 64 }.freeze
     CONTINUE_BUTTON = { x: 1000, y: 375, w: BUTTON[:w], h: BUTTON[:h] }.freeze
     NEW_GAME_BUTTON = { x: 1000, y: 300, w: BUTTON[:w], h: BUTTON[:h] }.freeze
-    CREDITS_BUTTON = { x: 1000, y: 228, w: BUTTON[:w], h: BUTTON[:h] }.freeze
+    CREDITS_BUTTON = { x: 1000, y: 225, w: BUTTON[:w], h: BUTTON[:h] }.freeze
 
     def tick(args)
       @args = args
