@@ -1,9 +1,11 @@
 require 'lib/helpers/draw'
 require 'lib/settings_ui'
+require 'lib/credits_ui'
 
 module UI
   include Draw
   include SettingsUI
+  include CreditsUI
 
   # TODO: this should be the main file for all UI related methods
   def draw_hud(run)

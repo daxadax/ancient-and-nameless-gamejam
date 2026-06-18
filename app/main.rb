@@ -39,6 +39,9 @@ module Main
     if settings_open?(args)
       handle_settings_input(args)
       render_settings_ui(args)
+    elsif credits_open?(args)
+      handle_credits_input(args)
+      render_credits_ui(args)
     end
 
     apply_scene_transition!(args)

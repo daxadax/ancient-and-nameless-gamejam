@@ -21,6 +21,7 @@ module Scenes
     BUTTON = { w: 220, h: 64 }.freeze
     CONTINUE_BUTTON = { x: 1000, y: 375, w: BUTTON[:w], h: BUTTON[:h] }.freeze
     NEW_GAME_BUTTON = { x: 1000, y: 300, w: BUTTON[:w], h: BUTTON[:h] }.freeze
+    CREDITS_BUTTON = { x: 1000, y: 228, w: BUTTON[:w], h: BUTTON[:h] }.freeze
 
     def tick(args)
       @args = args
@@ -35,14 +36,20 @@ module Scenes
 
     def handle_input
       return if settings_open?(args)
+      return if credits_open?(args)
 
-      if clicked_button?(args, new_game_area)
+      if clicked_button?(args, CREDITS_BUTTON)
+        open_credits!(args)
+        return
+      end
+
+      if clicked_button?(args, NEW_GAME_BUTTON)
         start_new_game
         return
       end
 
       return unless Campaign.continue_available?(args)
-      return unless clicked_button?(args, continue_area)
+      return unless clicked_button?(args, CONTINUE_BUTTON)
 
       continue_game
     end
@@ -58,7 +65,7 @@ module Scenes
     end
 
     def render
-      if settings_open?(args)
+      if settings_open?(args) || credits_open?(args)
         draw_background_color(args)
       else
         draw_title_background(args)
@@ -78,21 +85,15 @@ module Scenes
     end
 
     def draw_title_buttons(args)
-      draw_button(args, label: 'NEW GAME', area: new_game_area)
-      draw_tooltip(args, NEW_GAME_TOOLTIP) if mouse_over?(args, new_game_area)
+      draw_button(args, label: 'NEW GAME', area: NEW_GAME_BUTTON)
+      draw_tooltip(args, NEW_GAME_TOOLTIP) if mouse_over?(args, NEW_GAME_BUTTON)
+
+      draw_button(args, label: 'CREDITS', area: CREDITS_BUTTON)
 
       return unless Campaign.continue_available?(args)
 
-      draw_button(args, label: 'CONTINUE', area: continue_area)
-      draw_tooltip(args, CONTINUE_TOOLTIP) if mouse_over?(args, continue_area)
-    end
-
-    def new_game_area
-      NEW_GAME_BUTTON
-    end
-
-    def continue_area
-      CONTINUE_BUTTON
+      draw_button(args, label: 'CONTINUE', area: CONTINUE_BUTTON)
+      draw_tooltip(args, CONTINUE_TOOLTIP) if mouse_over?(args, CONTINUE_BUTTON)
     end
 
     def draw_title_background(args)

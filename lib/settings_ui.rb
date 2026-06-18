@@ -23,6 +23,7 @@ module SettingsUI
 
   def draw_settings
     return if settings_open?(args)
+    return if credits_open?(args)
 
     args.outputs.sprites << SETTINGS_COG.merge(path: 'sprites/settings-cog.png')
     toggle_settings!(args) if clicked_button?(args, SETTINGS_COG)
